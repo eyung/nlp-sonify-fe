@@ -11,7 +11,8 @@ const TestAPI = () => {
           
         };
     
-        fetch('/api/stem', {
+        fetch('https://nlp-sonify-app.vercel.app/api/stem', {
+        //fetch('/api/stem', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
