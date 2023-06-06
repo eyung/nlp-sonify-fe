@@ -11,7 +11,7 @@ const TestAPI = () => {
           
         };
     
-        fetch('https://nlp-sonify-app.vercel.app/api/stem', {
+        fetch('https://nlp-sonify-app.vercel.be/api/stem', {
         //fetch('/api/stem', {
           method: 'POST',
           headers: {
