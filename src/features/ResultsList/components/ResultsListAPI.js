@@ -4,12 +4,14 @@ import Button from './Button';
 import Textbox from './TextBox';
 
 function ResultsListAPI() {
+  const webURL = 'https://nlp-sonify-be.vercel.app';
+
   const [inputText, setInputText] = useState('');
   const [results, setResults] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('/api/wordnet/lookup', {
+      const response = await fetch(webURL + '/api/wordnet/lookup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
