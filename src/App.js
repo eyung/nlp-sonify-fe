@@ -5,7 +5,7 @@ import TestAPI from './features/ResultsList/components/TestAPI';
 function App() {
   return (
     <div className="App">
-      Singling
+      Test
       <ResultsListAPI />
       <TestAPI />
     </div>
