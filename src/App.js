@@ -50,7 +50,7 @@ const App = () => {
             {errors.inputText && <p>This field is required</p>}
             <button type="submit">go</button>
           </form>
-          {responseData && (
+          {result && (
             <div>
               <h2>Response:</h2>
               <pre>{JSON.stringify(result, null, 2)}</pre>
