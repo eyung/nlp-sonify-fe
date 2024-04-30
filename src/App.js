@@ -27,11 +27,13 @@ const App = () => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const [result, setResults] = useState(null);
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(webURL + '/api/analyze', { text: data.inputText });
       console.log(response.data);
+      setResults(response.data);
       reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
@@ -46,8 +48,14 @@ const App = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <input {...register('inputText', { required: true })} />
             {errors.inputText && <p>This field is required</p>}
-            <button type="submit">Ok</button>
+            <button type="submit">go</button>
           </form>
+          {responseData && (
+            <div>
+              <h2>Response:</h2>
+              <pre>{JSON.stringify(responseData, null, 2)}</pre>
+            </div>
+          )}
         </div>
       </header>
     </div>
