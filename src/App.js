@@ -55,7 +55,7 @@ const App = () => {
           {result && (
             <div>
               <h2>Response:</h2>
-              <p>result</p>
+              <p>{result}</p>
             </div>
           )}
         </div>
