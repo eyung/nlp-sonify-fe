@@ -32,8 +32,10 @@ const App = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(webURL + '/api/analyze', { text: data.inputText });
-      console.log(response.data);
-      setResults(response.data);
+      //console.log(response.data);
+      
+      // Show only the contents of the payload
+      setResults(response.data.content);
       reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
