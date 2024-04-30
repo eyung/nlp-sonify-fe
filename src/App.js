@@ -24,12 +24,13 @@ const App = () => {
   //const handleInputChange = (event) => {
   //  setInputText(event.target.value);
   //};
+  const webURL = 'https://nlp-sonify-be.vercel.app';
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('/api/analyze', { text: data.inputText });
+      const response = await axios.post(webURL + '/api/analyze', { text: data.inputText });
       console.log(response.data);
       reset();
     } catch (error) {
