@@ -32,10 +32,10 @@ const App = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(webURL + '/api/analyze', { text: data.inputText });
-      //console.log(response.data);
+      console.log(response.data);
       
       // Show only the contents of the payload
-      setResults(response.data.content);
+      setResults(response.data.choices[0].message.content);
       reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
@@ -55,7 +55,7 @@ const App = () => {
           {result && (
             <div>
               <h2>Response:</h2>
-              <pre>{JSON.stringify(result, null, 2)}</pre>
+              <p>result</p>
             </div>
           )}
         </div>
