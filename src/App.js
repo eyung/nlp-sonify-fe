@@ -1,5 +1,8 @@
 import './App.css';
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
+
 import ResultsListAPI from './features/ResultsList/components/ResultsListAPI';
 import TestAPI from './features/ResultsList/components/TestAPI';
 
@@ -14,46 +17,37 @@ import TestAPI from './features/ResultsList/components/TestAPI';
   );
 } */
 
-function App() {
-  const [inputText, setInputText] = useState('');
-  const [analysisResult, setAnalysisResult] = useState(null);
+const App = () => {
+  //const [inputText, setInputText] = useState('');
+  //const [result, setResults] = useState(null);
 
-  const handleInputChange = (e) => {
-    setInputText(e.target.value);
-  };
+  //const handleInputChange = (event) => {
+  //  setInputText(event.target.value);
+  //};
 
-  const handleSubmit = async () => {
-    // Make API call to your Node.js backend with inputText
-    const response = await fetch('/analyze', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text: inputText }),
-    });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-    const data = await response.json();
-    setAnalysisResult(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post('/api/analyze', { text: data.inputText });
+      console.log(response.data);
+      reset();
+    } catch (error) {
+      console.error('Error calling OpenAI API:', error);
+    }
   };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>Text App</h1>
-        <input
-          type="text"
-          value={inputText}
-          onChange={handleInputChange}
-          placeholder="Enter text..."
-        />
-        <button onClick={handleSubmit}>Analyze</button>
-        {analysisResult && (
-          <div>
-            <h2>Result:</h2>
-            {/* Render the analysis result here */}
-            {/* Example: <p>{analysisResult}</p> */}
-          </div>
-        )}
+        <div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input {...register('inputText', { required: true })} />
+            {errors.inputText && <p>This field is required</p>}
+            <button type="submit">Ok</button>
+          </form>
+        </div>
       </header>
     </div>
   );
