@@ -6,17 +6,6 @@ import { useForm } from 'react-hook-form';
 import ResultsListAPI from './features/ResultsList/components/ResultsListAPI';
 import TestAPI from './features/ResultsList/components/TestAPI';
 
-/* function App() {
-  return (
-    <div className="App">
-      4/23/2024
-      <ResultsListAPI />
-      <TestAPI />
-    </div>
-
-  );
-} */
-
 const App = () => {
   //const [inputText, setInputText] = useState('');
   //const [result, setResults] = useState(null);
