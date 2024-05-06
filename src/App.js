@@ -20,7 +20,7 @@ const App = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(webURL + '/api/analyze', { text: data.inputText });
+      const response = await axios.post(webURL + '/api/complexity-scores', { text: data.inputText });
       console.log(response.data);
       
       // Show only the contents of the payload
