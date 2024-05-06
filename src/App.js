@@ -22,7 +22,10 @@ const App = () => {
   
   const onSubmit = async (data) => {
     try {
-      const endpoints = ['/api/complexity-scores', '/api/sentiment-scores', '/api/concreteness-scores', '/api/emotional-intensity-scores'];
+      const endpoints = [webURL + '/api/complexity-scores',
+        webURL + '/api/sentiment-scores', 
+        webURL + '/api/concreteness-scores', 
+        webURL + '/api/emotional-intensity-scores'];
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
       const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
