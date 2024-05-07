@@ -50,11 +50,20 @@ const App = () => {
 
 
   return (
-    <div className="h-screen flex flex-col">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-auto">
-        <textarea {...register('inputText', { required: true })} className="w-full h-full resize-none" />
+    <div className="p-4"
+      style = {{
+      background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`,
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '50px',
+    }}>
+      <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
+        <textarea {...register('inputText', { required: true })} className="w-full p-2 mb-4 border rounded" />
         {errors.inputText && <p className="text-red-500">This field is required</p>}
-        <button type="submit" className="self-center mb-4 bg-blue-500 text-white rounded">Go</button>
+        <button type="submit" className="p-2 bg-blue-500 text-white rounded self-center">Go!</button>
       </form>
       <div className="grid grid-cols-2 gap-4">
         <ScoreCard title="Complexity Scores" score={complexityScores} />
