@@ -42,10 +42,10 @@ const App = () => {
 
   // Map scores to colors
   const gradientColors = {
-    complexity: complexityScores ? `rgba(${complexityScores*100}, 0, 0, 0.5)` : 'transparent',
-    sentiment: sentimentScores ? `rgba(0, ${sentimentScores*100}, 0, 0.5)` : 'transparent',
-    concreteness: concretenessScores ? `rgba(0, 0, ${concretenessScores*100}, 0.5)` : 'transparent',
-    emotionalIntensity: emotionalIntensityScores ? `rgba(${emotionalIntensityScores}, ${emotionalIntensityScores}, 0, 0.5)` : 'transparent',
+    complexity: complexityScores ? `rgba(${complexityScores * 255}, 0, 0, 0.5)` : 'transparent',
+    sentiment: sentimentScores ? `rgba(0, ${sentimentScores[0] * 255}, 0, 0.5)` : 'transparent',
+    concreteness: concretenessScores ? `rgba(0, 0, ${concretenessScores * 255}, 0.5)` : 'transparent',
+    emotionalIntensity: emotionalIntensityScores ? `rgba(${emotionalIntensityScores * 255}, ${emotionalIntensityScores * 255}, 0, 0.5)` : 'transparent',
   };
 
 
