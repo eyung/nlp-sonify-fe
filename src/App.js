@@ -58,7 +58,7 @@ const App = () => {
         
         <button 
           style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
-          type="submit" className="p-2 bg-blue-500 text-white rounded self-center">Go!
+          type="submit" className="p-2 bg-blue-500 text-white rounded content-center">Go!
 
         </button>
       </form>
