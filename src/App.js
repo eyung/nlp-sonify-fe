@@ -56,7 +56,7 @@ const App = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-auto">
         <textarea {...register('inputText', { required: true })} className="w-full h-full resize-none" />
         {errors.inputText && <p className="text-red-500">This field is required</p>}
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded">Analyze</button>
+        <button type="submit" className="self-center mb-4 bg-blue-500 text-white rounded">Go</button>
       </form>
       <div className="grid grid-cols-2 gap-4">
         <ScoreCard title="Complexity Scores" score={complexityScores} />
