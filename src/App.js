@@ -3,9 +3,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
-const ScoreCard = ({ title, score }) => (
-  <div className="p-4 border rounded">
-    <h2 className="text-xl font-bold">{title}</h2>
+const ScoreCard = ({ title, score, tooltiptext }) => (
+  <div className="relative card p-4 border rounded">
+    <div className="absolute top-0 right-0 p-1">
+      <div className="tooltip">
+        <i className="fas fa-question-circle"></i>
+        <span className="tooltiptext">{tooltiptext}</span>
+      </div>
+    </div>
+    <h2 className="card-body text-xl font-bold">{title}</h2>
     <p className="mt-2">{score}</p>
   </div>
 );
@@ -58,10 +64,10 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard title="Complexity Scores" score={complexityScores} />
-        <ScoreCard title="Sentiment Scores" score={sentimentScores} />
-        <ScoreCard title="Concreteness Scores" score={concretenessScores} />
-        <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} />
+        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"complexity tooltip"}/>
+        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"sentiment tooltip"}/>
+        <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"concreteness tooltip"}/>
+        <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"emotional intensity tooltip"}/>
       </div>
     </div>
   );
