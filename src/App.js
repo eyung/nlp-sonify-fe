@@ -37,8 +37,6 @@ const App = () => {
       reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
-      // Set error state and display error message to the user
-      setError('An error occurred while analyzing the text. Please try again.');
     }
   };
 
