@@ -5,15 +5,17 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
 const ScoreCard = ({ title, score, tooltiptext }) => (
-  <div className="relative card p-4 border rounded">
+  <div className="relative card p-4 bg-white shadow-sm rounded-lg overflow-hidden">
     <div className="absolute top-0 right-0 p-1">
       <div className="tooltip">
-        <i className="fas fa-question-circle"></i>
-        <span className="tooltiptext">{tooltiptext}</span>
+        <i className="fas fa-question-circle text-gray-400"></i>
+        <span className="tooltiptext bg-gray-100 text-gray-700 p-2 rounded-md shadow-lg">{tooltiptext}</span>
       </div>
     </div>
-    <h2 className="card-body text-xl font-bold">{title}</h2>
-    <p className="mt-2">{score}</p>
+    <div className="card-body p-6">
+      <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
+      <p className="mt-2 text-lg text-gray-600">{score}</p>
+    </div>
   </div>
 );
 
