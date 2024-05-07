@@ -67,10 +67,10 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"complexity tooltip"}/>
-        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"An array of three float values ranging from 0.0 to 1.0, representing the percentages of positive, neutral, and negative sentiment respectively. For example, [0.7, 0.2, 0.1] would indicate 70% positive, 20% neutral, and 10% negative sentiment."}/>
-        <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"concreteness tooltip"}/>
-        <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"emotional intensity tooltip"}/>
+        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
       </div>
     </div>
   );
