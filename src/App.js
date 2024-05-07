@@ -1,4 +1,4 @@
-import './App.css';
+//import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
@@ -52,17 +52,9 @@ const App = () => {
 
 
   return (
-    <div style={{
-      background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`,
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '50px',
-    }}>
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-        <textarea {...register('inputText', { required: true })} className="w-full p-2 mb-4 border rounded" />
+    <div className="h-screen flex flex-col">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-auto">
+        <textarea {...register('inputText', { required: true })} className="w-full h-full resize-none" />
         {errors.inputText && <p className="text-red-500">This field is required</p>}
         <button type="submit" className="p-2 bg-blue-500 text-white rounded">Analyze</button>
       </form>
