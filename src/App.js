@@ -48,11 +48,11 @@ const App = () => {
     emotionalIntensity: emotionalIntensityScores ? `rgba(${emotionalIntensityScores * 255}, ${emotionalIntensityScores * 255}, 0, 0.5)` : 'transparent',
   };
 
-
+  // style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
   return (
     <div className="p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-        <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
+        <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
         {errors.inputText && <p className="text-red-500">This field is required</p>}
         <button type="submit" className="p-2 bg-blue-500 text-white rounded content-center">Go!</button>
       </form>
