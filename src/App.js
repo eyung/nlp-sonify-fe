@@ -1,12 +1,14 @@
-import './App.css';
+//import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
 const ScoreCard = ({ title, score }) => (
-  <div className="p-4 border rounded">
-    <h2 className="text-xl font-bold">{title}</h2>
-    <p className="mt-2">{score}</p>
+  <div className="card bordered">
+    <div className="card-body">
+      <h2 className="card-title">{title}</h2>
+      <p>{score}</p>
+    </div>
   </div>
 );
 
@@ -40,11 +42,11 @@ const App = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-6 bg-neutral text-neutral-content rounded-box">
       <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-        <textarea {...register('inputText', { required: true })} className="w-full p-2 mb-4 border rounded" />
-        {errors.inputText && <p className="text-red-500">This field is required</p>}
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded">Analyze</button>
+        <textarea {...register('inputText', { required: true })} className="textarea textarea-bordered w-full mb-4" />
+        {errors.inputText && <p className="text-error">This field is required</p>}
+        <button type="submit" className="btn btn-primary">Go</button>
       </form>
       <div className="grid grid-cols-2 gap-4">
         <ScoreCard title="Complexity Scores" score={complexityScores} />
