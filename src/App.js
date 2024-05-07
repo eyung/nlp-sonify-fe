@@ -50,13 +50,19 @@ const App = () => {
 
 
   return (
-    <div className="p-4"
-      style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}>
+    <div className="p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-        <textarea {...register('inputText', { required: true })} className="w-full p-2 mb-4 border rounded" />
+        
+        <textarea {...register('inputText', { required: true })} className="w-full h-screen p-2 mb-4 border rounded" />
         {errors.inputText && <p className="text-red-500">This field is required</p>}
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded self-center">Go!</button>
+        
+        <button 
+          style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
+          type="submit" className="p-2 bg-blue-500 text-white rounded self-center">Go!
+
+        </button>
       </form>
+
       <div className="grid grid-cols-2 gap-4">
         <ScoreCard title="Complexity Scores" score={complexityScores} />
         <ScoreCard title="Sentiment Scores" score={sentimentScores} />
