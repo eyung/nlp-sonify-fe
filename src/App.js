@@ -20,6 +20,7 @@ const App = () => {
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   
+  // Set scores from API results
   const onSubmit = async (data) => {
     try {
       const endpoints = [webURL + '/api/complexity-scores',
@@ -39,8 +40,25 @@ const App = () => {
     }
   };
 
+  // Map scores to colors
+  const gradientColors = {
+    complexity: complexityScores ? `rgba(${complexityScores}, 0, 0, 0.5)` : 'transparent',
+    sentiment: sentimentScores ? `rgba(0, ${sentimentScores}, 0, 0.5)` : 'transparent',
+    concreteness: concretenessScores ? `rgba(0, 0, ${concretenessScores}, 0.5)` : 'transparent',
+    emotionalIntensity: emotionalIntensityScores ? `rgba(${emotionalIntensityScores}, ${emotionalIntensityScores}, 0, 0.5)` : 'transparent',
+  };
+
+
   return (
-    <div className="p-4">
+    <div style={{
+      background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`,
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '50px',
+    }}>
       <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
         <textarea {...register('inputText', { required: true })} className="w-full p-2 mb-4 border rounded" />
         {errors.inputText && <p className="text-red-500">This field is required</p>}
