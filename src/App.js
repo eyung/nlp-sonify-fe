@@ -4,23 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
-const ScoreCard = ({ title, score, tooltiptext }) => (
-  <div className="relative card p-2 bg-white shadow-sm rounded-lg">
-    <div className="absolute top-0 right-0 p-1">
-      <div className="tooltip">
-        <i className="fas fa-question-circle text-gray-400"></i>
-        <span className="tooltiptext bg-gray-100 text-gray-700 p-2 rounded-md shadow-lg">{tooltiptext}</span>
-      </div>
-    </div>
-    <div className="card-body p-6">
-      <h2 className="text-l font-semibold text-gray-800">{title}</h2>
-      <p className="mt-2 text-sm text-gray-600">{score}</p>
-    </div>
-  </div>
-);
-
-
-const ScoreCard2 = ({ title, scores, tooltiptext }) => (
+const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
     <div className="absolute top-0 right-0 p-1">
       <div className="tooltip">
@@ -65,10 +49,10 @@ const App = () => {
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
 
-      console.log(complexity);
-      console.log(sentiment);
-      console.log(concreteness);
-      console.log(emotionalIntensity);
+      console.log(complexityScores);
+      console.log(sentimentScores);
+      console.log(concretenessScores);
+      console.log(emotionalIntensityScores);
       
       
       // Don't clear text field on submit
@@ -96,10 +80,10 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard2 title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
       </div>
     </div>
   );
