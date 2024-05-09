@@ -55,7 +55,19 @@ const App = () => {
         webURL + '/api/emotional-intensity-scores'];
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
-      const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
+      const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
+
+      const [sentiment] = responses.map(response => {
+        // Parse the response data into a JSON object
+        const scores = {};
+        const scoreStrings = response.data.choices[0].message.content.split(',');
+        scoreStrings.forEach(scoreString => {
+          const [word, score] = scoreString.split(':');
+          scores[word.trim()] = parseFloat(score);
+        });
+        return scores;
+      });
+
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
