@@ -49,10 +49,12 @@ const App = () => {
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
 
-      console.log(complexityScores);
-      console.log(sentimentScores);
-      console.log(concretenessScores);
-      console.log(emotionalIntensityScores);
+      React.useEffect(() => {
+        console.log(complexityScores);
+        console.log(sentimentScores);
+        console.log(concretenessScores);
+        console.log(emotionalIntensityScores);
+      }, [complexityScores, sentimentScores, concretenessScores, emotionalIntensityScores]);
       
       
       // Don't clear text field on submit
