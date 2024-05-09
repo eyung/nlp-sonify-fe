@@ -50,17 +50,16 @@ const App = () => {
   // Set scores from API results
   const onSubmit = async (data) => {
     try {
-      const endpoints = [webURL + '/api/complexity-scores',
+      const endpoints = [webURL + '/api/v2/complexity-scores',
         webURL + '/api/v2/sentiment-scores', 
-        webURL + '/api/concreteness-scores', 
-        webURL + '/api/emotional-intensity-scores'];
+        webURL + '/api/v2/concreteness-scores', 
+        webURL + '/api/v2/emotional-intensity-scores'];
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
-      const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
+      //const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
 
-      const [sentiment] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
+      const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
       
-
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
@@ -91,10 +90,10 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
         <ScoreCard2 title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
       </div>
     </div>
   );
