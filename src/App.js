@@ -64,6 +64,12 @@ const App = () => {
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
+
+      console.log(complexity);
+      console.log(sentiment);
+      console.log(concreteness);
+      console.log(emotionalIntensity);
+      
       
       // Don't clear text field on submit
       //reset();
