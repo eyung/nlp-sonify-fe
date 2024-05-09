@@ -89,8 +89,8 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard2 title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
+        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
       </div>
