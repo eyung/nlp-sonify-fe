@@ -19,6 +19,23 @@ const ScoreCard = ({ title, score, tooltiptext }) => (
   </div>
 );
 
+const ScoreCard2 = ({ title, scores, tooltiptext }) => (
+  <div className="relative card p-2 bg-white shadow-sm rounded-lg">
+    <div className="absolute top-0 right-0 p-1">
+      <div className="tooltip">
+        <i className="fas fa-question-circle text-gray-400"></i>
+        <span className="tooltiptext bg-gray-100 text-gray-700 p-2 rounded-md shadow-lg">{tooltiptext}</span>
+      </div>
+    </div>
+    <div className="card-body p-6">
+      <h2 className="text-l font-semibold text-gray-800">{title}</h2>
+      {scores && Object.entries(scores).map(([word, score]) => (
+        <p key={word} className="mt-2 text-sm text-gray-600">{word}: {score}</p>
+      ))}
+    </div>
+  </div>
+);
+
 const App = () => {
 
   const webURL = 'https://nlp-sonify-be.vercel.app';
@@ -67,7 +84,7 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
