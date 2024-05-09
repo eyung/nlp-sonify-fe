@@ -88,7 +88,7 @@ const App = () => {
 
   // style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
   return (
-    <div className="p-4">
+    <div className="w-3/4 p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
         <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
         {errors.inputText && <p className="text-red-500">This field is required</p>}
