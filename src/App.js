@@ -58,16 +58,8 @@ const App = () => {
       const responses = await Promise.all(promises);
       const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
 
-      const [sentiment] = responses.map(response => {
-        // Parse the response data into a JSON object
-        const scores = {};
-        const scoreStrings = response.data.choices[0].message.content.split(',');
-        scoreStrings.forEach(scoreString => {
-          const [word, score] = scoreString.split(':');
-          scores[word.trim()] = parseFloat(score);
-        });
-        return scores;
-      });
+      const [sentiment] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
+      
 
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
