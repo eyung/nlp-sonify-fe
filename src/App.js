@@ -65,7 +65,9 @@ const App = () => {
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
-      reset();
+      
+      // Don't clear text field on submit
+      //reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
