@@ -19,6 +19,23 @@ const ScoreCard = ({ title, score, tooltiptext }) => (
   </div>
 );
 
+const ScoreCard2 = ({ title, scores, tooltiptext }) => (
+  <div className="relative card p-2 bg-white shadow-sm rounded-lg">
+    <div className="absolute top-0 right-0 p-1">
+      <div className="tooltip">
+        <i className="fas fa-question-circle text-gray-400"></i>
+        <span className="tooltiptext bg-gray-100 text-gray-700 p-2 rounded-md shadow-lg">{tooltiptext}</span>
+      </div>
+    </div>
+    <div className="card-body p-6">
+      <h2 className="text-l font-semibold text-gray-800">{title}</h2>
+      {scores && Object.entries(scores).map(([word, score]) => (
+        <p key={word} className="mt-2 text-sm text-gray-600">{word}: {score}</p>
+      ))}
+    </div>
+  </div>
+);
+
 const App = () => {
 
   const webURL = 'https://nlp-sonify-be.vercel.app';
@@ -32,13 +49,25 @@ const App = () => {
   // Set scores from API results
   const onSubmit = async (data) => {
     try {
-      const endpoints = [webURL + '/api/complexity-scores',
+      const endpoints = [webURL + '/api/v2/complexity-scores',
         webURL + '/api/sentiment-scores', 
         webURL + '/api/concreteness-scores', 
         webURL + '/api/emotional-intensity-scores'];
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
-      const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
+      const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
+
+      const [sentiment] = responses.map(response => {
+        // Parse the response data into a JSON object
+        const scores = {};
+        const scoreStrings = response.data.choices[0].message.content.split(',');
+        scoreStrings.forEach(scoreString => {
+          const [word, score] = scoreString.split(':');
+          scores[word.trim()] = parseFloat(score);
+        });
+        return scores;
+      });
+
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
@@ -67,7 +96,7 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
