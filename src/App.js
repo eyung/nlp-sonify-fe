@@ -49,7 +49,7 @@ const App = () => {
   // Set scores from API results
   const onSubmit = async (data) => {
     try {
-      const endpoints = [webURL + '/api/complexity-scores',
+      const endpoints = [webURL + '/api/v2/complexity-scores',
         webURL + '/api/sentiment-scores', 
         webURL + '/api/concreteness-scores', 
         webURL + '/api/emotional-intensity-scores'];
