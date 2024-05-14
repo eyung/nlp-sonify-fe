@@ -4,7 +4,23 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
-const ScoreCard = ({ title, scores, tooltiptext }) => (
+const ScoreCard = ({ title, score, tooltiptext }) => (
+  <div className="relative card p-2 bg-white shadow-sm rounded-lg">
+    <div className="absolute top-0 right-0 p-1">
+      <div className="tooltip">
+        <i className="fas fa-question-circle text-gray-400"></i>
+        <span className="tooltiptext bg-gray-100 text-gray-700 p-2 rounded-md shadow-lg">{tooltiptext}</span>
+      </div>
+    </div>
+    <div className="card-body p-6">
+      <h2 className="text-l font-semibold text-gray-800">{title}</h2>
+      <p className="mt-2 text-sm text-gray-600">{score}</p>
+    </div>
+  </div>
+);
+
+
+const ScoreCard2 = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
     <div className="absolute top-0 right-0 p-1">
       <div className="tooltip">
@@ -34,31 +50,25 @@ const App = () => {
   // Set scores from API results
   const onSubmit = async (data) => {
     try {
-      const endpoints = [webURL + '/api/v2/complexity-scores',
+      const endpoints = [webURL + '/api/complexity-scores',
         webURL + '/api/v2/sentiment-scores', 
-        webURL + '/api/v2/concreteness-scores', 
-        webURL + '/api/v2/emotional-intensity-scores'];
+        webURL + '/api/concreteness-scores', 
+        webURL + '/api/emotional-intensity-scores'];
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
-      //const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
-
       const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
-
 
       const [sentiment] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
       
+
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
-
-        
-      // Don't clear text field on submit
-      //reset();
+      reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
-
   };
 
   // Map scores to colors
@@ -80,7 +90,7 @@ const App = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
       </div>
