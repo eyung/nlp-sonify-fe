@@ -83,19 +83,24 @@ const App = () => {
 
   // style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
   return (
-    <div className="w-3/4 p-4">
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-        <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
-        {errors.inputText && <p className="text-red-500">This field is required</p>}
-        <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
-      </form>
+    <div className="flex justify-center">
+      <div className="w-full max-w-screen-lg p-4">
 
-      <div className="grid grid-cols-2 gap-4">
-        <ScoreCard2 title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+        <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
+          <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
+          {errors.inputText && <p className="text-red-500">This field is required</p>}
+          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
+        </form>
+
+        <div className="grid grid-cols-2 gap-4">
+          <ScoreCard2 title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
+          <ScoreCard2 title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
+          <ScoreCard2 title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
+          <ScoreCard2 title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+        </div>
+
       </div>
+      
     </div>
   );
 
