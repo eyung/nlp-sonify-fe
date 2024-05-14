@@ -49,19 +49,23 @@ const App = () => {
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
 
-      React.useEffect(() => {
-        console.log(complexityScores);
-        console.log(sentimentScores);
-        console.log(concretenessScores);
-        console.log(emotionalIntensityScores);
-      }, [complexityScores, sentimentScores, concretenessScores, emotionalIntensityScores]);
-      
-      
+        
       // Don't clear text field on submit
       //reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
+
+    // Test
+    React.useEffect(() => {
+
+      console.log(complexityScores);
+      console.log(sentimentScores);
+      console.log(concretenessScores);
+      console.log(emotionalIntensityScores);
+
+    }, [complexityScores, sentimentScores, concretenessScores, emotionalIntensityScores]);
+    
   };
 
   // Map scores to colors
