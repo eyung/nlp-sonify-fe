@@ -91,10 +91,10 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard2 title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
-        <ScoreCard2 title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
       </div>
     </div>
   );
