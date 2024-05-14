@@ -69,6 +69,8 @@ const App = () => {
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
+
+    console.log(sentiment);
   };
 
   // Map scores to colors
@@ -89,8 +91,8 @@ const App = () => {
       </form>
 
       <div className="grid grid-cols-2 gap-4">
-        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
+        <ScoreCard2 title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
         <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
       </div>
