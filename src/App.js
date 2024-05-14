@@ -70,7 +70,7 @@ const App = () => {
       console.error('Error calling OpenAI API:', error);
     }
 
-    console.log(sentiment);
+    console.log(sentimentScores);
   };
 
   // Map scores to colors
