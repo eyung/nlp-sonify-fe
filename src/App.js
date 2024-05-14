@@ -42,7 +42,10 @@ const App = () => {
       const responses = await Promise.all(promises);
       //const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
 
-      const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
+      const [complexity, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
+
+
+      const [sentiment] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
       
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
@@ -56,16 +59,6 @@ const App = () => {
       console.error('Error calling OpenAI API:', error);
     }
 
-    // Test
-    React.useEffect(() => {
-
-      console.log(complexityScores);
-      console.log(sentimentScores);
-      console.log(concretenessScores);
-      console.log(emotionalIntensityScores);
-
-    }, [complexityScores, sentimentScores, concretenessScores, emotionalIntensityScores]);
-    
   };
 
   // Map scores to colors
