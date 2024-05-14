@@ -4,23 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
-const ScoreCard = ({ title, score, tooltiptext }) => (
-  <div className="relative card p-2 bg-white shadow-sm rounded-lg">
-    <div className="absolute top-0 right-0 p-1">
-      <div className="tooltip">
-        <i className="fas fa-question-circle text-gray-400"></i>
-        <span className="tooltiptext bg-gray-100 text-gray-700 p-2 rounded-md shadow-lg">{tooltiptext}</span>
-      </div>
-    </div>
-    <div className="card-body p-6">
-      <h2 className="text-l font-semibold text-gray-800">{title}</h2>
-      <p className="mt-2 text-sm text-gray-600">{score}</p>
-    </div>
-  </div>
-);
-
-
-const ScoreCard2 = ({ title, scores, tooltiptext }) => (
+const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
     <div className="absolute top-0 right-0 p-1">
       <div className="tooltip">
@@ -56,21 +40,19 @@ const App = () => {
         webURL + '/api/v2/emotional-intensity-scores'];
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
-      //const [concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
-
+ 
       const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
       
-
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
+      
       reset();
+
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
-
-    console.log(sentimentScores);
   };
 
   // Map scores to colors
@@ -93,10 +75,10 @@ const App = () => {
         </form>
 
         <div className="grid grid-cols-2 gap-4">
-          <ScoreCard2 title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
-          <ScoreCard2 title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
-          <ScoreCard2 title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
-          <ScoreCard2 title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
         </div>
 
       </div>
