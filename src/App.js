@@ -3,6 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import SoundPlayer from './SoundPlayer';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
@@ -40,7 +41,7 @@ const App = () => {
         webURL + '/api/v2/concreteness-scores', 
         webURL + '/api/v2/emotional-intensity-scores'
       ];
-      
+
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
  
@@ -83,6 +84,18 @@ const App = () => {
           <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
         </div>
+
+        {/* Add the SoundPlayer component and pass the scores to it */}
+        {complexityScores && sentimentScores && concretenessScores && emotionalIntensityScores && (
+          <SoundPlayer 
+            scores={{ 
+              complexityScores: complexityScores.complexity || 0, 
+              sentimentScores: sentimentScores.sentiment || 0,
+              concretenessScores: concretenessScores.concreteness || 0, 
+              emotionalIntensityScores: emotionalIntensityScores.intensity || 0 
+            }} 
+          />
+        )}
 
       </div>
       
