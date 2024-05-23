@@ -67,14 +67,6 @@ const App = () => {
     emotionalIntensity: emotionalIntensityScores ? `rgba(${emotionalIntensityScores * 255}, ${emotionalIntensityScores * 255}, 0, 0.5)` : 'transparent',
   };
 
-  // Ensure all score objects have the same keys
-  const isScoresValid = Object.keys(complexityScores).length > 0 &&
-                        Object.keys(sentimentScores).length > 0 &&
-                        Object.keys(concretenessScores).length > 0 &&
-                        Object.keys(emotionalIntensityScores).length > 0 &&
-                        JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
-                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
-
   // style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
   return (
     <div className="flex justify-center">
@@ -94,7 +86,7 @@ const App = () => {
         </div>
 
         {/* Add the SoundPlayer component and pass the scores to it */}
-        {isScoresValid && (
+        {complexityScores.length > 0 && sentimentScores.length > 0 && concretenessScores.length > 0 && emotionalIntensityScores.length > 0 && (
           <SoundPlayer 
             scores={Object.keys(complexityScores).map((word) => ({
               word,
