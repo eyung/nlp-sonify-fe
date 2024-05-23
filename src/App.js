@@ -86,14 +86,14 @@ const App = () => {
         </div>
 
         {/* Add the SoundPlayer component and pass the scores to it */}
-        {complexityScores && sentimentScores && concretenessScores && emotionalIntensityScores && (
+        {complexityScores.length > 0 && sentimentScores.length > 0 && concretenessScores.length > 0 && emotionalIntensityScores.length > 0 && (
           <SoundPlayer 
-            scores={{ 
-              complexityScores: complexityScores.complexity || 0, 
-              sentimentScores: sentimentScores.sentiment || 0,
-              concretenessScores: concretenessScores.concreteness || 0, 
-              emotionalIntensityScores: emotionalIntensityScores.intensity || 0 
-            }} 
+            scores={complexityScores.map((complexity, index) => ({
+              complexity,
+              sentiment: sentimentScores[index],
+              concreteness: concretenessScores[index],
+              emotionalIntensity: emotionalIntensityScores[index],
+            }))}
           />
         )}
 
