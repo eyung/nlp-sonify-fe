@@ -73,7 +73,7 @@ const App = () => {
                         Object.keys(concretenessScores).length > 0 &&
                         Object.keys(emotionalIntensityScores).length > 0 &&
                         JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
-                        JSON.stringify(Object.keys(completenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
+                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
 
   // style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
   return (
