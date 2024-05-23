@@ -3,31 +3,28 @@ import * as Tone from 'tone';
 
 const SoundPlayer = ({ scores }) => {
   useEffect(() => {
-    // Create a synth and connect it to the master output (your speakers)
+    // Function to map scores to sound parameters
+    const mapScoreToFrequency = (score) => 440 + (score * 220); // A4 (440 Hz) ± 220 Hz
+    const mapScoreToVolume = (score) => -30 + (score * 30); // -30 dB to 0 dB
+    const mapScoreToDuration = (score) => 0.5 + (score * 0.5); // 0.5s to 1s
+
     const synth = new Tone.Synth().toDestination();
 
-    // Define the mappings from scores to sound parameters
-    scores.forEach((scoreSet, index) => {
-      const frequency = (scoreSet.complexity + 1) * 220; // Map complexity scores to frequency
-      const waveform = scoreSet.sentiment > 0 ? 'sine' : 'square'; // Map sentiment scores to waveform
-      const duration = (scoreSet.concreteness + 1) * 0.5; // Map concreteness scores to duration
-      const volume = (scoreSet.emotionalIntensity + 1) * -6; // Map emotional intensity scores to volume
+    scores.forEach(({ word, complexity, sentiment, concreteness, emotionalIntensity }, index) => {
+      const frequency = mapScoreToFrequency(complexity);
+      const volume = mapScoreToVolume(emotionalIntensity);
+      const duration = mapScoreToDuration(sentiment);
 
-      // Update the synth settings for each note
-      synth.oscillator.type = waveform;
-      synth.volume.value = volume;
-
-      // Play a note for the duration based on concreteness score
-      synth.triggerAttackRelease(frequency, duration, Tone.now() + index * (duration + 0.1)); // Add a small delay between notes
+      synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
     });
 
-    // Cleanup the synth when the component unmounts
+    // Clean up Tone.js context on unmount
     return () => {
       synth.dispose();
     };
   }, [scores]);
 
-  return null; // This component doesn't render anything
+  return <div>Playing sounds based on the text analysis scores.</div>;
 };
 
 export default SoundPlayer;
