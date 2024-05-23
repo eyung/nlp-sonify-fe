@@ -3,20 +3,23 @@ import * as Tone from 'tone';
 
 const SoundPlayer = ({ scores }) => {
   useEffect(() => {
-    // Define the mappings from scores to sound parameters
-    const frequency = (scores.complexityScores + 1) * 440; // Map complexity scores to frequency
-    const waveform = scores.sentimentScores > 0 ? 'sine' : 'square'; // Map sentiment scores to waveform
-    const duration = (scores.concretenessScores + 1) * 0.5; // Map concreteness scores to duration
-    const volume = (scores.emotionalIntensityScores + 1) * -6; // Map emotional intensity scores to volume
-
     // Create a synth and connect it to the master output (your speakers)
-    const synth = new Tone.Synth({
-      oscillator: { type: waveform },
-      volume: volume
-    }).toDestination();
+    const synth = new Tone.Synth().toDestination();
 
-    // Play a note for the duration based on concreteness score
-    synth.triggerAttackRelease(frequency, duration);
+    // Define the mappings from scores to sound parameters
+    scores.forEach((scoreSet, index) => {
+      const frequency = (scoreSet.complexity + 1) * 220; // Map complexity scores to frequency
+      const waveform = scoreSet.sentiment > 0 ? 'sine' : 'square'; // Map sentiment scores to waveform
+      const duration = (scoreSet.concreteness + 1) * 0.5; // Map concreteness scores to duration
+      const volume = (scoreSet.emotionalIntensity + 1) * -6; // Map emotional intensity scores to volume
+
+      // Update the synth settings for each note
+      synth.oscillator.type = waveform;
+      synth.volume.value = volume;
+
+      // Play a note for the duration based on concreteness score
+      synth.triggerAttackRelease(frequency, duration, Tone.now() + index * (duration + 0.1)); // Add a small delay between notes
+    });
 
     // Cleanup the synth when the component unmounts
     return () => {
