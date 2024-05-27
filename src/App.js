@@ -14,7 +14,9 @@ const ItemTypes = {
 const DraggableCard = ({ property }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
-    item: { property },
+    item: () => {
+      return { property, dropped: false };
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -26,6 +28,7 @@ const DraggableCard = ({ property }) => {
     </div>
   );
 };
+
 
 const DroppableArea = ({ type, onDrop, children }) => {
   const [{ isOver }, drop] = useDrop({
