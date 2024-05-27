@@ -94,6 +94,7 @@ const App = () => {
   const audioProperties = ['Frequency', 'Volume', 'Duration', 'Pan'];
 
   return (
+    
     <DndProvider backend={HTML5Backend}>
       <div className="flex justify-center">
         <div className="w-full max-w-screen-lg p-4">
