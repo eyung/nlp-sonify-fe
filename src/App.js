@@ -15,9 +15,15 @@ const DraggableCard = ({ property }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: { property },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
+    collect: (monitor) => {
+      const dragging = !!monitor.isDragging();
+      if (dragging) {
+        console.log(`Dragging ${property}`);
+      }
+      return {
+        isDragging: dragging,
+      };
+    },
   });
 
   return (
@@ -30,10 +36,19 @@ const DraggableCard = ({ property }) => {
 const DroppableArea = ({ type, onDrop, children }) => {
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
-    drop: (item) => onDrop(type, item),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
+    drop: (item) => {
+      console.log(`Dropped ${item.property} onto ${type}`);
+      onDrop(type, item);
+    },
+    collect: (monitor) => {
+      const over = !!monitor.isOver();
+      if (over) {
+        console.log(`Dragging over ${type}`);
+      }
+      return {
+        isOver: over,
+      };
+    },
   });
 
   return (
