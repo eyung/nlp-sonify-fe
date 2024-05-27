@@ -11,54 +11,6 @@ const ItemTypes = {
   CARD: 'card',
 };
 
-const [droppedItems, setDroppedItems] = useState({});
-
-const DraggableCard = ({ property }) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: ItemTypes.CARD,
-    item: () => {
-      return { property };
-    },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-    end: (item, monitor) => {
-      if (monitor.didDrop()) {
-        setDroppedItems(prev => ({ ...prev, [item.property]: true }));
-      }
-    },
-  });
-
-  if (droppedItems[property]) {
-    return null;
-  }
-
-  return (
-    <div ref={drag} className={`draggable-card ${isDragging ? 'dragging' : ''}`}>
-      {property}
-    </div>
-  );
-};
-
-const DroppableArea = ({ type, onDrop, children }) => {
-  const [{ isOver }, drop] = useDrop({
-    accept: ItemTypes.CARD,
-    drop: (item, monitor) => {
-      onDrop(type, item);
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  });
-
-  return (
-    <div ref={drop} className={`droppable-area ${isOver ? 'highlight' : ''}`}>
-      {children}
-    </div>
-  );
-};
-
-
 const App = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [complexityScores, setComplexityScores] = useState(null);
@@ -67,6 +19,7 @@ const App = () => {
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [scores, setScores] = useState([]);
   const [mappings, setMappings] = useState({});
+  const [droppedItems, setDroppedItems] = useState({});
 
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
@@ -100,6 +53,51 @@ const App = () => {
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
+  };
+
+  const DraggableCard = ({ property }) => {
+    const [{ isDragging }, drag] = useDrag({
+      type: ItemTypes.CARD,
+      item: () => {
+        return { property };
+      },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging(),
+      }),
+      end: (item, monitor) => {
+        if (monitor.didDrop()) {
+          setDroppedItems(prev => ({ ...prev, [item.property]: true }));
+        }
+      },
+    });
+  
+    if (droppedItems[property]) {
+      return null;
+    }
+  
+    return (
+      <div ref={drag} className={`draggable-card ${isDragging ? 'dragging' : ''}`}>
+        {property}
+      </div>
+    );
+  };
+  
+  const DroppableArea = ({ type, onDrop, children }) => {
+    const [{ isOver }, drop] = useDrop({
+      accept: ItemTypes.CARD,
+      drop: (item, monitor) => {
+        onDrop(type, item);
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    });
+  
+    return (
+      <div ref={drop} className={`droppable-area ${isOver ? 'highlight' : ''}`}>
+        {children}
+      </div>
+    );
   };
 
   const handleDrop = (audioType, item) => {
