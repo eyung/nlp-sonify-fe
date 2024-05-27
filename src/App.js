@@ -11,16 +11,27 @@ const ItemTypes = {
   CARD: 'card',
 };
 
+const [droppedItems, setDroppedItems] = useState({});
+
 const DraggableCard = ({ property }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
-      return { property, dropped: false };
+      return { property };
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
+    end: (item, monitor) => {
+      if (monitor.didDrop()) {
+        setDroppedItems(prev => ({ ...prev, [item.property]: true }));
+      }
+    },
   });
+
+  if (droppedItems[property]) {
+    return null;
+  }
 
   return (
     <div ref={drag} className={`draggable-card ${isDragging ? 'dragging' : ''}`}>
@@ -29,13 +40,11 @@ const DraggableCard = ({ property }) => {
   );
 };
 
-
 const DroppableArea = ({ type, onDrop, children }) => {
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: (item, monitor) => {
       onDrop(type, item);
-      monitor.getItem().dropped = true;
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -48,6 +57,7 @@ const DroppableArea = ({ type, onDrop, children }) => {
     </div>
   );
 };
+
 
 const App = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
