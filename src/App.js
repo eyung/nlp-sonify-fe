@@ -34,6 +34,9 @@ const App = () => {
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
 
+      // Log the raw response
+      responses.forEach((response, index) => console.log(`Response ${index}:`, response.data));
+
       const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
       
       setComplexityScores(complexity);
