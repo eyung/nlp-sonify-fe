@@ -3,8 +3,9 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import SoundPlayer from './SoundPlayer';
 
-const ScoreCard = ({ title, score, tooltiptext }) => (
+const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
     <div className="absolute top-0 right-0 p-1">
       <div className="tooltip">
@@ -14,7 +15,9 @@ const ScoreCard = ({ title, score, tooltiptext }) => (
     </div>
     <div className="card-body p-6">
       <h2 className="text-l font-semibold text-gray-800">{title}</h2>
-      <p className="mt-2 text-sm text-gray-600">{score}</p>
+      {scores && Object.entries(scores).map(([word, score]) => (
+        <p key={word} className="mt-2 text-sm text-gray-600">{`${word}: ${score}`}</p>
+      ))}
     </div>
   </div>
 );
@@ -32,18 +35,25 @@ const App = () => {
   // Set scores from API results
   const onSubmit = async (data) => {
     try {
-      const endpoints = [webURL + '/api/complexity-scores',
-        webURL + '/api/sentiment-scores', 
-        webURL + '/api/concreteness-scores', 
-        webURL + '/api/emotional-intensity-scores'];
+      const endpoints = [
+        webURL + '/api/v2/complexity-scores',
+        webURL + '/api/v2/sentiment-scores', 
+        webURL + '/api/v2/concreteness-scores', 
+        webURL + '/api/v2/emotional-intensity-scores'
+      ];
+
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
-      const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => response.data.choices[0].message.content);
+ 
+      const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
+      
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
+      
       reset();
+
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
@@ -57,21 +67,47 @@ const App = () => {
     emotionalIntensity: emotionalIntensityScores ? `rgba(${emotionalIntensityScores * 255}, ${emotionalIntensityScores * 255}, 0, 0.5)` : 'transparent',
   };
 
+// Ensure all score objects have the same keys
+  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
+                        sentimentScores && Object.keys(sentimentScores).length > 0 &&
+                        concretenessScores && Object.keys(concretenessScores).length > 0 &&
+                        emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
+                        JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
+                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
+
   // style = {{background: `linear-gradient(45deg, ${gradientColors.complexity}, ${gradientColors.sentiment}, ${gradientColors.concreteness}, ${gradientColors.emotionalIntensity})`}}
   return (
-    <div className="p-4">
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-        <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
-        {errors.inputText && <p className="text-red-500">This field is required</p>}
-        <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
-      </form>
+    <div className="flex justify-center">
+      <div className="w-full max-w-screen-lg p-4">
 
-      <div className="grid grid-cols-2 gap-4">
-        <ScoreCard title="Complexity Scores" score={complexityScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Sentiment Scores" score={sentimentScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Concreteness Scores" score={concretenessScores} tooltiptext={"tooltip"}/>
-        <ScoreCard title="Emotional Intensity Scores" score={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+        <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
+          <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
+          {errors.inputText && <p className="text-red-500">This field is required</p>}
+          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
+        </form>
+
+        <div className="grid grid-cols-2 gap-4">
+          <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+        </div>
+
+        {/* Add the SoundPlayer component and pass the scores to it */}
+        {isScoresValid && (
+          <SoundPlayer 
+            scores={Object.keys(complexityScores).map((word) => ({
+              word,
+              complexity: complexityScores[word],
+              sentiment: sentimentScores[word],
+              concreteness: concretenessScores[word],
+              emotionalIntensity: emotionalIntensityScores[word],
+            }))}
+          />
+        )}
+
       </div>
+      
     </div>
   );
 
