@@ -89,6 +89,10 @@
   border: 1px solid #bbb;
   border-radius: 5px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Ensures it's not hidden behind other elements */
 }
 
 .droppable-area.highlight {

@@ -15,15 +15,9 @@ const DraggableCard = ({ property }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: { property },
-    collect: (monitor) => {
-      const dragging = !!monitor.isDragging();
-      if (dragging) {
-        console.log(`Dragging ${property}`);
-      }
-      return {
-        isDragging: dragging,
-      };
-    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
   });
 
   return (
@@ -36,19 +30,13 @@ const DraggableCard = ({ property }) => {
 const DroppableArea = ({ type, onDrop, children }) => {
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
-    drop: (item) => {
-      console.log(`Dropped ${item.property} onto ${type}`);
+    drop: (item, monitor) => {
       onDrop(type, item);
+      monitor.getItem().dropped = true;
     },
-    collect: (monitor) => {
-      const over = !!monitor.isOver();
-      if (over) {
-        console.log(`Dragging over ${type}`);
-      }
-      return {
-        isOver: over,
-      };
-    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
   });
 
   return (
@@ -102,10 +90,13 @@ const App = () => {
   };
 
   const handleDrop = (audioType, item) => {
-    setMappings((prevMappings) => ({
-      ...prevMappings,
-      [item.property]: audioType,
-    }));
+    if (!item.dropped) {
+      setMappings((prevMappings) => ({
+        ...prevMappings,
+        [item.property]: audioType,
+      }));
+      item.dropped = true;
+    }
   };
 
   const textProperties = ['Complexity', 'Sentiment', 'Concreteness', 'Emotional Intensity'];
