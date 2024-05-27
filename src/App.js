@@ -49,6 +49,11 @@ const App = () => {
       ]);
 
       console.log('scores set');
+      console.log('Complexity:' + complexity);
+      console.log('Sentiment:' + sentiment);
+      console.log('Concreteness:' + concreteness);
+      console.log('Emotional Intensity:' + emotionalIntensity);
+
 
       reset();
 

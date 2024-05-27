@@ -33,10 +33,10 @@ const SoundPlayer = ({ mappings, scores }) => {
                   mappings['Pan'] === 'Concreteness' ? mapScoreToPan(concreteness) :
                   mapScoreToPan(emotionalIntensity);
 
-      synth.volume.value = 0;
-      synth.pan.value = 1;
+      synth.volume.value = volume;
+      synth.pan.value = pan;
       
-      synth.triggerAttackRelease(440, 1, Tone.now() + (index * 1.1));
+      synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1));
     });
 
     return () => {
