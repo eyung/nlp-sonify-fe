@@ -72,3 +72,37 @@
   opacity: 1;
 }
 
+.draggable-card {
+  padding: 10px;
+  margin: 5px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.droppable-area {
+  min-height: 50px;
+  padding: 10px;
+  margin: 5px;
+  background-color: #e0e0e0;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.droppable-area.highlight {
+  background-color: #c0ffc0;
+}
+
+.audio-card {
+  padding: 10px;
+  margin: 5px;
+  background-color: #d0d0d0;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+.dragging {
+  opacity: 0.5;
+}

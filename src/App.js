@@ -21,14 +21,14 @@ const DraggableCard = ({ property }) => {
   });
 
   return (
-    <div ref={drag} className={`card ${isDragging ? 'dragging' : ''}`}>
+    <div ref={drag} className={`draggable-card ${isDragging ? 'dragging' : ''}`}>
       {property}
     </div>
   );
 };
 
 const DroppableArea = ({ type, onDrop, children }) => {
-  const [, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: (item) => onDrop(type, item),
     collect: (monitor) => ({
@@ -37,7 +37,7 @@ const DroppableArea = ({ type, onDrop, children }) => {
   });
 
   return (
-    <div ref={drop} className="droppable-area">
+    <div ref={drop} className={`droppable-area ${isOver ? 'highlight' : ''}`}>
       {children}
     </div>
   );
@@ -97,7 +97,6 @@ const App = () => {
   const audioProperties = ['Frequency', 'Volume', 'Duration', 'Pan'];
 
   return (
-    
     <DndProvider backend={HTML5Backend}>
       <div className="flex justify-center">
         <div className="w-full max-w-screen-lg p-4">
