@@ -48,6 +48,8 @@ const App = () => {
         { word: 'Emotional Intensity', score: emotionalIntensity }
       ]);
 
+      console.log('scores set');
+
       reset();
 
     } catch (error) {

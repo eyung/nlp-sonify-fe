@@ -13,9 +13,9 @@ const SoundPlayer = ({ mappings, scores }) => {
     scores.forEach((scoreObj, index) => {
       const { word, complexity, sentiment, concreteness, emotionalIntensity } = scoreObj;
       
-      const frequency = mappings['Frequency'] === 'Complexity' ? mapScoreToFrequency(complexity) :
-                        mappings['Frequency'] === 'Sentiment' ? mapScoreToFrequency(sentiment) :
-                        mappings['Frequency'] === 'Concreteness' ? mapScoreToFrequency(concreteness) :
+      const frequency = mappings['Frequency'] === 'Complexity' ? mapScoreToFrequency(complexity || 0) :
+                        mappings['Frequency'] === 'Sentiment' ? mapScoreToFrequency(sentiment || 0) :
+                        mappings['Frequency'] === 'Concreteness' ? mapScoreToFrequency(concreteness || 0) :
                         mapScoreToFrequency(emotionalIntensity);
 
       const volume = mappings['Volume'] === 'Complexity' ? mapScoreToVolume(complexity) :
@@ -33,10 +33,10 @@ const SoundPlayer = ({ mappings, scores }) => {
                   mappings['Pan'] === 'Concreteness' ? mapScoreToPan(concreteness) :
                   mapScoreToPan(emotionalIntensity);
 
-      synth.volume.value = volume;
-      synth.pan.value = pan;
+      synth.volume.value = 0;
+      synth.pan.value = 1;
       
-      synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1));
+      synth.triggerAttackRelease(440, 1, Tone.now() + (index * 1.1));
     });
 
     return () => {
