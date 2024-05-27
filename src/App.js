@@ -11,10 +11,10 @@ const ItemTypes = {
   CARD: 'card',
 };
 
-const DraggableCard = ({ type, property }) => {
+const DraggableCard = ({ property }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
-    item: { type, property },
+    item: { property },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -31,6 +31,9 @@ const DroppableArea = ({ type, onDrop, children }) => {
   const [, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: (item) => onDrop(type, item),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
   });
 
   return (
@@ -106,7 +109,7 @@ const App = () => {
 
           <div className="text-properties mb-4">
             {textProperties.map((prop) => (
-              <DraggableCard key={prop} type="text" property={prop} />
+              <DraggableCard key={prop} property={prop} />
             ))}
           </div>
 
