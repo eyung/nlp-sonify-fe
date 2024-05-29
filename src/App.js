@@ -44,6 +44,12 @@ const App = () => {
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
 
+      console.log('scores set');
+      console.log('Complexity:' + complexity);
+      console.log('Sentiment:' + sentiment);
+      console.log('Concreteness:' + concreteness);
+      console.log('Emotional Intensity:' + emotionalIntensity);
+
       setScores([
         { word: 'Complexity', score: complexity },
         { word: 'Sentiment', score: sentiment },
@@ -51,11 +57,7 @@ const App = () => {
         { word: 'Emotional Intensity', score: emotionalIntensity }
       ]);
 
-      console.log('scores set');
-      console.log('Complexity:' + complexity);
-      console.log('Sentiment:' + sentiment);
-      console.log('Concreteness:' + concreteness);
-      console.log('Emotional Intensity:' + emotionalIntensity);
+      
 
 
       reset();
