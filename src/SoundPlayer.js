@@ -1,48 +1,52 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 
-const SoundPlayer = ({ mappings, scores }) => {
+const SoundPlayer = ({ scores, textualToAudioMapping }) => {
   useEffect(() => {
-    const mapScoreToFrequency = (score) => 440 + (score * 220);
-    const mapScoreToVolume = (score) => -30 + (score * 30);
-    const mapScoreToDuration = (score) => 0.5 + (score * 0.5);
-    const mapScoreToPan = (score) => score;
+    // Function to map scores to sound parameters
+    const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
+    const mapScoreToWaveform = (score) => waveforms[Math.floor((score + 1) * waveforms.length / 2)]; // Select a waveform
+    const mapScoreToFrequency = (score) => 440 + (score * 220); // Standard frequency A4 (440 Hz) ± 220 Hz
+    const mapScoreToVolume = (score) => -30 + (score * 30); // Volume -30 dB to 0 dB
+    const mapScoreToDuration = (score) => 0.5 + (score * 0.5); // Duration 0.5s to 1s
 
     const synth = new Tone.Synth().toDestination();
 
-    scores.forEach((scoreObj, index) => {
-      const { word, complexity, sentiment, concreteness, emotionalIntensity } = scoreObj;
+    const getMappedAudioProperty = (textualProp, score) => {
+      const mapping = textualToAudioMapping.find(mapping => mapping.textual === textualProp);
+      if (!mapping || !mapping.audio) return null;
       
-      const frequency = mappings['Frequency'] === 'Complexity' ? mapScoreToFrequency(complexity || 0) :
-                        mappings['Frequency'] === 'Sentiment' ? mapScoreToFrequency(sentiment || 0) :
-                        mappings['Frequency'] === 'Concreteness' ? mapScoreToFrequency(concreteness || 0) :
-                        mapScoreToFrequency(emotionalIntensity);
+      switch (mapping.audio) {
+        case 'waveform':
+          return mapScoreToWaveform(score);
+        case 'pitch':
+          return mapScoreToFrequency(score);
+        case 'volume':
+          return mapScoreToVolume(score);
+        case 'duration':
+          return mapScoreToDuration(score);
+        default:
+          return null;
+      }
+    };
 
-      const volume = mappings['Volume'] === 'Complexity' ? mapScoreToVolume(complexity) :
-                     mappings['Volume'] === 'Sentiment' ? mapScoreToVolume(sentiment) :
-                     mappings['Volume'] === 'Concreteness' ? mapScoreToVolume(concreteness) :
-                     mapScoreToVolume(emotionalIntensity);
+    scores.forEach(({ word, complexity, sentiment, concreteness, emotionalIntensity }, index) => {
+      const frequency = getMappedAudioProperty('complexity', complexity);
+      const volume = getMappedAudioProperty('emotionalIntensity', emotionalIntensity);
+      const duration = getMappedAudioProperty('sentiment', sentiment);
+      const waveform = getMappedAudioProperty('concreteness', concreteness);
 
-      const duration = mappings['Duration'] === 'Complexity' ? mapScoreToDuration(complexity) :
-                       mappings['Duration'] === 'Sentiment' ? mapScoreToDuration(sentiment) :
-                       mappings['Duration'] === 'Concreteness' ? mapScoreToDuration(concreteness) :
-                       mapScoreToDuration(emotionalIntensity);
+      if (frequency !== null) synth.oscillator.type = waveform;
+      if (waveform !== null) synth.oscillator.type = waveform;
 
-      const pan = mappings['Pan'] === 'Complexity' ? mapScoreToPan(complexity) :
-                  mappings['Pan'] === 'Sentiment' ? mapScoreToPan(sentiment) :
-                  mappings['Pan'] === 'Concreteness' ? mapScoreToPan(concreteness) :
-                  mapScoreToPan(emotionalIntensity);
-
-      synth.volume.value = volume;
-      synth.pan.value = pan;
-      
-      synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1));
+      synth.triggerAttackRelease(frequency || 440, duration || 1, Tone.now() + (index * 1.1), volume || -12);
     });
 
+    // Clean up Tone.js context on unmount
     return () => {
       synth.dispose();
     };
-  }, [scores, mappings]);
+  }, [scores, textualToAudioMapping]);
 
   return <div>Playing sounds based on the text analysis scores.</div>;
 };
