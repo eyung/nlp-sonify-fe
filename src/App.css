@@ -72,41 +72,25 @@
   opacity: 1;
 }
 
-.draggable-card {
-  padding: 10px;
-  margin: 5px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.droppable-area {
-  min-height: 50px;
-  padding: 10px;
-  margin: 5px;
-  background-color: #e0e0e0;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  text-align: center;
+.columns {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative; /* Ensures it's not hidden behind other elements */
+  justify-content: space-around;
+  margin: 20px;
 }
 
-.droppable-area.highlight {
-  background-color: #c0ffc0;
+.column {
+  width: 45%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.audio-card {
+.card {
   padding: 10px;
-  margin: 5px;
-  background-color: #d0d0d0;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-}
-
-.dragging {
-  opacity: 0.5;
+  margin: 10px 0;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: grab;
 }
