@@ -3,7 +3,22 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { DragDropContext, Draggable, Droppable } from '@atlaskit/pragmatic-drag-and-drop';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import SoundPlayer from './SoundPlayer';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => (
@@ -22,6 +37,27 @@ const ScoreCard = ({ title, scores, tooltiptext }) => (
     </div>
   </div>
 );
+
+const SortableItem = ({ id, content }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="card">
+      {content}
+    </div>
+  );
+};
 
 const initialTextualProperties = [
   { id: 'complexity', content: 'Complexity Score' },
@@ -46,6 +82,13 @@ const App = () => {
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [textualProperties, setTextualProperties] = useState(initialTextualProperties);
   const [audioProperties, setAudioProperties] = useState(initialAudioProperties);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const onSubmit = async (data) => {
     try {
@@ -73,24 +116,26 @@ const App = () => {
     }
   };
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
 
-    if (!destination) {
+    if (!over) {
       return;
     }
 
-    if (source.droppableId === destination.droppableId) {
-      const items = Array.from(
-        source.droppableId === 'textualProperties' ? textualProperties : audioProperties
-      );
-      const [reorderedItem] = items.splice(source.index, 1);
-      items.splice(destination.index, 0, reorderedItem);
-
-      if (source.droppableId === 'textualProperties') {
-        setTextualProperties(items);
+    if (active.id !== over.id) {
+      if (textualProperties.some(item => item.id === active.id)) {
+        setTextualProperties((items) => {
+          const oldIndex = items.findIndex(item => item.id === active.id);
+          const newIndex = items.findIndex(item => item.id === over.id);
+          return arrayMove(items, oldIndex, newIndex);
+        });
       } else {
-        setAudioProperties(items);
+        setAudioProperties((items) => {
+          const oldIndex = items.findIndex(item => item.id === active.id);
+          const newIndex = items.findIndex(item => item.id === over.id);
+          return arrayMove(items, oldIndex, newIndex);
+        });
       }
     }
   };
@@ -118,63 +163,27 @@ const App = () => {
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
 
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <div className="columns">
-            <Droppable droppableId="textualProperties">
-              {(provided) => (
-                <div
-                  className="column"
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  <h2>Textual Properties</h2>
-                  {textualProperties.map(({ id, content }, index) => (
-                    <Draggable key={id} draggableId={id} index={index}>
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="card"
-                        >
-                          {content}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+            <SortableContext items={textualProperties} strategy={verticalListSortingStrategy}>
+              <div className="column">
+                <h2>Textual Properties</h2>
+                {textualProperties.map(({ id, content }) => (
+                  <SortableItem key={id} id={id} content={content} />
+                ))}
+              </div>
+            </SortableContext>
 
-            <Droppable droppableId="audioProperties">
-              {(provided) => (
-                <div
-                  className="column"
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  <h2>Audio Properties</h2>
-                  {audioProperties.map(({ id, content }, index) => (
-                    <Draggable key={id} draggableId={id} index={index}>
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="card"
-                        >
-                          {content}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+            <SortableContext items={audioProperties} strategy={verticalListSortingStrategy}>
+              <div className="column">
+                <h2>Audio Properties</h2>
+                {audioProperties.map(({ id, content }) => (
+                  <SortableItem key={id} id={id} content={content} />
+                ))}
+              </div>
+            </SortableContext>
           </div>
-        </DragDropContext>
+        </DndContext>
 
         {isScoresValid && (
           <SoundPlayer
