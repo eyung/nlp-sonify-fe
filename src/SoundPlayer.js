@@ -38,16 +38,15 @@ const SoundPlayer = ({ scores, textualToAudioMapping }) => {
       const duration = getMappedAudioProperty('sentiment', sentiment);
       const waveform = getMappedAudioProperty('concreteness', concreteness);
 
-      console.log("frequency : " + complexity);
-      console.log("volume : " + emotionalIntensity);
-      console.log("duration : " + sentiment);
-      console.log("waveform : " + concreteness);
-
-
-      if (frequency !== null) synth.oscillator.type = waveform;
-      if (waveform !== null) synth.oscillator.type = waveform;
-
-      synth.triggerAttackRelease(frequency || 440, duration || 1, Tone.now() + (index * 1.1), volume || -12);
+      // Apply only if the waveform is valid
+      if (waveform) {
+        synth.oscillator.type = waveform;
+      }
+      
+      // Only trigger the sound if frequency is valid
+      if (frequency) {
+        synth.triggerAttackRelease(frequency, duration || 1, Tone.now() + (index * 1.1), volume || -12);
+      }
     });
 
     // Clean up Tone.js context on unmount
