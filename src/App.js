@@ -21,6 +21,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import SoundPlayer from './SoundPlayer';
 
+// Component to display the score card with a tooltip
 const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
     <div className="absolute top-0 right-0 p-1">
@@ -38,6 +39,7 @@ const ScoreCard = ({ title, scores, tooltiptext }) => (
   </div>
 );
 
+// Component for sortable items using dnd-kit
 const SortableItem = ({ id, content }) => {
   const {
     attributes,
@@ -59,6 +61,7 @@ const SortableItem = ({ id, content }) => {
   );
 };
 
+// Initial state for textual and audio properties
 const initialTextualProperties = [
   { id: 'complexity', content: 'Complexity Score' },
   { id: 'sentiment', content: 'Sentiment Score' },
@@ -75,7 +78,11 @@ const initialAudioProperties = [
 
 const App = () => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
+
+  // Set up react-hook-form for handling form inputs
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+  // State variables for scores and properties
   const [complexityScores, setComplexityScores] = useState(null);
   const [sentimentScores, setSentimentScores] = useState(null);
   const [concretenessScores, setConcretenessScores] = useState(null);
@@ -83,6 +90,7 @@ const App = () => {
   const [textualProperties, setTextualProperties] = useState(initialTextualProperties);
   const [audioProperties, setAudioProperties] = useState(initialAudioProperties);
 
+  // Set up sensors for drag-and-drop interactions
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -90,8 +98,10 @@ const App = () => {
     })
   );
 
+  // Function to handle form submission
   const onSubmit = async (data) => {
     try {
+      // Endpoints for the backend API calls
       const endpoints = [
         `${webURL}/api/v2/complexity-scores`,
         `${webURL}/api/v2/sentiment-scores`,
@@ -99,9 +109,11 @@ const App = () => {
         `${webURL}/api/v2/emotional-intensity-scores`
       ];
 
+      // Make all API calls concurrently
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
 
+      // Parse responses and update state
       const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
 
       setComplexityScores(complexity);
@@ -109,13 +121,14 @@ const App = () => {
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
 
-      reset();
+      reset(); // Reset form after submission
 
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
   };
 
+  // Function to handle drag end event
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -123,14 +136,17 @@ const App = () => {
       return;
     }
 
+    // Check if the item was dragged within the same droppable area
     if (active.id !== over.id) {
       if (textualProperties.some(item => item.id === active.id)) {
+        // Reorder textual properties
         setTextualProperties((items) => {
           const oldIndex = items.findIndex(item => item.id === active.id);
           const newIndex = items.findIndex(item => item.id === over.id);
           return arrayMove(items, oldIndex, newIndex);
         });
       } else {
+        // Reorder audio properties
         setAudioProperties((items) => {
           const oldIndex = items.findIndex(item => item.id === active.id);
           const newIndex = items.findIndex(item => item.id === over.id);
@@ -140,6 +156,7 @@ const App = () => {
     }
   };
 
+  // Check if scores are valid for displaying the SoundPlayer component
   const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
                         sentimentScores && Object.keys(sentimentScores).length > 0 &&
                         concretenessScores && Object.keys(concretenessScores).length > 0 &&
@@ -150,12 +167,14 @@ const App = () => {
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
+        {/* Form for text input */}
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
+        {/* Display score cards */}
         <div className="grid grid-cols-2 gap-4">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
           <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
@@ -163,8 +182,10 @@ const App = () => {
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
 
+        {/* Drag and Drop context */}
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <div className="columns">
+            {/* Sortable context for textual properties */}
             <SortableContext items={textualProperties} strategy={verticalListSortingStrategy}>
               <div className="column">
                 <h2>Textual Properties</h2>
@@ -174,6 +195,7 @@ const App = () => {
               </div>
             </SortableContext>
 
+            {/* Sortable context for audio properties */}
             <SortableContext items={audioProperties} strategy={verticalListSortingStrategy}>
               <div className="column">
                 <h2>Audio Properties</h2>
@@ -185,6 +207,7 @@ const App = () => {
           </div>
         </DndContext>
 
+        {/* Render SoundPlayer if scores are valid */}
         {isScoresValid && (
           <SoundPlayer
             scores={Object.keys(complexityScores).map((word) => ({
