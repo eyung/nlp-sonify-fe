@@ -38,6 +38,12 @@ const SoundPlayer = ({ scores, textualToAudioMapping }) => {
       const duration = getMappedAudioProperty('sentiment', sentiment);
       const waveform = getMappedAudioProperty('concreteness', concreteness);
 
+      console.log("frequency" + complexity);
+      console.log("volume" + emotionalIntensity);
+      console.log("duration" + sentiment);
+      console.log("waveform" + concreteness);
+
+
       if (frequency !== null) synth.oscillator.type = waveform;
       if (waveform !== null) synth.oscillator.type = waveform;
 
