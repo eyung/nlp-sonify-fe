@@ -53,7 +53,7 @@ const SoundPlayer = ({ scores, textualToAudioMapping }) => {
     };
   }, [scores, textualToAudioMapping]);
 
-  return <div>Playing sounds based on the text analysis scores.</div>;
+  return <div>Playing sounds</div>;
 };
 
 export default SoundPlayer;
