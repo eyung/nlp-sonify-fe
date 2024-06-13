@@ -208,7 +208,21 @@ const App = () => {
         </DndContext>
 
         {/* Render SoundPlayer if scores are valid */}
-        
+        {isScoresValid && (
+          <SoundPlayer
+            scores={Object.keys(complexityScores).map((word) => ({
+              word,
+              complexity: complexityScores[word],
+              sentiment: sentimentScores[word],
+              concreteness: concretenessScores[word],
+              emotionalIntensity: emotionalIntensityScores[word],
+            }))}
+            textualToAudioMapping={textualProperties.map((prop, index) => ({
+              textual: prop.id,
+              audio: audioProperties[index] ? audioProperties[index].id : null
+            }))}
+          />
+        )}
       </div>
     </div>
   );

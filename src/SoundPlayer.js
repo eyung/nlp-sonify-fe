@@ -37,7 +37,7 @@ const SoundPlayer = ({ scores, textualToAudioMapping }) => {
       const frequency = getMappedAudioProperty('complexity', complexity);
       const volume = getMappedAudioProperty('emotionalIntensity', emotionalIntensity);
       const duration = getMappedAudioProperty('sentiment', sentiment);
-      const vibratoFrequency = getMappedAudioProperty('vibrato', sentiment); // Map sentiment to vibrato frequency
+      const vibratoFrequency = getMappedAudioProperty('vibrato', concreteness); 
 
       if (frequency !== null) synth.frequency.value = frequency;
       if (volume !== null) synth.volume.value = volume;
