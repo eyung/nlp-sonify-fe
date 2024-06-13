@@ -4,13 +4,14 @@ import * as Tone from 'tone';
 const SoundPlayer = ({ scores, textualToAudioMapping }) => {
   useEffect(() => {
     // Function to map scores to sound parameters
-    const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
-    const mapScoreToWaveform = (score) => waveforms[Math.floor((score + 1) * waveforms.length / 2)];
-    const mapScoreToFrequency = (score) => 440 + (score * 220);
-    const mapScoreToVolume = (score) => -30 + (score * 30);
-    const mapScoreToDuration = (score) => 0.5 + (score * 0.5);
+    const mapScoreToFrequency = (score) => 440 + (score * 220); // Standard frequency A4 (440 Hz) ± 220 Hz
+    const mapScoreToVolume = (score) => -30 + (score * 30); // Volume -30 dB to 0 dB
+    const mapScoreToDuration = (score) => 0.5 + (score * 0.5); // Duration 0.5s to 1s
+    const mapScoreToVibratoFrequency = (score) => 5 + (score * 5); // Vibrato frequency from 5Hz to 10Hz
 
     const synth = new Tone.Synth().toDestination();
+    const vibrato = new Tone.Vibrato().toDestination();
+    synth.connect(vibrato);
 
     // Function to get mapped audio property based on textual property
     const getMappedAudioProperty = (textualProp, score) => {
@@ -18,14 +19,14 @@ const SoundPlayer = ({ scores, textualToAudioMapping }) => {
       if (!mapping || !mapping.audio) return null;
 
       switch (mapping.audio) {
-        case 'waveform':
-          return mapScoreToWaveform(score);
         case 'pitch':
           return mapScoreToFrequency(score);
         case 'volume':
           return mapScoreToVolume(score);
         case 'duration':
           return mapScoreToDuration(score);
+        case 'vibrato':
+          return mapScoreToVibratoFrequency(score); // Use vibrato frequency mapping
         default:
           return null;
       }
@@ -36,22 +37,19 @@ const SoundPlayer = ({ scores, textualToAudioMapping }) => {
       const frequency = getMappedAudioProperty('complexity', complexity);
       const volume = getMappedAudioProperty('emotionalIntensity', emotionalIntensity);
       const duration = getMappedAudioProperty('sentiment', sentiment);
-      const waveform = getMappedAudioProperty('concreteness', concreteness);
+      const vibratoFrequency = getMappedAudioProperty('vibrato', sentiment); // Map sentiment to vibrato frequency
 
-      // Check if the waveform is valid before setting it
-      if (waveforms.includes(waveform)) {
-        synth.oscillator.type = waveform;
-      }
+      if (frequency !== null) synth.frequency.value = frequency;
+      if (volume !== null) synth.volume.value = volume;
+      if (vibratoFrequency !== null) vibrato.frequency.value = vibratoFrequency;
 
-      // Only trigger the sound if frequency is valid
-      if (frequency) {
-        synth.triggerAttackRelease(frequency, duration || 1, Tone.now() + (index * 1.1), volume || -12);
-      }
+      synth.triggerAttackRelease(frequency || 440, duration || 1, Tone.now() + (index * 1.1));
     });
 
     // Clean up Tone.js context on unmount
     return () => {
       synth.dispose();
+      vibrato.dispose();
     };
   }, [scores, textualToAudioMapping]);
 

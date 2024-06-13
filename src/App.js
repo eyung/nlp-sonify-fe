@@ -73,7 +73,7 @@ const initialAudioProperties = [
   { id: 'volume', content: 'Volume' },
   { id: 'pitch', content: 'Pitch' },
   { id: 'duration', content: 'Duration' },
-  { id: 'waveform', content: 'Waveform' },
+  { id: 'vibrato', content: 'Vibrato Frequency' }, // Changed to Vibrato Frequency
 ];
 
 const App = () => {
