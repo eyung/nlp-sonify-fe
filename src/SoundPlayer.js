@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 
-const SoundPlayer = ({ scores }) => {
+const SoundPlayer = ({ scores, onSoundPlayed }) => {
   useEffect(() => {
     // Function to map scores to sound parameters
     const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
