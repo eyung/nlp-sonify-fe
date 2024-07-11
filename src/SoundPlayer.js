@@ -10,13 +10,29 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
 
       // Function to map scores to sound parameters
       const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
-      const mapScoreToWaveform = (score) => {
-        const index = Math.floor((score + 1) * waveforms.length / 2);
-        return waveforms[Math.max(0, Math.min(waveforms.length - 1, index))];
+
+      // Mapping configuration
+      const mappings = {
+        complexity: {
+          mapFunction: (score) => 440 + (score * 220), // Frequency
+          parameter: 'frequency'
+        },
+        sentiment: {
+          mapFunction: (score) => 0.5 + (score * 0.5), // Duration
+          parameter: 'duration'
+        },
+        concreteness: {
+          mapFunction: (score) => {
+            const index = Math.floor((score + 1) * waveforms.length / 2);
+            return waveforms[Math.max(0, Math.min(waveforms.length - 1, index))];
+          }, // Waveform
+          parameter: 'waveform'
+        },
+        emotionalIntensity: {
+          mapFunction: (score) => -30 + (score * 30), // Volume
+          parameter: 'volume'
+        }
       };
-      const mapScoreToFrequency = (score) => 440 + (score * 220); // Standard frequency A4 (440 Hz) ± 220 Hz
-      const mapScoreToVolume = (score) => -30 + (score * 30); // Volume -60 dB to 0 dB
-      const mapScoreToDuration = (score) => 0.5 + (score * 0.5); // Duration 0s to 1s
 
       // Clean up previous Tone.js context
       const context = new Tone.Context();
@@ -24,14 +40,20 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
 
       const synth = new Tone.Synth().toDestination();
 
-      scores.forEach(({ word, complexity, sentiment, concreteness, emotionalIntensity }, index) => {
-        const frequency = mapScoreToFrequency(complexity);
-        const volume = mapScoreToVolume(emotionalIntensity);
-        const duration = mapScoreToDuration(sentiment);
-        const waveform = mapScoreToWaveform(concreteness);
+      scores.forEach((scoreObj, index) => {
+        const soundParameters = {};
 
-        console.log(`Playing sound for word: ${word}`);
-        console.log(`Complexity: ${complexity}, Sentiment: ${sentiment}, Concreteness: ${concreteness}, Emotional Intensity: ${emotionalIntensity}`);
+        // Map each score to a sound parameter
+        for (const [scoreName, scoreValue] of Object.entries(scoreObj)) {
+          if (mappings[scoreName]) {
+            const { mapFunction, parameter } = mappings[scoreName];
+            soundParameters[parameter] = mapFunction(scoreValue);
+          }
+        }
+
+        const { frequency, duration, waveform, volume } = soundParameters;
+
+        console.log(`Playing sound for word: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Waveform: ${waveform}`);
 
         if (waveforms.includes(waveform)) {
@@ -53,9 +75,8 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
     playSound();
 
     // Notify parent component that the sound has been played
-     onSoundPlayed();
+    onSoundPlayed();
 
- 
   }, [scores, onSoundPlayed]);
 
   return <div>Playing sounds based on the text analysis scores.</div>;
