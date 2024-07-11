@@ -26,14 +26,15 @@ const App = () => {
 
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
-  const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  //const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
   const [complexityScores, setComplexityScores] = useState(null);
   const [sentimentScores, setSentimentScores] = useState(null);
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [soundPlayed, setSoundPlayed] = useState(false); // Track if the sound has been played
 
-  const inputText = watch('inputText'); // Watch inputText value
+  //const inputText = watch('inputText'); // Watch inputText value
   
   // Set scores from API results
   const onSubmit = async (data) => {
@@ -55,7 +56,9 @@ const App = () => {
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
       
-      setSoundPlayed(false); // Reset the soundPlayed state
+      //setSoundPlayed(false); // Reset the soundPlayed state
+      setSoundPlayed(true); // Trigger sound play
+      
       reset();
 
     } catch (error) {
@@ -79,7 +82,7 @@ const App = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
-          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block" disabled={!inputText}>Go!</button>
+          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
         <div className="grid grid-cols-2 gap-4">
@@ -99,7 +102,7 @@ const App = () => {
               concreteness: concretenessScores[word],
               emotionalIntensity: emotionalIntensityScores[word],
             }))}
-            onSoundPlayed={() => setSoundPlayed(true)} // Callback to set soundPlayed to true
+            onSoundPlayed={() => setSoundPlayed(false)} // Callback to set soundPlayed
           />
         )}
 
