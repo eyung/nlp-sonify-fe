@@ -42,20 +42,20 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
         }
       });
 
-      onSoundPlayed(); // Indicate that the sound has been played
+      // Clean up Tone.js context on unmount
+      return () => {
+        synth.dispose();
+        //context.dispose();
+      };
     };
 
     // Call playSound when component mounts
     playSound();
 
     // Notify parent component that the sound has been played
-    // onSoundPlayed();
+     onSoundPlayed();
 
-    // Clean up Tone.js context on unmount
-    return () => {
-      synth.dispose();
-      //context.dispose();
-    };
+ 
   }, [scores, onSoundPlayed]);
 
   return <div>Playing sounds based on the text analysis scores.</div>;
