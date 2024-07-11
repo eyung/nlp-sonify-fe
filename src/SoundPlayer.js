@@ -10,6 +10,10 @@ const SoundPlayer = ({ scores }) => {
     const mapScoreToVolume = (score) => -30 + (score * 30); // Volume -60 dB to 0 dB
     const mapScoreToDuration = (score) => 0.5 + (score * 0.5); // Duration 0s to 1s
 
+    // Clean up previous Tone.js context
+    const context = new Tone.Context();
+    Tone.setContext(context);
+
     const synth = new Tone.Synth().toDestination();
 
     scores.forEach(({ word, complexity, sentiment, concreteness, emotionalIntensity }, index) => {
@@ -25,6 +29,7 @@ const SoundPlayer = ({ scores }) => {
     // Clean up Tone.js context on unmount
     return () => {
       synth.dispose();
+      context.dispose();
     };
   }, [scores]);
 
