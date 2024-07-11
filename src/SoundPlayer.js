@@ -37,6 +37,9 @@ const SoundPlayer = ({ scores }) => {
       }
     });
 
+    // Notify parent component that the sound has been played
+    onSoundPlayed();
+
     // Clean up Tone.js context on unmount
     return () => {
       synth.dispose();

@@ -31,6 +31,8 @@ const App = () => {
   const [sentimentScores, setSentimentScores] = useState(null);
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
+  const [soundPlayed, setSoundPlayed] = useState(false); // Track if the sound has been played
+
   
   // Set scores from API results
   const onSubmit = async (data) => {
@@ -52,19 +54,12 @@ const App = () => {
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
       
+      setSoundPlayed(false); // Reset the soundPlayed state
       reset();
 
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
-  };
-
-  // Map scores to colors
-  const gradientColors = {
-    complexity: complexityScores ? `rgba(${complexityScores * 255}, 0, 0, 0.5)` : 'transparent',
-    sentiment: sentimentScores ? `rgba(0, ${sentimentScores[0] * 255}, 0, 0.5)` : 'transparent',
-    concreteness: concretenessScores ? `rgba(0, 0, ${concretenessScores * 255}, 0.5)` : 'transparent',
-    emotionalIntensity: emotionalIntensityScores ? `rgba(${emotionalIntensityScores * 255}, ${emotionalIntensityScores * 255}, 0, 0.5)` : 'transparent',
   };
 
 // Ensure all score objects have the same keys
@@ -83,7 +78,7 @@ const App = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
-          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
+          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block"disabled={!errors.inputText}>Go!</button>
         </form>
 
         <div className="grid grid-cols-2 gap-4">
@@ -94,7 +89,7 @@ const App = () => {
         </div>
 
         {/* Add the SoundPlayer component and pass the scores to it */}
-        {isScoresValid && (
+        {isScoresValid && !soundPlayed && (
           <SoundPlayer 
             scores={Object.keys(complexityScores).map((word) => ({
               word,
@@ -103,6 +98,7 @@ const App = () => {
               concreteness: concretenessScores[word],
               emotionalIntensity: emotionalIntensityScores[word],
             }))}
+            onSoundPlayed={() => setSoundPlayed(true)} // Callback to set soundPlayed to true
           />
         )}
 
