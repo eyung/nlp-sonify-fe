@@ -33,6 +33,7 @@ const App = () => {
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [soundPlayed, setSoundPlayed] = useState(false); // Track if the sound has been played
 
+  const inputText = watch('inputText'); // Watch inputText value
   
   // Set scores from API results
   const onSubmit = async (data) => {
