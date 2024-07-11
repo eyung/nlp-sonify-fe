@@ -26,7 +26,7 @@ const App = () => {
 
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
   const [complexityScores, setComplexityScores] = useState(null);
   const [sentimentScores, setSentimentScores] = useState(null);
   const [concretenessScores, setConcretenessScores] = useState(null);
@@ -79,7 +79,7 @@ const App = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
-          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block" disabled={!errors.inputText}>Go!</button>
+          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block" disabled={!inputText}>Go!</button>
         </form>
 
         <div className="grid grid-cols-2 gap-4">
