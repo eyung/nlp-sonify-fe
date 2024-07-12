@@ -1,5 +1,5 @@
 // KanbanBoard.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DndContext, useDraggable, useDroppable, closestCenter } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
 import { KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -27,7 +27,7 @@ const DraggableItem = ({ id, content, color }) => {
   );
 };
 
-const DroppableColumn = ({ id, items, onDragEnd, color }) => {
+const DroppableColumn = ({ id, items, colorMapping, onDragEnd }) => {
   const { setNodeRef } = useDroppable({
     id: id,
   });
@@ -36,7 +36,7 @@ const DroppableColumn = ({ id, items, onDragEnd, color }) => {
     <div ref={setNodeRef} style={{ margin: '16px', padding: '8px', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>
       <SortableContext id={id} items={items} strategy={closestCenter}>
         {items.map((item) => (
-          <DraggableItem key={item.id} id={item.id} content={item.content} color={color} />
+          <DraggableItem key={item.id} id={item.id} content={item.content} color={colorMapping[item.id] || '#fff'} />
         ))}
       </SortableContext>
     </div>
@@ -46,6 +46,7 @@ const DroppableColumn = ({ id, items, onDragEnd, color }) => {
 const KanbanBoard = ({ scores, soundParameters }) => {
   const [scoreItems, setScoreItems] = useState(scores);
   const [soundItems, setSoundItems] = useState(soundParameters);
+  const [colorMapping, setColorMapping] = useState({});
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -53,6 +54,20 @@ const KanbanBoard = ({ scores, soundParameters }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  useEffect(() => {
+    // Update color mapping based on items' positions
+    const newColorMapping = {};
+    scoreItems.forEach((score, index) => {
+      const sound = soundItems[index];
+      if (sound) {
+        const color = `hsl(${(index / scoreItems.length) * 360}, 100%, 75%)`; // Generate a unique color
+        newColorMapping[score.id] = color;
+        newColorMapping[sound.id] = color;
+      }
+    });
+    setColorMapping(newColorMapping);
+  }, [scoreItems, soundItems]);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -71,8 +86,8 @@ const KanbanBoard = ({ scores, soundParameters }) => {
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <DroppableColumn id="scores" items={scoreItems} onDragEnd={handleDragEnd} />
-        <DroppableColumn id="soundParameters" items={soundItems} onDragEnd={handleDragEnd} />
+        <DroppableColumn id="scores" items={scoreItems} colorMapping={colorMapping} />
+        <DroppableColumn id="soundParameters" items={soundItems} colorMapping={colorMapping} />
       </div>
     </DndContext>
   );
