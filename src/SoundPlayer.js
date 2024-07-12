@@ -6,7 +6,8 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
 
     const playSound = async () => {
 
-      await Tone.start(); // Start the audio context
+      // Start the audio context
+      await Tone.start();
 
       // Function to map scores to sound parameters
       const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
@@ -35,11 +36,12 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
       };
 
       // Clean up previous Tone.js context
+      // Create a new Tone.js context and synth
       const context = new Tone.Context();
       Tone.setContext(context);
-
       const synth = new Tone.Synth().toDestination();
 
+      // Play sounds based on scores
       scores.forEach((scoreObj, index) => {
         const soundParameters = {};
 
@@ -64,10 +66,13 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
         }
       });
 
+      // Notify parent component that the sound has been played
+      onSoundPlayed();
+
       // Clean up Tone.js context on unmount
       return () => {
         synth.dispose();
-        //context.dispose();
+        context.dispose();
       };
     };
 
@@ -75,7 +80,7 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
     playSound();
 
     // Notify parent component that the sound has been played
-    onSoundPlayed();
+    //onSoundPlayed();
 
   }, [scores, onSoundPlayed]);
 
