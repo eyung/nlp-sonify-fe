@@ -110,7 +110,8 @@ const App = () => {
         </div>
 
         {/* Add the SoundPlayer component and pass the scores to it */}
-        {isScoresValid && !soundPlayed && (
+        {/* {isScoresValid && !soundPlayed && ( */}
+        {!soundPlayed && (
           <SoundPlayer 
             scores={Object.keys(complexityScores).map((word) => ({
               word,
