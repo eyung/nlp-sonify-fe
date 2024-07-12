@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import SoundPlayer from './SoundPlayer';
+import KanbanBoard from './KanbanBoard';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
@@ -66,13 +67,27 @@ const App = () => {
     }
   };
 
+  const scores = [
+    { id: 'complexity', content: 'Complexity' },
+    { id: 'sentiment', content: 'Sentiment' },
+    { id: 'concreteness', content: 'Concreteness' },
+    { id: 'emotionalIntensity', content: 'Emotional Intensity' },
+  ];
+
+  const soundParameters = [
+    { id: 'frequency', content: 'Frequency' },
+    { id: 'volume', content: 'Volume' },
+    { id: 'duration', content: 'Duration' },
+    { id: 'waveform', content: 'Waveform' },
+  ];
+
 // Ensure all score objects have the same keys
-  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
-                        sentimentScores && Object.keys(sentimentScores).length > 0 &&
-                        concretenessScores && Object.keys(concretenessScores).length > 0 &&
-                        emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
-                        JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
-                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
+//  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
+//                        sentimentScores && Object.keys(sentimentScores).length > 0 &&
+//                        concretenessScores && Object.keys(concretenessScores).length > 0 &&
+//                        emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
+//                        JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
+//                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
 
 
   return (
@@ -84,6 +99,8 @@ const App = () => {
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
+
+        <KanbanBoard scores={scores} soundParameters={soundParameters} />
 
         <div className="grid grid-cols-2 gap-4">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
