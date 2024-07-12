@@ -100,7 +100,7 @@ const App = () => {
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
-        <KanbanBoard scores={scores} soundParameters={soundParameters} />
+        
 
         <div className="grid grid-cols-2 gap-4">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
