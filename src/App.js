@@ -82,12 +82,12 @@ const App = () => {
   ];
 
 // Ensure all score objects have the same keys
-//  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
-//                        sentimentScores && Object.keys(sentimentScores).length > 0 &&
-//                        concretenessScores && Object.keys(concretenessScores).length > 0 &&
-//                        emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
-//                        JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
-//                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
+  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
+                        sentimentScores && Object.keys(sentimentScores).length > 0 &&
+                        concretenessScores && Object.keys(concretenessScores).length > 0 &&
+                        emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
+                       JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
+                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
 
 
   return (
@@ -100,7 +100,7 @@ const App = () => {
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
-        
+        <KanbanBoard scores={scores} soundParameters={soundParameters} />
 
         <div className="grid grid-cols-2 gap-4">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
@@ -110,8 +110,7 @@ const App = () => {
         </div>
 
         {/* Add the SoundPlayer component and pass the scores to it */}
-        {/* {isScoresValid && !soundPlayed && ( */}
-        {!soundPlayed && (
+        {isScoresValid && !soundPlayed && (
           <SoundPlayer 
             scores={Object.keys(complexityScores).map((word) => ({
               word,
