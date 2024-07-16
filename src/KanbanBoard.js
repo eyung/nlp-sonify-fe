@@ -40,7 +40,7 @@ const DroppableColumn = ({ id, items, colorMapping, onDragEnd }) => {
   );
 };
 
-const KanbanBoard = ({ scores, soundParameters }) => {
+const KanbanBoard = ({ scores, soundParameters, onMappingsUpdated }) => {
   const [scoreItems, setScoreItems] = useState(scores);
   const [soundItems, setSoundItems] = useState(soundParameters);
   const [colorMapping, setColorMapping] = useState({});
@@ -64,7 +64,10 @@ const KanbanBoard = ({ scores, soundParameters }) => {
       }
     });
     setColorMapping(newColorMapping);
-  }, [scoreItems, soundItems]);
+
+    // Call the callback function to pass mappings back to App.js
+    this.props.onMappingsUpdated(updatedMappings);
+  }, [scoreItems, soundItems, onMappingsUpdated]);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;

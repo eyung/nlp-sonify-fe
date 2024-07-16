@@ -34,9 +34,21 @@ const App = () => {
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [soundPlayed, setSoundPlayed] = useState(false); // Track if the sound has been played
+  const [mappings, setMappings] = useState({ scoreItems: [], soundItems: [] });
 
-  //const inputText = watch('inputText'); // Watch inputText value
+  // Method to update mappings based on user interaction
+  const handleMappingsUpdated = (newMappings) => {
+    setMappings(newMappings);
+  };
+
   
+  
+  // Pass this method to the KanbanBoard component
+  //<KanbanBoard onMappingsUpdated={handleMappingsUpdated} />;
+
+  // Pass this method to the KanbanBoard component
+  <KanbanBoard onMappingsUpdated={this.handleMappingsUpdated} />
+
   // Set scores from API results
   const onSubmit = async (data) => {
     try {
@@ -81,6 +93,56 @@ const App = () => {
     { id: 'waveform', content: 'Waveform' },
   ];
 
+  const mapScoreToFrequency = (score) => {
+    // Example: Map a score range [0, 1] to a frequency range [200, 800]
+    return 200 + (score * 600);
+  };
+  
+  const mapScoreToVolume = (score) => {
+    // Example: Map a score range [0, 1] to a volume range [-12, 0] dB
+    return -12 + (score * 12);
+  };
+  
+  const mapScoreToDuration = (score) => {
+    // Example: Map a score range [0, 1] to a duration range [0.1, 1] seconds
+    return 0.1 + (score * 0.9);
+  };
+  
+  const mapScoreToWaveform = (score) => {
+    // Example: Choose waveform based on score
+    const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
+    const index = Math.floor(score * waveforms.length) % waveforms.length;
+    return waveforms[index];
+  };
+
+  // Step 1: Initialize mappings in the component's state
+  this.state = {
+    mappings: {
+      complexity: {
+        parameter: 'frequency',
+        mapFunction: mapScoreToFrequency,
+      },
+      sentiment: {
+        parameter: 'volume',
+        mapFunction: mapScoreToVolume,
+      },
+      concreteness: {
+        parameter: 'duration',
+        mapFunction: mapScoreToDuration,
+      },
+      emotionalIntensity: {
+        parameter: 'waveform',
+        mapFunction: mapScoreToWaveform,
+      },
+    },
+    // Other state variables...
+  };
+
+  // Step 2: Method to update mappings based on user interaction
+  handleMappingsUpdated = (newMappings) => {
+    this.setState({ mappings: newMappings });
+  };
+  
 // Ensure all score objects have the same keys
   const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
                         sentimentScores && Object.keys(sentimentScores).length > 0 &&
@@ -100,26 +162,28 @@ const App = () => {
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
-        <KanbanBoard scores={scores} soundParameters={soundParameters} />
+        <KanbanBoard
+          scores={scores}
+          soundParameters={soundParameters}
+          onMappingsUpdated={handleMappingsUpdated}
+        />
 
         <div className="grid grid-cols-2 gap-4">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
           <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
           <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
-        </div>
+        </div> 
 
         {/* Add the SoundPlayer component and pass the scores to it */}
         {isScoresValid && !soundPlayed && (
           <SoundPlayer 
-            scores={Object.keys(complexityScores).map((word) => ({
-              word,
-              complexity: complexityScores[word],
-              sentiment: sentimentScores[word],
-              concreteness: concretenessScores[word],
-              emotionalIntensity: emotionalIntensityScores[word],
+            scores={this.state.mappings.scoreItems.map((item) => ({
+              word: item.word,
+              // Dynamically assign score values to sound parameters based on updated mappings
+              // Adjust this part based on the updated mappings
             }))}
-            onSoundPlayed={() => setSoundPlayed(false)} // Callback to set soundPlayed
+            onSoundPlayed={() => this.setSoundPlayed(false)} // Callback to set soundPlayed
           />
         )}
 
