@@ -1,3 +1,5 @@
+import React from 'react';
+
 const ScoreMapper = ({ scores, mappings, children }) => {
     const mappedScores = scores.map(score => {
       // Apply mappings to each score
@@ -14,3 +16,5 @@ const ScoreMapper = ({ scores, mappings, children }) => {
   
     return children(mappedScores);
   };
+
+  export default ScoreMapper;
