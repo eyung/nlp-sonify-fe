@@ -40,7 +40,7 @@ const Draggable = ({ id, children }) => {
   );
 };
 
-const Droppable = ({ id, children, onDrop }) => {
+const Droppable = ({ id, children }) => {
   const { isOver, setNodeRef } = useDroppable({
     id,
   });
@@ -50,7 +50,7 @@ const Droppable = ({ id, children, onDrop }) => {
   };
 
   return (
-    <div ref={setNodeRef} style={style} onDrop={onDrop}>
+    <div ref={setNodeRef} style={style}>
       {children}
     </div>
   );
