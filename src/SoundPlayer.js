@@ -1,38 +1,12 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 
-const SoundPlayer = ({ scores, onSoundPlayed }) => {
+const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
   useEffect(() => {
-
     const playSound = async () => {
-
       await Tone.start(); // Start the audio context
 
-      // Function to map scores to sound parameters
       const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
-
-      // Mapping configuration
-      const mappings = {
-        complexity: {
-          mapFunction: (score) => 440 + (score * 220), // Frequency
-          parameter: 'frequency'
-        },
-        sentiment: {
-          mapFunction: (score) => 0.5 + (score * 0.5), // Duration
-          parameter: 'duration'
-        },
-        concreteness: {
-          mapFunction: (score) => {
-            const index = Math.floor((score + 1) * waveforms.length / 2);
-            return waveforms[Math.max(0, Math.min(waveforms.length - 1, index))];
-          }, // Waveform
-          parameter: 'waveform'
-        },
-        emotionalIntensity: {
-          mapFunction: (score) => -30 + (score * 30), // Volume
-          parameter: 'volume'
-        }
-      };
 
       // Clean up previous Tone.js context
       const context = new Tone.Context();
@@ -40,18 +14,8 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
 
       const synth = new Tone.Synth().toDestination();
 
-      scores.forEach((scoreObj, index) => {
-        const soundParameters = {};
-
-        // Map each score to a sound parameter
-        for (const [scoreName, scoreValue] of Object.entries(scoreObj)) {
-          if (mappings[scoreName]) {
-            const { mapFunction, parameter } = mappings[scoreName];
-            soundParameters[parameter] = mapFunction(scoreValue);
-          }
-        }
-
-        const { frequency, duration, waveform, volume } = soundParameters;
+      mappedScores.forEach((scoreObj, index) => {
+        const { frequency, duration, waveform, volume } = scoreObj;
 
         console.log(`Playing sound for word: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Waveform: ${waveform}`);
@@ -67,7 +31,6 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
       // Clean up Tone.js context on unmount
       return () => {
         synth.dispose();
-        //context.dispose();
       };
     };
 
@@ -77,7 +40,7 @@ const SoundPlayer = ({ scores, onSoundPlayed }) => {
     // Notify parent component that the sound has been played
     onSoundPlayed();
 
-  }, [scores, onSoundPlayed]);
+  }, [mappedScores, onSoundPlayed]);
 
   return <div>Playing sounds based on the text analysis scores.</div>;
 };

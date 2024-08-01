@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import SoundPlayer from './SoundPlayer';
+import ScoreMapper from './ScoreMapper';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
@@ -74,6 +75,28 @@ const App = () => {
                         JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
                         JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
 
+  const mappings = {
+    complexity: {
+      mapFunction: (score) => 440 + (score * 220), // Frequency
+      parameter: 'frequency'
+    },
+    sentiment: {
+      mapFunction: (score) => 0.5 + (score * 0.5), // Duration
+      parameter: 'duration'
+    },
+    concreteness: {
+      mapFunction: (score) => {
+        const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
+        const index = Math.floor((score + 1) * waveforms.length / 2);
+        return waveforms[Math.max(0, Math.min(waveforms.length - 1, index))];
+      }, // Waveform
+      parameter: 'waveform'
+    },
+    emotionalIntensity: {
+      mapFunction: (score) => -30 + (score * 30), // Volume
+      parameter: 'volume'
+    }
+  };
 
   return (
     <div className="flex justify-center">
@@ -92,9 +115,8 @@ const App = () => {
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
         </div>
 
-        {/* Add the SoundPlayer component and pass the scores to it */}
         {isScoresValid && !soundPlayed && (
-          <SoundPlayer 
+          <ScoreMapper 
             scores={Object.keys(complexityScores).map((word) => ({
               word,
               complexity: complexityScores[word],
@@ -102,8 +124,15 @@ const App = () => {
               concreteness: concretenessScores[word],
               emotionalIntensity: emotionalIntensityScores[word],
             }))}
-            onSoundPlayed={() => setSoundPlayed(false)} // Callback to set soundPlayed
-          />
+            mappings={mappings}
+          >
+            {mappedScores => (
+              <SoundPlayer 
+                mappedScores={mappedScores}
+                onSoundPlayed={() => setSoundPlayed(false)} // Callback to set soundPlayed
+              />
+            )}
+          </ScoreMapper>
         )}
 
       </div>
