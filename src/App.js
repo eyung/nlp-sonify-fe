@@ -3,6 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 
@@ -23,85 +24,97 @@ const ScoreCard = ({ title, scores, tooltiptext }) => (
   </div>
 );
 
-const App = () => {
+const Draggable = ({ id, children }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+  });
 
+  const style = {
+    transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      {children}
+    </div>
+  );
+};
+
+const Droppable = ({ id, children, onDrop }) => {
+  const { isOver, setNodeRef } = useDroppable({
+    id,
+  });
+
+  const style = {
+    backgroundColor: isOver ? 'lightblue' : undefined,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} onDrop={onDrop}>
+      {children}
+    </div>
+  );
+};
+
+const App = () => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  //const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
   const [complexityScores, setComplexityScores] = useState(null);
   const [sentimentScores, setSentimentScores] = useState(null);
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
-  const [soundPlayed, setSoundPlayed] = useState(false); // Track if the sound has been played
+  const [soundPlayed, setSoundPlayed] = useState(false);
+  const [mappings, setMappings] = useState({
+    complexity: null,
+    sentiment: null,
+    concreteness: null,
+    emotionalIntensity: null,
+  });
 
-  //const inputText = watch('inputText'); // Watch inputText value
-  
-  // Set scores from API results
   const onSubmit = async (data) => {
     try {
       const endpoints = [
         webURL + '/api/v2/complexity-scores',
-        webURL + '/api/v2/sentiment-scores', 
-        webURL + '/api/v2/concreteness-scores', 
+        webURL + '/api/v2/sentiment-scores',
+        webURL + '/api/v2/concreteness-scores',
         webURL + '/api/v2/emotional-intensity-scores'
       ];
 
       const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
       const responses = await Promise.all(promises);
- 
+
       const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
-      
+
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
       setConcretenessScores(concreteness);
       setEmotionalIntensityScores(emotionalIntensity);
-      
-      //setSoundPlayed(false); // Reset the soundPlayed state
-      setSoundPlayed(true); // Trigger sound play
-      
-      reset();
 
+      setSoundPlayed(true);
+      reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
     }
   };
 
-// Ensure all score objects have the same keys
-  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
-                        sentimentScores && Object.keys(sentimentScores).length > 0 &&
-                        concretenessScores && Object.keys(concretenessScores).length > 0 &&
-                        emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
-                        JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
-                        JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
-
-  const mappings = {
-    complexity: {
-      mapFunction: (score) => 440 + (score * 220), // Frequency
-      parameter: 'frequency'
-    },
-    sentiment: {
-      mapFunction: (score) => 0.5 + (score * 0.5), // Duration
-      parameter: 'duration'
-    },
-    concreteness: {
-      mapFunction: (score) => {
-        const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
-        const index = Math.floor((score + 1) * waveforms.length / 2);
-        return waveforms[Math.max(0, Math.min(waveforms.length - 1, index))];
-      }, // Waveform
-      parameter: 'waveform'
-    },
-    emotionalIntensity: {
-      mapFunction: (score) => -30 + (score * 30), // Volume
-      parameter: 'volume'
-    }
+  const handleDrop = (textParam, audioParam) => {
+    setMappings(prevMappings => ({
+      ...prevMappings,
+      [textParam]: audioParam,
+    }));
   };
+
+  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
+    sentimentScores && Object.keys(sentimentScores).length > 0 &&
+    concretenessScores && Object.keys(concretenessScores).length > 0 &&
+    emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
+    JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
+    JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
 
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
-
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
@@ -109,14 +122,41 @@ const App = () => {
         </form>
 
         <div className="grid grid-cols-2 gap-4">
-          <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"}/>
-          <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"}/>
-          <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"}/>
-          <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
+          <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
+          <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
+          <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
+          <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
 
+        <DndContext onDragEnd={({ active, over }) => {
+          if (over) {
+            handleDrop(over.id, active.id);
+          }
+        }}>
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            {['complexity', 'sentiment', 'concreteness', 'emotionalIntensity'].map(param => (
+              <Droppable key={param} id={param}>
+                <div className="p-4 border rounded">
+                  <h3 className="text-lg font-semibold">{param}</h3>
+                  {mappings[param] && <p>Mapped to: {mappings[param]}</p>}
+                </div>
+              </Droppable>
+            ))}
+          </div>
+
+          <div className="flex justify-around mt-4">
+            {['frequency', 'duration', 'waveform', 'volume'].map(param => (
+              <Draggable key={param} id={param}>
+                <div className="p-4 bg-gray-200 rounded">
+                  <p>{param}</p>
+                </div>
+              </Draggable>
+            ))}
+          </div>
+        </DndContext>
+
         {isScoresValid && !soundPlayed && (
-          <ScoreMapper 
+          <ScoreMapper
             scores={Object.keys(complexityScores).map((word) => ({
               word,
               complexity: complexityScores[word],
@@ -127,19 +167,16 @@ const App = () => {
             mappings={mappings}
           >
             {mappedScores => (
-              <SoundPlayer 
-                mappedScores={Array.isArray(mappedScores) ? mappedScores : []} // Ensure mappedScores is an array
-                onSoundPlayed={() => setSoundPlayed(false)} // Callback to set soundPlayed
+              <SoundPlayer
+                mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
+                onSoundPlayed={() => setSoundPlayed(false)}
               />
             )}
           </ScoreMapper>
         )}
-
       </div>
-      
     </div>
   );
-
 };
 
 export default App;
