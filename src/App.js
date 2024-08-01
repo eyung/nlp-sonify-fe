@@ -99,9 +99,19 @@ const App = () => {
   };
 
   const handleDrop = (textParam, audioParam) => {
+    const mappingFunctions = {
+      frequency: (score) => 440 + (score * 220),
+      duration: (score) => 0.5 + (score * 0.5),
+      waveform: (score) => ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(score * 4)],
+      volume: (score) => -30 + (score * 30)
+    };
+  
     setMappings(prevMappings => ({
       ...prevMappings,
-      [textParam]: audioParam,
+      [textParam]: {
+        parameter: audioParam,
+        mapFunction: mappingFunctions[audioParam] || ((value) => value) // Default to identity function if no mapping function is found
+      }
     }));
   };
 
