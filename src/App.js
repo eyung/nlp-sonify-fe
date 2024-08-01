@@ -115,25 +115,7 @@ const App = () => {
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"}/>
         </div>
 
-        {isScoresValid && !soundPlayed && (
-          <ScoreMapper 
-            scores={Object.keys(complexityScores).map((word) => ({
-              word,
-              complexity: complexityScores[word],
-              sentiment: sentimentScores[word],
-              concreteness: concretenessScores[word],
-              emotionalIntensity: emotionalIntensityScores[word],
-            }))}
-            mappings={mappings}
-          >
-            {mappedScores => (
-              <SoundPlayer 
-                mappedScores={mappedScores}
-                onSoundPlayed={() => setSoundPlayed(false)} // Callback to set soundPlayed
-              />
-            )}
-          </ScoreMapper>
-        )}
+        
 
       </div>
       
