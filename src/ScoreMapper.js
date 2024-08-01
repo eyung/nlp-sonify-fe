@@ -2,11 +2,10 @@ import React from 'react';
 
 const ScoreMapper = ({ scores, mappings, children }) => {
     const mappedScores = scores.map(score => {
-      // Apply mappings to each score
       const mappedScore = {};
       for (const [key, value] of Object.entries(score)) {
         if (mappings[key]) {
-          mappedScore[key] = mappings[key].mapFunction(value);
+          mappedScore[mappings[key].parameter] = mappings[key].mapFunction(value);
         } else {
           mappedScore[key] = value;
         }
@@ -16,5 +15,4 @@ const ScoreMapper = ({ scores, mappings, children }) => {
   
     return children(mappedScores);
   };
-
   export default ScoreMapper;
