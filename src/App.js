@@ -36,7 +36,7 @@ const Draggable = ({ id, children }) => {
     transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
     position: 'absolute',
     right: '0',
-    backgroundColor: isDragging ? 'lightblue' : 'transparent', // Change background color when dragging
+    backgroundColor: isDragging ? 'lightgreen' : 'transparent', // Change background color when dragging
   };
 
   return (
@@ -53,9 +53,6 @@ const Droppable = ({ id, children }) => {
 
   const style = {
     backgroundColor: isOver ? 'lightblue' : undefined,
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'flex-end',
     alignItems: 'center',
     height: '100px', // Adjust height as needed
     border: '1px solid #ccc',
