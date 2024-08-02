@@ -159,7 +159,7 @@ const App = () => {
           </div>
 
           <div className="flex justify-around mt-4">
-            {['frequency', 'duration', 'waveform', 'volume'].map(param => (
+            {['frequency', 'duration', 'detune', 'volume'].map(param => (
               <Draggable key={param} id={param}>
                 <div className="p-4 bg-gray-200 rounded">
                   <p>{param}</p>
