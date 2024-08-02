@@ -34,6 +34,8 @@ const Draggable = ({ id, children }) => {
 
   const style = {
     transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
+    position: 'absolute',
+    right: '0',
   };
 
   return (
@@ -50,6 +52,14 @@ const Droppable = ({ id, children }) => {
 
   const style = {
     backgroundColor: isOver ? 'lightblue' : undefined,
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: '100px', // Adjust height as needed
+    border: '1px solid #ccc',
+    padding: '10px',
+    backgroundColor: isDragging ? 'lightblue' : 'transparent', // Change background color when dragging
   };
 
   return (
@@ -135,13 +145,6 @@ const App = () => {
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
-        <div className="grid grid-cols-2 gap-4">
-          <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
-        </div>
-
         <DndContext onDragEnd={({ active, over }) => {
           if (over) {
             handleDrop(over.id, active.id);
@@ -191,6 +194,14 @@ const App = () => {
             }}
           </ScoreMapper>
         )}
+
+      <div className="grid grid-cols-2 gap-4">
+        <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
+        <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
+        <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
+        <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
+      </div>
+
       </div>
     </div>
   );
