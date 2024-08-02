@@ -176,12 +176,15 @@ const App = () => {
             }))}
             mappings={mappings}
           >
-            {mappedScores => (
-              <SoundPlayer
-                mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
-                onSoundPlayed={() => setSoundPlayed(false)}
-              />
-            )}
+            {(mappedScores) => {
+              console.log('Mapped Scores:', mappedScores);
+              return (
+                <SoundPlayer
+                  mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
+                  onSoundPlayed={() => setSoundPlayed(false)}
+                />
+              );
+            }}
           </ScoreMapper>
         )}
       </div>
