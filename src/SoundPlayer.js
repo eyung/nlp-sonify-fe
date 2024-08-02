@@ -20,13 +20,13 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         console.log(`Playing sound for word: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
-        if (waveforms.includes(waveform)) {
-          synth.oscillator.type = waveform; // Set waveform
+        //if (waveforms.includes(waveform)) {
+          //synth.oscillator.type = waveform; // Set waveform
           synth.oscillator.detune.value = detune; // Set the detune value
         synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
-        } else {
-          console.error(`Invalid waveform: ${waveform}`);
-        }
+        //} else {
+          //console.error(`Invalid waveform: ${waveform}`);
+        //}
       });
 
       // Clean up Tone.js context on unmount
