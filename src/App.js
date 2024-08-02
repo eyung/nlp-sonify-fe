@@ -8,6 +8,8 @@ import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => (
+  console.log('Rendering ScoreCard with scores:', scores);
+  return (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
     <div className="absolute top-0 right-0 p-1">
       <div className="tooltip">
