@@ -15,14 +15,15 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       const synth = new Tone.Synth().toDestination();
 
       mappedScores.forEach((scoreObj, index) => {
-        const { frequency, duration, waveform, volume } = scoreObj;
+        const { frequency, duration, detune, volume } = scoreObj;
 
         console.log(`Playing sound for word: ${scoreObj.word}`);
-        console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Waveform: ${waveform}`);
+        console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
         if (waveforms.includes(waveform)) {
-          synth.oscillator.type = waveform;
-          synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
+          synth.oscillator.type = waveform; // Set waveform
+          synth.oscillator.detune.value = detune; // Set the detune value
+        synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
         } else {
           console.error(`Invalid waveform: ${waveform}`);
         }
