@@ -151,7 +151,7 @@ const App = () => {
               <Droppable key={param} id={param}>
                 <div className="p-4 border rounded">
                   <h3 className="text-lg font-semibold">{param}</h3>
-                  {mappings[param] && <p>Mapped to: {mappings[param]}</p>}
+                  {mappings[param] && <p>Mapped to: {mappings[param].parameter}</p>}
                 </div>
               </Droppable>
             ))}
