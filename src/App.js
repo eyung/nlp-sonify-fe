@@ -28,7 +28,7 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
 };
 
 const Draggable = ({ id, children }) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
   });
 
