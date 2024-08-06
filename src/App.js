@@ -83,8 +83,9 @@ const App = () => {
     try {
       const response = await axios.post(`${webURL}/api/v1/scores`, { text: data.inputText });
       //const combinedScores = response.data;
-      const combinedScores = response.data.choices[0].message.content;
+      //const combinedScores = response.data.choices[0].message.content;
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
+      const combinedScores = JSON.parse(response.data.choices[0].message.content);
 
       const complexity = {};
       const sentiment = {};
