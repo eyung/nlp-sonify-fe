@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
+import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 
@@ -28,8 +29,15 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
 };
 
 const Draggable = ({ id, children }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
+    onDragEnd: ({ delta }) => {
+      setPosition((prevPosition) => ({
+        x: prevPosition.x + delta.x,
+        y: prevPosition.y + delta.y,
+      }));
+    },
   });
 
   const style = {
