@@ -81,17 +81,20 @@ const App = () => {
 
   const onSubmit = async (data) => {
     try {
-      const endpoints = [
-        webURL + '/api/v2/complexity-scores',
-        webURL + '/api/v2/sentiment-scores',
-        webURL + '/api/v2/concreteness-scores',
-        webURL + '/api/v2/emotional-intensity-scores'
-      ];
+      const response = await axios.post(`${webURL}/api/v1/scores`, { text: data.inputText });
+      const combinedScores = response.data;
 
-      const promises = endpoints.map(endpoint => axios.post(endpoint, { text: data.inputText }));
-      const responses = await Promise.all(promises);
+      const complexity = {};
+      const sentiment = {};
+      const concreteness = {};
+      const emotionalIntensity = {};
 
-      const [complexity, sentiment, concreteness, emotionalIntensity] = responses.map(response => JSON.parse(response.data.choices[0].message.content));
+      Object.entries(combinedScores).forEach(([word, scores]) => {
+        complexity[word] = scores['Complexity Score'];
+        sentiment[word] = scores['Sentiment Analysis Score'];
+        concreteness[word] = scores['Concreteness Score'];
+        emotionalIntensity[word] = scores['Emotional-Intensity Score'];
+      });
 
       setComplexityScores(complexity);
       setSentimentScores(sentiment);
