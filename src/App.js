@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
+import { DndContext, useDroppable } from '@dnd-kit/core';
 import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
@@ -24,30 +24,6 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
           <p key={word} className="mt-2 text-sm text-gray-600">{`${word}: ${score}`}</p>
         ))}
       </div>
-    </div>
-  );
-};
-
-const Draggable = ({ id, children }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-    id,
-    onDragEnd: ({ delta }) => {
-      setPosition((prevPosition) => ({
-        x: prevPosition.x + delta.x,
-        y: prevPosition.y + delta.y,
-      }));
-    },
-  });
-
-  const style = {
-    transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
-    backgroundColor: isDragging ? 'lightgreen' : 'transparent', // Change background color when dragging
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      {children}
     </div>
   );
 };
