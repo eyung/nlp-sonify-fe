@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import DndContext from '@dnd-kit/core';
+import Droppable from './Droppable';
 import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
