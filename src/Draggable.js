@@ -5,7 +5,7 @@ const Draggable = ({ id, children }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
-    onDragEnd: ({ delta }) => {
+    onDragMove: ({ delta }) => {
       setPosition((prevPosition) => ({
         x: prevPosition.x + delta.x,
         y: prevPosition.y + delta.y,
