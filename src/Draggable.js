@@ -11,7 +11,7 @@ const Draggable = ({ id, children }) => {
     backgroundColor: isDragging ? 'lightgreen' : 'transparent', // Change background color when dragging
   };
 
-  console.log('Render Draggable:', { transform, isDragging });
+  //console.log('Render Draggable:', { transform, isDragging });
 
   return (
     <div ref={setNodeRef} style={style} {...listeners} {...attributes}>

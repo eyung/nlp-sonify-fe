@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { DndContext, useDroppable } from '@dnd-kit/core';
+import DndContext from '@dnd-kit/core';
 import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
@@ -24,25 +24,6 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
           <p key={word} className="mt-2 text-sm text-gray-600">{`${word}: ${score}`}</p>
         ))}
       </div>
-    </div>
-  );
-};
-
-const Droppable = ({ id, children }) => {
-  const { isOver, setNodeRef } = useDroppable({
-    id,
-  });
-
-  const style = {
-    backgroundColor: isOver ? 'lightblue' : undefined,
-    alignItems: 'center',
-    height: '100px', // Adjust height as needed
-    padding: '10px',
-  };
-
-  return (
-    <div ref={setNodeRef} style={style}>
-      {children}
     </div>
   );
 };
