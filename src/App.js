@@ -119,6 +119,7 @@ const App = () => {
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
+      <div className={`App ${isLoading ? 'gradient-animation' : ''}`}>
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
@@ -185,6 +186,7 @@ const App = () => {
         <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
       </div>
 
+      </div>
       </div>
     </div>
   );
