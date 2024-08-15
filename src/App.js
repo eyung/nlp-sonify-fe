@@ -88,13 +88,27 @@ const App = () => {
       volume: (score) => -30 + (score * 30)
     };
   
-    setMappings(prevMappings => ({
-      ...prevMappings,
-      [textParam]: {
-        parameter: audioParam,
-        mapFunction: mappingFunctions[audioParam] || ((value) => value) // Default to identity function if no mapping function is found
+    setMappings(prevMappings => {
+      const newMappings = { ...prevMappings };
+  
+      // Find if the audioParam is already mapped to another textParam
+      const existingTextParam = Object.keys(newMappings).find(key => newMappings[key]?.parameter === audioParam);
+  
+      if (existingTextParam) {
+        // Swap the mappings
+        const temp = newMappings[textParam];
+        newMappings[textParam] = newMappings[existingTextParam];
+        newMappings[existingTextParam] = temp;
+      } else {
+        // Set the new mapping
+        newMappings[textParam] = {
+          parameter: audioParam,
+          mapFunction: mappingFunctions[audioParam] || ((value) => value) // Default to identity function if no mapping function is found
+        };
       }
-    }));
+  
+      return newMappings;
+    });
   };
 
   return (
