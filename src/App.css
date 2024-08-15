@@ -72,27 +72,66 @@
   opacity: 1;
 }
 
+/* Define CSS variables for gradient stops */
+:root {
+  --gradient-start: #ff9a9e;
+  --gradient-middle: #fad0c4;
+  --gradient-end: #fbc2eb;
+}
+
+/* Enable smooth transitions for the variables */
+@property --gradient-start {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #ff9a9e;
+}
+
+@property --gradient-middle {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #fad0c4;
+}
+
+@property --gradient-end {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #fbc2eb;
+}
+
 @keyframes gradientBackground {
   0% {
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+    --gradient-start: #ff9a9e;
+    --gradient-middle: #fad0c4;
+    --gradient-end: #fbc2eb;
   }
   20% {
-    background: linear-gradient(45deg, #fad0c4, #fbc2eb);
+    --gradient-start: #fad0c4;
+    --gradient-middle: #fbc2eb;
+    --gradient-end: #a18cd1;
   }
   40% {
-    background: linear-gradient(45deg, #fbc2eb, #a18cd1);
+    --gradient-start: #fbc2eb;
+    --gradient-middle: #a18cd1;
+    --gradient-end: #ff9a9e;
   }
   60% {
-    background: linear-gradient(45deg, #a18cd1, #ff9a9e);
+    --gradient-start: #a18cd1;
+    --gradient-middle: #ff9a9e;
+    --gradient-end: #fad0c4;
   }
   80% {
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+    --gradient-start: #ff9a9e;
+    --gradient-middle: #fad0c4;
+    --gradient-end: #fbc2eb;
   }
   100% {
-    background: linear-gradient(45deg, #fad0c4, #fbc2eb);
+    --gradient-start: #fad0c4;
+    --gradient-middle: #fbc2eb;
+    --gradient-end: #a18cd1;
   }
 }
 
 .gradient-animation {
   animation: gradientBackground 20s infinite linear;
+  background: linear-gradient(45deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
 }
