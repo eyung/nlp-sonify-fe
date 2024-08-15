@@ -44,7 +44,6 @@ const App = () => {
     concreteness: null,
     emotionalIntensity: null,
   });
-  const [positions, setPositions] = useState({});
 
   const onSubmit = async (data) => {
     try {
@@ -96,22 +95,6 @@ const App = () => {
     }));
   };
 
-  const handleDragEnd = ({ active, over }) => {
-    if (over) {
-      const newPosition = {
-        x: over.rect.left - active.rect.left,
-        y: over.rect.top - active.rect.top,
-      };
-  
-      setPositions(prevPositions => ({
-        ...prevPositions,
-        [active.id]: newPosition,
-      }));
-  
-      handleDrop(over.id, active.id);
-    }
-  };
-
   const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
     sentimentScores && Object.keys(sentimentScores).length > 0 &&
     concretenessScores && Object.keys(concretenessScores).length > 0 &&
@@ -128,21 +111,32 @@ const App = () => {
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
-        <DndContext onDragEnd={handleDragEnd}>
+        <DndContext onDragEnd={({ active, over }) => {
+          if (over) {
+            handleDrop(over.id, active.id);
+          }
+        }}>
           <div className="grid grid-cols-2 gap-4 mt-4">
             {['complexity', 'sentiment', 'concreteness', 'emotionalIntensity'].map(param => (
               <Droppable key={param} id={param}>
-                <Draggable id={param} position={positions[param]}>
-                  <div className="p-4 bg-gray-200 rounded">
-                    <p>{param}</p>
-                  </div>
-                </Draggable>
+                <div className="p-4 border rounded">
+                  <h3 className="text-lg font-semibold">{param}</h3>
+                  {mappings[param] && <p>Mapped to: {mappings[param].parameter}</p>}
+                </div>
               </Droppable>
             ))}
           </div>
-        </DndContext>
 
-        
+          <div className="flex justify-around mt-4">
+            {['frequency', 'duration', 'detune', 'volume'].map(param => (
+              <Draggable key={param} id={param}>
+                <div className="p-4 bg-gray-200 rounded">
+                  <p>{param}</p>
+                </div>
+              </Draggable>
+            ))}
+          </div>
+        </DndContext>
 
         {isScoresValid && !soundPlayed && (
           <ScoreMapper
