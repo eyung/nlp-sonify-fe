@@ -44,7 +44,7 @@ const App = () => {
     concreteness: null,
     emotionalIntensity: null,
   });
-  const [isLoading, setIsLoading] = useState(false); // state for loading
+  //const [isLoading, setIsLoading] = useState(false); // state for loading
 
   const onSubmit = async (data) => {
 
