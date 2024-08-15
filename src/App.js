@@ -117,7 +117,6 @@ const App = () => {
   };
 
   return (
-    <div className={`App ${isLoading ? 'gradient-animation' : ''}`}>
     <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
       
@@ -188,7 +187,6 @@ const App = () => {
       </div>
 
       </div>
-    </div>
     </div>
   );
 };
