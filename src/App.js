@@ -98,10 +98,16 @@ const App = () => {
 
   const handleDragEnd = ({ active, over }) => {
     if (over) {
+      const newPosition = {
+        x: over.rect.left - active.rect.left,
+        y: over.rect.top - active.rect.top,
+      };
+  
       setPositions(prevPositions => ({
         ...prevPositions,
-        [active.id]: { x: over.rect.left, y: over.rect.top }
+        [active.id]: newPosition,
       }));
+  
       handleDrop(over.id, active.id);
     }
   };
@@ -126,24 +132,17 @@ const App = () => {
           <div className="grid grid-cols-2 gap-4 mt-4">
             {['complexity', 'sentiment', 'concreteness', 'emotionalIntensity'].map(param => (
               <Droppable key={param} id={param}>
-                <div className="p-4 border rounded">
-                  <h3 className="text-lg font-semibold">{param}</h3>
-                  {mappings[param] && <p>Mapped to: {mappings[param].parameter}</p>}
-                </div>
+                <Draggable id={param} position={positions[param]}>
+                  <div className="p-4 bg-gray-200 rounded">
+                    <p>{param}</p>
+                  </div>
+                </Draggable>
               </Droppable>
             ))}
           </div>
-
-          <div className="flex justify-around mt-4">
-            {['frequency', 'duration', 'detune', 'volume'].map(param => (
-              <Draggable key={param} id={param} position={positions[param]}>
-                <div className="p-4 bg-gray-200 rounded">
-                  <p>{param}</p>
-                </div>
-              </Draggable>
-            ))}
-          </div>
         </DndContext>
+
+        
 
         {isScoresValid && !soundPlayed && (
           <ScoreMapper

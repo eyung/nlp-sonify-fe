@@ -8,7 +8,7 @@ const Draggable = ({ id, children, position }) => {
 
   const style = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : position ? `translate3d(${position.x}px, ${position.y}px, 0)` : undefined,
-    backgroundColor: isDragging ? 'lightgreen' : 'transparent', // Change background color when dragging
+    backgroundColor: isDragging ? 'lightgreen' : 'transparent',
   };
 
   return (
