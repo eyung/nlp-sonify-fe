@@ -100,7 +100,7 @@ const App = () => {
     if (over) {
       setPositions(prevPositions => ({
         ...prevPositions,
-        [active.id]: over.id
+        [active.id]: { x: over.rect.left, y: over.rect.top }
       }));
       handleDrop(over.id, active.id);
     }
