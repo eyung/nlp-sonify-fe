@@ -76,20 +76,23 @@
   0% {
     background: linear-gradient(45deg, #ff9a9e, #fad0c4);
   }
-  25% {
+  20% {
     background: linear-gradient(45deg, #fad0c4, #fbc2eb);
   }
-  50% {
+  40% {
     background: linear-gradient(45deg, #fbc2eb, #a18cd1);
   }
-  75% {
+  60% {
     background: linear-gradient(45deg, #a18cd1, #ff9a9e);
   }
-  100% {
+  80% {
     background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  }
+  100% {
+    background: linear-gradient(45deg, #fad0c4, #fbc2eb);
   }
 }
 
 .gradient-animation {
-  animation: gradientBackground 5s infinite;
+  animation: gradientBackground 20s infinite;
 }
