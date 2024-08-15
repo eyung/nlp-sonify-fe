@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import './App.css';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
@@ -46,8 +44,12 @@ const App = () => {
     concreteness: null,
     emotionalIntensity: null,
   });
+  const [isLoading, setIsLoading] = useState(false); // state for loading
 
   const onSubmit = async (data) => {
+
+    setIsLoading(true); // Set loading to true when starting the request
+
     try {
       const response = await axios.post(`${webURL}/api/v1/scores`, { text: data.inputText });
       //const combinedScores = response.data;
@@ -77,6 +79,8 @@ const App = () => {
       reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
+    } finally {
+      setIsLoading(false); // Set loading to false when the request is complete
     }
   };
 
