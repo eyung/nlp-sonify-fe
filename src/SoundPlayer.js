@@ -1,50 +1,49 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 
-const SoundPlayer = ({ mappings, scores }) => {
+const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
   useEffect(() => {
-    const mapScoreToFrequency = (score) => 440 + (score * 220);
-    const mapScoreToVolume = (score) => -30 + (score * 30);
-    const mapScoreToDuration = (score) => 0.5 + (score * 0.5);
-    const mapScoreToPan = (score) => score;
+    const playSound = async () => {
+      await Tone.start(); // Start the audio context
 
-    const synth = new Tone.Synth().toDestination();
+      const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
 
-    scores.forEach((scoreObj, index) => {
-      const { word, complexity, sentiment, concreteness, emotionalIntensity } = scoreObj;
-      
-      const frequency = mappings['Frequency'] === 'Complexity' ? mapScoreToFrequency(complexity) :
-                        mappings['Frequency'] === 'Sentiment' ? mapScoreToFrequency(sentiment) :
-                        mappings['Frequency'] === 'Concreteness' ? mapScoreToFrequency(concreteness) :
-                        mapScoreToFrequency(emotionalIntensity);
+      // Clean up previous Tone.js context
+      const context = new Tone.Context();
+      Tone.setContext(context);
 
-      const volume = mappings['Volume'] === 'Complexity' ? mapScoreToVolume(complexity) :
-                     mappings['Volume'] === 'Sentiment' ? mapScoreToVolume(sentiment) :
-                     mappings['Volume'] === 'Concreteness' ? mapScoreToVolume(concreteness) :
-                     mapScoreToVolume(emotionalIntensity);
+      const synth = new Tone.Synth().toDestination();
 
-      const duration = mappings['Duration'] === 'Complexity' ? mapScoreToDuration(complexity) :
-                       mappings['Duration'] === 'Sentiment' ? mapScoreToDuration(sentiment) :
-                       mappings['Duration'] === 'Concreteness' ? mapScoreToDuration(concreteness) :
-                       mapScoreToDuration(emotionalIntensity);
+      mappedScores.forEach((scoreObj, index) => {
+        const { frequency, duration, detune, volume } = scoreObj;
 
-      const pan = mappings['Pan'] === 'Complexity' ? mapScoreToPan(complexity) :
-                  mappings['Pan'] === 'Sentiment' ? mapScoreToPan(sentiment) :
-                  mappings['Pan'] === 'Concreteness' ? mapScoreToPan(concreteness) :
-                  mapScoreToPan(emotionalIntensity);
+        console.log(`Playing sound for word: ${scoreObj.word}`);
+        console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
-      synth.volume.value = volume;
-      synth.pan.value = pan;
-      
-      synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1));
-    });
+        //if (waveforms.includes(waveform)) {
+          //synth.oscillator.type = waveform; // Set waveform
+          synth.oscillator.detune.value = detune; // Set the detune value
+        synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
+        //} else {
+          //console.error(`Invalid waveform: ${waveform}`);
+        //}
+      });
 
-    return () => {
-      synth.dispose();
+      // Clean up Tone.js context on unmount
+      return () => {
+        synth.dispose();
+      };
     };
-  }, [scores, mappings]);
 
-  return <div>Playing sounds based on the text analysis scores.</div>;
+    // Call playSound when component mounts
+    playSound();
+
+    // Notify parent component that the sound has been played
+    onSoundPlayed();
+
+  }, [mappedScores, onSoundPlayed]);
+
+  return <div>Playing...</div>;
 };
 
 export default SoundPlayer;
