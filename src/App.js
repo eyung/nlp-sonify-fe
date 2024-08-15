@@ -28,7 +28,7 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
   );
 };
 
-const App = () => {
+const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
