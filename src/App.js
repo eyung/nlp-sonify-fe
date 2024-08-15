@@ -38,6 +38,7 @@ const App = () => {
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [soundPlayed, setSoundPlayed] = useState(false);
+  const [shouldPlaySound, setShouldPlaySound] = useState(false);
   const [mappings, setMappings] = useState({
     complexity: null,
     sentiment: null,
@@ -71,6 +72,7 @@ const App = () => {
       setEmotionalIntensityScores(emotionalIntensity);
 
       setSoundPlayed(true);
+      setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
       reset();
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
@@ -94,13 +96,6 @@ const App = () => {
       }
     }));
   };
-
-  const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
-    sentimentScores && Object.keys(sentimentScores).length > 0 &&
-    concretenessScores && Object.keys(concretenessScores).length > 0 &&
-    emotionalIntensityScores && Object.keys(emotionalIntensityScores).length > 0 &&
-    JSON.stringify(Object.keys(complexityScores)) === JSON.stringify(Object.keys(sentimentScores)) &&
-    JSON.stringify(Object.keys(concretenessScores)) === JSON.stringify(Object.keys(emotionalIntensityScores));
 
   return (
     <div className="flex justify-center">
@@ -138,7 +133,7 @@ const App = () => {
           </div>
         </DndContext>
 
-        {isScoresValid && !soundPlayed && (
+        {shouldPlaySound && (
           <ScoreMapper
             scores={Object.keys(complexityScores).map((word) => ({
               word,
@@ -154,7 +149,10 @@ const App = () => {
               return (
                 <SoundPlayer
                   mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
-                  onSoundPlayed={() => setSoundPlayed(false)}
+                  onSoundPlayed={() => {
+                    setSoundPlayed(false);
+                    setShouldPlaySound(false); // Reset shouldPlaySound after playing sound
+                  }}
                 />
               );
             }}
