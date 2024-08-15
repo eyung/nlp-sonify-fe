@@ -44,6 +44,7 @@ const App = () => {
     concreteness: null,
     emotionalIntensity: null,
   });
+  const [positions, setPositions] = useState({});
 
   const onSubmit = async (data) => {
     try {
@@ -95,6 +96,16 @@ const App = () => {
     }));
   };
 
+  const handleDragEnd = ({ active, over }) => {
+    if (over) {
+      setPositions(prevPositions => ({
+        ...prevPositions,
+        [active.id]: over.id
+      }));
+      handleDrop(over.id, active.id);
+    }
+  };
+
   const isScoresValid = complexityScores && Object.keys(complexityScores).length > 0 &&
     sentimentScores && Object.keys(sentimentScores).length > 0 &&
     concretenessScores && Object.keys(concretenessScores).length > 0 &&
@@ -111,11 +122,7 @@ const App = () => {
           <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
         </form>
 
-        <DndContext onDragEnd={({ active, over }) => {
-          if (over) {
-            handleDrop(over.id, active.id);
-          }
-        }}>
+        <DndContext onDragEnd={handleDragEnd}>
           <div className="grid grid-cols-2 gap-4 mt-4">
             {['complexity', 'sentiment', 'concreteness', 'emotionalIntensity'].map(param => (
               <Droppable key={param} id={param}>
@@ -129,7 +136,7 @@ const App = () => {
 
           <div className="flex justify-around mt-4">
             {['frequency', 'duration', 'detune', 'volume'].map(param => (
-              <Draggable key={param} id={param}>
+              <Draggable key={param} id={param} position={positions[param]}>
                 <div className="p-4 bg-gray-200 rounded">
                   <p>{param}</p>
                 </div>
