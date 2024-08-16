@@ -63,7 +63,7 @@ const App = ({ setIsLoading }) => {
     //   emotionalIntensityScores[word] = item.emotionalIntensity;
     // });
 
-    Object.entries(combinedScores).forEach(([word, scores]) => {
+    Object.entries(root).forEach(([word, scores]) => {
       complexity[word] = scores['Complexity Score'];
       sentiment[word] = scores['Sentiment Analysis Score'];
       concreteness[word] = scores['Concreteness Score'];
