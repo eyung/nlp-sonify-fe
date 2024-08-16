@@ -79,24 +79,6 @@
   --gradient-end: #fbc2eb;
 }
 
-@keyframes gradientBackground {
-  0% {
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-  }
-  25% {
-    background: linear-gradient(45deg, #fad0c4, #fbc2eb);
-  }
-  50% {
-    background: linear-gradient(45deg, #fbc2eb, #a18cd1);
-  }
-  75% {
-    background: linear-gradient(45deg, #a18cd1, #ff9a9e);
-  }
-  100% {
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-  }
-}
-
 /* Static gradient background */
 .App {
   background: linear-gradient(45deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
@@ -104,5 +86,19 @@
 
 /* Gradient animation */
 .gradient-animation {
-  animation: gradientBackground 1s infinite linear;
+  background: linear-gradient(45deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
