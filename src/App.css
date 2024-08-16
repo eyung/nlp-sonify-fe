@@ -74,9 +74,9 @@
 
 /* Define CSS variables for gradient stops */
 :root {
-  --gradient-start: #ff9a9e;
-  --gradient-middle: #fad0c4;
-  --gradient-end: #fbc2eb;
+  --gradient-start: #9afff6;
+  --gradient-middle: #c4e6fa;
+  --gradient-end: #fbc2df;
 }
 
 /* Static gradient background */
