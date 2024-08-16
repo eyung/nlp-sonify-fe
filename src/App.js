@@ -28,6 +28,21 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
   );
 };
 
+//
+// JSON schema for the combined scores
+// {
+//  "sentences": [
+//   {
+//    "word": {
+//      "Complexity Score": 0.5,
+//      "Sentiment Analysis Score": 0.5,
+//      "Concreteness Score": 0.5,
+//      "Emotional-Intensity Score": 0.5
+//    }
+//   },
+//   ...
+//
+
 const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
@@ -62,6 +77,18 @@ const App = ({ setIsLoading }) => {
       concretenessScores[word] = item.concreteness;
       emotionalIntensityScores[word] = item.emotionalIntensity;
     }
+
+    const complexity = {};
+      const sentiment = {};
+      const concreteness = {};
+      const emotionalIntensity = {};
+
+      Object.entries(combinedScores).forEach(([word, scores]) => {
+        complexity[word] = scores['Complexity Score'];
+        sentiment[word] = scores['Sentiment Analysis Score'];
+        concreteness[word] = scores['Concreteness Score'];
+        emotionalIntensity[word] = scores['Emotional-Intensity Score'];
+      });
 
     setComplexityScores(complexityScores);
     setSentimentScores(sentimentScores);
