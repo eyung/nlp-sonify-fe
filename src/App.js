@@ -188,7 +188,6 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        {mappings && <MappingChart mappings={mappings} />}
 
         {shouldPlaySound && (
           <ScoreMapper
