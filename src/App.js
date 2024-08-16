@@ -43,6 +43,32 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
 //   ...
 //
 
+const processScores = (data) => {
+  const root = data.sentences || data;
+  const complexityScores = {};
+  const sentimentScores = {};
+  const concretenessScores = {};
+  const emotionalIntensityScores = {};
+
+  console.log('Root:', root);
+
+  data.sentences.forEach(sentence => {
+    for (const [word, scores] of Object.entries(sentence)) {
+      complexityScores[word] = scores["Complexity Score"];
+      sentimentScores[word] = scores["Sentiment Analysis Score"];
+      concretenessScores[word] = scores["Concreteness Score"];
+      emotionalIntensityScores[word] = scores["Emotional-Intensity Score"];
+    }
+  });
+
+  return {
+    complexityScores,
+    sentimentScores,
+    concretenessScores,
+    emotionalIntensityScores
+  };  
+};
+
 const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
@@ -61,41 +87,6 @@ const App = ({ setIsLoading }) => {
   });
   //const [isLoading, setIsLoading] = useState(false); // state for loading
 
-  const processScores = (data) => {
-    const root = data.sentences || data;
-    const complexityScores = {};
-    const sentimentScores = {};
-    const concretenessScores = {};
-    const emotionalIntensityScores = {};
-
-    console.log('Root:', root);
-
-    for (const [key, item] of Object.entries(root)) {
-      const word = item.word;
-      complexityScores[word] = item.complexity;
-      sentimentScores[word] = item.sentiment;
-      concretenessScores[word] = item.concreteness;
-      emotionalIntensityScores[word] = item.emotionalIntensity;
-    }
-
-    const complexity = {};
-      const sentiment = {};
-      const concreteness = {};
-      const emotionalIntensity = {};
-
-      Object.entries(combinedScores).forEach(([word, scores]) => {
-        complexity[word] = scores['Complexity Score'];
-        sentiment[word] = scores['Sentiment Analysis Score'];
-        concreteness[word] = scores['Concreteness Score'];
-        emotionalIntensity[word] = scores['Emotional-Intensity Score'];
-      });
-
-    setComplexityScores(complexityScores);
-    setSentimentScores(sentimentScores);
-    setConcretenessScores(concretenessScores);
-    setEmotionalIntensityScores(emotionalIntensityScores);
-  };
-
   const onSubmit = async (data) => {
 
     setIsLoading(true); // Set loading to true when starting the request
@@ -107,7 +98,12 @@ const App = ({ setIsLoading }) => {
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
       const combinedScores = JSON.parse(response.data.choices[0].message.content);
 
-      processScores(combinedScores);
+      const scores = processScores(response.data);
+
+      setComplexityScores(scores.complexityScores);
+      setSentimentScores(scores.sentimentScores);
+      setConcretenessScores(scores.concretenessScores);
+      setEmotionalIntensityScores(scores.emotionalIntensityScores);
 
       setSoundPlayed(true);
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
