@@ -188,7 +188,6 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-
         {shouldPlaySound && (
           <ScoreMapper
             scores={Object.keys(complexityScores).map((word) => ({
@@ -212,6 +211,9 @@ const App = ({ setIsLoading }) => {
                 />
               );
             }}
+
+            
+            {mappings && <MappingChart mappings={mappings} />}
           </ScoreMapper>
         )}
 
