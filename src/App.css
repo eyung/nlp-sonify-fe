@@ -81,7 +81,7 @@
 
 /* Static gradient background */
 .App {
-  background: linear-gradient(45deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+  text-align: center;
 }
 
 /* Gradient animation */
