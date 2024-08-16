@@ -55,26 +55,14 @@ const App = ({ setIsLoading }) => {
 
     console.log('Root:', root);
 
-    // root.forEach((item) => {
-    //   const word = item.word;
-    //   complexityScores[word] = item.complexity;
-    //   sentimentScores[word] = item.sentiment;
-    //   concretenessScores[word] = item.concreteness;
-    //   emotionalIntensityScores[word] = item.emotionalIntensity;
-    // });
-
-    const complexity = {};
-    const sentiment = {};
-    const concreteness = {};
-    const emotionalIntensity = {};
-
-    Object.entries(root).forEach(([word, scores]) => {
-      complexity[word] = scores['Complexity Score'];
-      sentiment[word] = scores['Sentiment Analysis Score'];
-      concreteness[word] = scores['Concreteness Score'];
-      emotionalIntensity[word] = scores['Emotional-Intensity Score'];
-    });
-
+    for (const item of root) {
+      const word = item.word;
+      complexityScores[word] = item.complexity;
+      sentimentScores[word] = item.sentiment;
+      concretenessScores[word] = item.concreteness;
+      emotionalIntensityScores[word] = item.emotionalIntensity;
+    }
+    
     setComplexityScores(complexityScores);
     setSentimentScores(sentimentScores);
     setConcretenessScores(concretenessScores);
