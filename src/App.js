@@ -98,7 +98,7 @@ const App = ({ setIsLoading }) => {
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
       const combinedScores = JSON.parse(response.data.choices[0].message.content);
 
-      const scores = processScores(response.data);
+      const scores = processScores(combinedScores);
 
       setComplexityScores(scores.complexityScores);
       setSentimentScores(scores.sentimentScores);
