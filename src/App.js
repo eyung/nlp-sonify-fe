@@ -53,6 +53,8 @@ const App = ({ setIsLoading }) => {
     const concretenessScores = {};
     const emotionalIntensityScores = {};
 
+    console.log('Root:', root);
+
     root.forEach((item) => {
       const word = item.word;
       complexityScores[word] = item.complexity;
