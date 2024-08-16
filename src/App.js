@@ -7,6 +7,7 @@ import Droppable from './Droppable';
 import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
+import MappingChart from './MappingChart';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => {
   //console.log('Rendering ScoreCard with scores:', scores);
@@ -186,6 +187,9 @@ const App = ({ setIsLoading }) => {
             ))}
           </div>
         </DndContext>
+
+        {/* Add the MappingChart component */}
+        <MappingChart mappings={mappings} />
 
         {shouldPlaySound && (
           <ScoreMapper
