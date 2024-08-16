@@ -46,6 +46,27 @@ const App = ({ setIsLoading }) => {
   });
   //const [isLoading, setIsLoading] = useState(false); // state for loading
 
+  const processScores = (data) => {
+    const root = data.sentences || data;
+    const complexityScores = {};
+    const sentimentScores = {};
+    const concretenessScores = {};
+    const emotionalIntensityScores = {};
+
+    root.forEach((item) => {
+      const word = item.word;
+      complexityScores[word] = item.complexity;
+      sentimentScores[word] = item.sentiment;
+      concretenessScores[word] = item.concreteness;
+      emotionalIntensityScores[word] = item.emotionalIntensity;
+    });
+
+    setComplexityScores(complexityScores);
+    setSentimentScores(sentimentScores);
+    setConcretenessScores(concretenessScores);
+    setEmotionalIntensityScores(emotionalIntensityScores);
+  };
+
   const onSubmit = async (data) => {
 
     setIsLoading(true); // Set loading to true when starting the request
@@ -57,28 +78,14 @@ const App = ({ setIsLoading }) => {
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
       const combinedScores = JSON.parse(response.data.choices[0].message.content);
 
-      const complexity = {};
-      const sentiment = {};
-      const concreteness = {};
-      const emotionalIntensity = {};
-
-      Object.entries(combinedScores).forEach(([word, scores]) => {
-        complexity[word] = scores['Complexity Score'];
-        sentiment[word] = scores['Sentiment Analysis Score'];
-        concreteness[word] = scores['Concreteness Score'];
-        emotionalIntensity[word] = scores['Emotional-Intensity Score'];
-      });
-
-      setComplexityScores(complexity);
-      setSentimentScores(sentiment);
-      setConcretenessScores(concreteness);
-      setEmotionalIntensityScores(emotionalIntensity);
+      processScores(combinedScores);
 
       setSoundPlayed(true);
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
-      reset();
+      //reset();
+
     } catch (error) {
-      console.error('Error calling OpenAI API:', error);
+      console.error('Error:', error);
     } finally {
       setIsLoading(false); // Set loading to false when the request is complete
     }
