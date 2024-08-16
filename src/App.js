@@ -82,7 +82,10 @@ const App = ({ setIsLoading }) => {
   const [soundPlayed, setSoundPlayed] = useState(false);
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
   const [mappings, setMappings] = useState({
-    complexity: null,
+    complexity: {
+      parameter: 'frequency',
+      mapFunction: mappingFunctions.frequency
+    },
     sentiment: null,
     concreteness: null,
     emotionalIntensity: null,
