@@ -79,55 +79,21 @@
   --gradient-end: #fbc2eb;
 }
 
-/* Enable smooth transitions for the variables */
-@property --gradient-start {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: #ff9a9e;
-}
-
-@property --gradient-middle {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: #fad0c4;
-}
-
-@property --gradient-end {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: #fbc2eb;
-}
-
 @keyframes gradientBackground {
   0% {
-    --gradient-start: #ff9a9e;
-    --gradient-middle: #fad0c4;
-    --gradient-end: #fbc2eb;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
   }
-  20% {
-    --gradient-start: #fad0c4;
-    --gradient-middle: #fbc2eb;
-    --gradient-end: #a18cd1;
+  25% {
+    background: linear-gradient(45deg, #fad0c4, #fbc2eb);
   }
-  40% {
-    --gradient-start: #fbc2eb;
-    --gradient-middle: #a18cd1;
-    --gradient-end: #ff9a9e;
+  50% {
+    background: linear-gradient(45deg, #fbc2eb, #a18cd1);
   }
-  60% {
-    --gradient-start: #a18cd1;
-    --gradient-middle: #ff9a9e;
-    --gradient-end: #fad0c4;
-  }
-  80% {
-    --gradient-start: #ff9a9e;
-    --gradient-middle: #fad0c4;
-    --gradient-end: #fbc2eb;
+  75% {
+    background: linear-gradient(45deg, #a18cd1, #ff9a9e);
   }
   100% {
-    --gradient-start: #fad0c4;
-    --gradient-middle: #fbc2eb;
-    --gradient-end: #a18cd1;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
   }
 }
 
