@@ -55,14 +55,14 @@ const App = ({ setIsLoading }) => {
 
     console.log('Root:', root);
 
-    for (const item of root) {
+    for (const [key, item] of Object.entries(root)) {
       const word = item.word;
       complexityScores[word] = item.complexity;
       sentimentScores[word] = item.sentiment;
       concretenessScores[word] = item.concreteness;
       emotionalIntensityScores[word] = item.emotionalIntensity;
     }
-    
+
     setComplexityScores(complexityScores);
     setSentimentScores(sentimentScores);
     setConcretenessScores(concretenessScores);
