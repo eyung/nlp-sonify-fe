@@ -44,7 +44,9 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
 //
 
 const processScores = (data) => {
-  const root = data.sentences || data;
+  // Ensure the data has the "sentences" root schema
+  const root = data.sentences ? data : { sentences: [data] };
+
   const complexityScores = {};
   const sentimentScores = {};
   const concretenessScores = {};
@@ -52,7 +54,7 @@ const processScores = (data) => {
 
   console.log('Root:', root);
 
-  data.sentences.forEach(sentence => {
+  root.sentences.forEach(sentence => {
     for (const [word, scores] of Object.entries(sentence)) {
       complexityScores[word] = scores["Complexity Score"];
       sentimentScores[word] = scores["Sentiment Analysis Score"];
