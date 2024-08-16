@@ -49,7 +49,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
         //if (waveforms.includes(waveform)) {
           //synth.oscillator.type = waveform; // Set waveform
-        synth.oscillator.detune.value = detune; // Set the detune value
+        //synth.oscillator.detune.value = detune; // Set the detune value
         synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
         //} else {
           //console.error(`Invalid waveform: ${waveform}`);
