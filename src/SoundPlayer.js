@@ -20,26 +20,35 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           type: 'sine', // change this to 'triangle', 'square', etc.
         },
         envelope: {
-          attack: 0.1,
-          decay: 0.2,
-          sustain: 0.2,
-          release: 1,
+          attack: 0.5,
+          decay: 0.1,
+          sustain: 0.3,
+          release: 0.5,
         },
       }).toDestination();
 
       // Add effects
       const reverb = new Tone.Reverb({
-        decay: 2,
+        decay: 1,
         preDelay: 0.01,
       }).toDestination();
 
       const delay = new Tone.FeedbackDelay({
-        delayTime: '2n',
-        feedback: 0.5,
+        delayTime: '8n',
+        feedback: 0.2,
       }).toDestination();
 
-      synth.connect(reverb);
-      synth.connect(delay);
+      const chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination();
+
+      const phaser = new Tone.Phaser({
+        frequency: 0.5,
+        octaves: 3,
+        baseFrequency: 350,
+      }).toDestination();
+      const distortion = new Tone.Distortion(0.4).toDestination();
+
+      // Connect synth to effects
+      synth.chain(reverb, delay, chorus, phaser, distortion);
 
       mappedScores.forEach((scoreObj, index) => {
         const { frequency, duration, detune, volume } = scoreObj;
@@ -61,6 +70,9 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         synth.dispose();
         reverb.dispose();
         delay.dispose();
+        chorus.dispose();
+        phaser.dispose();
+        distortion.dispose();
       };
     };
 
