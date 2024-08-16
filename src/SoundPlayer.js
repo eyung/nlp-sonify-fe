@@ -22,19 +22,19 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         envelope: {
           attack: 0.1,
           decay: 0.2,
-          sustain: 0.5,
+          sustain: 0.2,
           release: 1,
         },
       }).toDestination();
 
       // Add effects
       const reverb = new Tone.Reverb({
-        decay: 1,
+        decay: 2,
         preDelay: 0.01,
       }).toDestination();
 
       const delay = new Tone.FeedbackDelay({
-        delayTime: '8n',
+        delayTime: '2n',
         feedback: 0.5,
       }).toDestination();
 
