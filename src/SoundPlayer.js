@@ -53,7 +53,10 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         const semitoneRatio = Math.pow(2, 1/12);
 
         // Helper function to calculate frequency for a given number of semitones from the root
-        const getFrequency = (semitones) => rootFrequency * Math.pow(semitoneRatio, semitones);
+        const getFrequency = (semitones) => {
+          const frequency = rootFrequency * Math.pow(semitoneRatio, semitones);
+          return Math.max(20, Math.min(frequency, 2000)); // Limit frequency range between 20Hz and 2000Hz
+        };
 
         // IVM7 (Major 7th chord)
         const IVM7 = [getFrequency(5), getFrequency(9), getFrequency(12), getFrequency(16)];
