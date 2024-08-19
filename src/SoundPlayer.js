@@ -12,8 +12,6 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       const context = new Tone.Context();
       Tone.setContext(context);
 
-      //const synth = new Tone.Synth().toDestination();
-
       // Create a PolySynth for polyphonic sound
       const synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
@@ -58,17 +56,32 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         F: ['F3', 'A3', 'C4'],
       };
 
+      // Define the royal road chord progression
+      const chordRoyalRoad = [
+        ['F3', 'A3', 'C4', 'E4'], // IVM7
+        ['G3', 'B3', 'D4', 'F4'], // V7
+        ['E3', 'G3', 'B3', 'D4'], // iii7
+        ['A3', 'C4', 'E4', 'G4'], // vi
+      ];
+
+      // Function to map scores to chords
+      const mapScoreToChord = (score) => {
+        const index = Math.floor(score * chordRoyalRoad.length);
+        return chordRoyalRoad[index];
+      };
+
       mappedScores.forEach((scoreObj, index) => {
-        const { frequency, duration, detune, volume } = scoreObj;
+        const { frequency, duration, detune, volume, score } = scoreObj;
 
         console.log(`Playing sound for word: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
         // Choose a chord based on some logic
-        const chord = chords.C;
+        //const chord = chords.C;
+        const chord = mapScoreToChord(score);
 
         //synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1), volume);
-        synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
+        synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1), volume, detune);
 
       });
 
