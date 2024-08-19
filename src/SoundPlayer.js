@@ -50,16 +50,27 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion);
 
+      // Define chord progressions
+      const chords = {
+        C: ['C4', 'E4', 'G4'],
+        G: ['G3', 'B3', 'D4'],
+        Am: ['A3', 'C4', 'E4'],
+        F: ['F3', 'A3', 'C4'],
+      };
+
       mappedScores.forEach((scoreObj, index) => {
         const { frequency, duration, detune, volume } = scoreObj;
 
         console.log(`Playing sound for word: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
+        // Choose a chord based on some logic
+        const chord = chords.C;
+
         //if (waveforms.includes(waveform)) {
           //synth.oscillator.type = waveform; // Set waveform
         //synth.oscillator.detune.value = detune; // Set the detune value
-        synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
+        synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1), volume);
         //} else {
           //console.error(`Invalid waveform: ${waveform}`);
         //}
