@@ -48,12 +48,26 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion);
 
-      // Define chord progressions
-      const chords = {
-        C: ['C4', 'E4', 'G4'],
-        G: ['G3', 'B3', 'D4'],
-        Am: ['A3', 'C4', 'E4'],
-        F: ['F3', 'A3', 'C4'],
+      // Function to calculate chord frequencies
+      const calculateChordFrequencies = (rootFrequency) => {
+        const semitoneRatio = Math.pow(2, 1/12);
+
+        // Helper function to calculate frequency for a given number of semitones from the root
+        const getFrequency = (semitones) => rootFrequency * Math.pow(semitoneRatio, semitones);
+
+        // IVM7 (Major 7th chord)
+        const IVM7 = [getFrequency(5), getFrequency(9), getFrequency(12), getFrequency(16)];
+
+        // V7 (Dominant 7th chord)
+        const V7 = [getFrequency(7), getFrequency(11), getFrequency(14), getFrequency(17)];
+
+        // iii7 (Minor 7th chord)
+        const iii7 = [getFrequency(4), getFrequency(7), getFrequency(11), getFrequency(14)];
+
+        // vi (Minor chord)
+        const vi = [getFrequency(9), getFrequency(12), getFrequency(16)];
+
+        return { IVM7, V7, iii7, vi };
       };
 
       mappedScores.forEach((scoreObj, index) => {
@@ -62,11 +76,15 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         console.log(`Playing sound for word: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
-        // Choose a chord based on some logic
-        //const chord = chords.C;
+        // Calculate chord frequencies based on the root frequency
+        const chords = calculateChordFrequencies(frequency);
 
-        //synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1), volume);
-        synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
+        // Play the chords in the progression
+        //synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
+        const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
+        progression.forEach((chord, chordIndex) => {
+          synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1) + (chordIndex * duration), volume, detune);
+        });
 
       });
 
