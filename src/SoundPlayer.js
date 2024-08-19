@@ -50,7 +50,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         octaves: 3,
         baseFrequency: 350,
       }).toDestination();
-      
+
       const distortion = new Tone.Distortion(0.4).toDestination();
 
       // Connect synth to effects
@@ -90,6 +90,8 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         waveSurferRef.current.on('ready', () => {
           waveSurferRef.current.play();
         });
+      } else {
+        console.error('waveformRef.current is null');
       }
 
       // Clean up Tone.js context on unmount
@@ -114,7 +116,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
   }, [mappedScores, onSoundPlayed]);
 
-  return <div ref={waveformRef} />;
+  return <div ref={waveformRef} className="waveform" />;
 };
 
 export default SoundPlayer;
