@@ -64,7 +64,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           const { frequency, duration, detune, volume } = scoreObj;
 
           console.log(`Playing sound for word: ${scoreObj.word}`);
-        console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
+          console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
           synth.triggerAttackRelease(frequency, duration, index * 1.1, volume);
         });
@@ -72,21 +72,24 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         buffer.set(renderedBuffer);
       });
 
-      // Initialize WaveSurfer
-      waveSurferRef.current = WaveSurfer.create({
-        container: waveformRef.current,
-        waveColor: 'violet',
-        progressColor: 'purple',
-        backend: 'MediaElement',
-      });
+      // Check if waveformRef.current is not null before initializing WaveSurfer
+      if (waveformRef.current) {
+        // Initialize WaveSurfer
+        waveSurferRef.current = WaveSurfer.create({
+          container: waveformRef.current,
+          waveColor: 'violet',
+          progressColor: 'purple',
+          backend: 'MediaElement',
+        });
 
-      // Load the buffer into WaveSurfer
-      waveSurferRef.current.loadDecodedBuffer(buffer.get());
+        // Load the buffer into WaveSurfer
+        waveSurferRef.current.loadDecodedBuffer(buffer.get());
 
-      // Play the sound
-      waveSurferRef.current.on('ready', () => {
-        waveSurferRef.current.play();
-      });
+        // Play the sound
+        waveSurferRef.current.on('ready', () => {
+          waveSurferRef.current.play();
+        });
+      }
 
       // Clean up Tone.js context on unmount
       return () => {
@@ -96,7 +99,9 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         chorus.dispose();
         phaser.dispose();
         distortion.dispose();
-        waveSurferRef.current.destroy();
+        if (waveSurferRef.current) {
+          waveSurferRef.current.destroy();
+        }
       };
     };
 
