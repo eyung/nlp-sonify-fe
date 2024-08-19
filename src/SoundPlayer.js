@@ -67,13 +67,9 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Choose a chord based on some logic
         const chord = chords.C;
 
-        //if (waveforms.includes(waveform)) {
-          //synth.oscillator.type = waveform; // Set waveform
-        //synth.oscillator.detune.value = detune; // Set the detune value
-        synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1), volume);
-        //} else {
-          //console.error(`Invalid waveform: ${waveform}`);
-        //}
+        //synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1), volume);
+        synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
+
       });
 
       // Clean up Tone.js context on unmount
