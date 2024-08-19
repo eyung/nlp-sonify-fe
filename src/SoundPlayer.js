@@ -1,7 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as Tone from 'tone';
+import WaveSurfer from 'wavesurfer.js';
 
 const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
+
+  const waveformRef = useRef(null);
+  const waveSurferRef = useRef(null);
+
   useEffect(() => {
     const playSound = async () => {
       await Tone.start(); // Start the audio context
@@ -50,19 +55,37 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion);
 
-      mappedScores.forEach((scoreObj, index) => {
-        const { frequency, duration, detune, volume } = scoreObj;
+      // Create a buffer to store the audio
+      const buffer = new Tone.Buffer();
 
-        console.log(`Playing sound for word: ${scoreObj.word}`);
+      // Render the audio to the buffer
+      await Tone.Offline(() => {
+        mappedScores.forEach((scoreObj, index) => {
+          const { frequency, duration, detune, volume } = scoreObj;
+
+          console.log(`Playing sound for word: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
-        //if (waveforms.includes(waveform)) {
-          //synth.oscillator.type = waveform; // Set waveform
-        //synth.oscillator.detune.value = detune; // Set the detune value
-        synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume);
-        //} else {
-          //console.error(`Invalid waveform: ${waveform}`);
-        //}
+          synth.triggerAttackRelease(frequency, duration, index * 1.1, volume);
+        });
+      }, mappedScores.length * 1.1).then((renderedBuffer) => {
+        buffer.set(renderedBuffer);
+      });
+
+      // Initialize WaveSurfer
+      waveSurferRef.current = WaveSurfer.create({
+        container: waveformRef.current,
+        waveColor: 'violet',
+        progressColor: 'purple',
+        backend: 'MediaElement',
+      });
+
+      // Load the buffer into WaveSurfer
+      waveSurferRef.current.loadDecodedBuffer(buffer.get());
+
+      // Play the sound
+      waveSurferRef.current.on('ready', () => {
+        waveSurferRef.current.play();
       });
 
       // Clean up Tone.js context on unmount
@@ -73,6 +96,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         chorus.dispose();
         phaser.dispose();
         distortion.dispose();
+        waveSurferRef.current.destroy();
       };
     };
 
@@ -84,7 +108,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
   }, [mappedScores, onSoundPlayed]);
 
-  return <div>Playing...</div>;
+  return <div ref={waveformRef} />;
 };
 
 export default SoundPlayer;
