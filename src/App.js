@@ -89,14 +89,25 @@ const App = ({ setIsLoading }) => {
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [soundPlayed, setSoundPlayed] = useState(false);
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
+  
+  // Default mappings
   const [mappings, setMappings] = useState({
     complexity: {
       parameter: 'frequency',
       mapFunction: mappingFunctions.frequency
     },
-    sentiment: null,
-    concreteness: null,
-    emotionalIntensity: null,
+    sentiment: {
+      parameter: 'duration',
+      mapFunction: mappingFunctions.duration
+    },
+    concreteness: {
+      parameter: 'detune',
+      mapFunction: mappingFunctions.detune
+    },
+    emotionalIntensity: {
+      parameter: 'volume',
+      mapFunction: mappingFunctions.volume
+    },
   });
   //const [isLoading, setIsLoading] = useState(false); // state for loading
 
