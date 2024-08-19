@@ -171,7 +171,7 @@ const App = ({ setIsLoading }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-48 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
-          <button type="submit" className="p-4 bg-blue-500 text-white rounded mx-auto block">Go!</button>
+          <button type="submit" className="p-4 rounded-full bg-blue-500 focus:outline-none" onclick="play();"><i class="fa fa-play fa-2x text-white" id="play-btn"></i></button>
         </form>
 
         <DndContext onDragEnd={({ active, over }) => {
