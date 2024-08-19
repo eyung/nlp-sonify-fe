@@ -50,6 +50,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         octaves: 3,
         baseFrequency: 350,
       }).toDestination();
+      
       const distortion = new Tone.Distortion(0.4).toDestination();
 
       // Connect synth to effects
