@@ -227,7 +227,7 @@ const App = ({ setIsLoading }) => {
           </ScoreMapper>
         )}
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-4 m-10">
         <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
         <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
         <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
