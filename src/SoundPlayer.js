@@ -140,6 +140,12 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
     setIsPlaying(false);
     setProgress(0);
     clearInterval(intervalRef.current);
+    if (synthRef.current) {
+      synthRef.current.releaseAll();
+    }
+    if (onSoundPlayed) {
+      onSoundPlayed();
+    }
   };
 
   return (
