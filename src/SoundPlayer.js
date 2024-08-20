@@ -1,9 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as Tone from 'tone';
 
 const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef(null);
+  const synthRef = useRef(null);
+  const effectsRef = useRef({});
+
   useEffect(() => {
-    const playSound = async () => {
+    const createSound = async () => {
       await Tone.start(); // Start the audio context
 
       //const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
@@ -48,6 +54,10 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion);
 
+      // Store references
+      synthRef.current = synth;
+      effectsRef.current = { reverb, delay, chorus, phaser, distortion };
+
       // Function to calculate chord frequencies
       const calculateChordFrequencies = (rootFrequency) => {
         const semitoneRatio = Math.pow(2, 1/12);
@@ -73,6 +83,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         return { IVM7, V7, iii7, vi };
       };
 
+      // Play sound based on mappedScores
       mappedScores.forEach((scoreObj, index) => {
         const { frequency, duration, detune, volume } = scoreObj;
 
@@ -102,15 +113,44 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       };
     };
 
-    // Call playSound when component mounts
-    playSound();
+    if (isPlaying) {
+      createSound();
 
-    // Notify parent component that the sound has been played
-    onSoundPlayed();
+      const totalDuration = mappedScores.length * 1.1; // Assuming each score takes 1.1 seconds
+      const startTime = Date.now();
 
-  }, [mappedScores, onSoundPlayed]);
+      intervalRef.current = setInterval(() => {
+        const elapsedTime = (Date.now() - startTime) / 1000;
+        setProgress((elapsedTime / totalDuration) * 100);
 
-  return <div>Playing...</div>;
+        if (elapsedTime >= totalDuration) {
+          handleStop();
+        }
+      }, 100);
+
+      return () => clearInterval(intervalRef.current);
+    }
+  }, [isPlaying, mappedScores]);
+
+  const handleStart = () => {
+    setIsPlaying(true);
+  };
+
+  const handleStop = () => {
+    setIsPlaying(false);
+    setProgress(0);
+    clearInterval(intervalRef.current);
+  };
+
+  return (
+    <div>
+      <button onClick={isPlaying ? handleStop : handleStart}>
+        {isPlaying ? 'Stop' : 'Start'}
+      </button>
+      <div className="progress-bar" style={{ width: `${progress}%`, height: '10px', background: 'blue' }}></div>
+      {isPlaying && <div>Playing...</div>}
+    </div>
+  );
 };
 
 export default SoundPlayer;

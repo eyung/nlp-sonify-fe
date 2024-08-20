@@ -7,7 +7,6 @@ import Droppable from './Droppable';
 import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
-import AudioController from './AudioController';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => {
   //console.log('Rendering ScoreCard with scores:', scores);
@@ -224,7 +223,6 @@ const App = ({ setIsLoading }) => {
                       setShouldPlaySound(false); // Reset shouldPlaySound after playing sound
                     }}
                   />
-                  <AudioController mappedScores={mappedScores} />
                 </>
               );
             }}
