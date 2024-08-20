@@ -102,15 +102,6 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
       });
 
-      // Clean up Tone.js context on unmount
-      return () => {
-        synth.dispose();
-        reverb.dispose();
-        delay.dispose();
-        chorus.dispose();
-        phaser.dispose();
-        distortion.dispose();
-      };
     };
 
     if (isPlaying) {
@@ -142,6 +133,10 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
     clearInterval(intervalRef.current);
     if (synthRef.current) {
       synthRef.current.releaseAll();
+      synthRef.current.dispose();
+    }
+    if (effectsRef.current) {
+      Object.values(effectsRef.current).forEach(effect => effect.dispose());
     }
     if (onSoundPlayed) {
       onSoundPlayed();
