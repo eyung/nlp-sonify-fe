@@ -172,7 +172,12 @@ const App = ({ setIsLoading }) => {
       <div className="w-full max-w-screen-lg p-4">
       
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-          <TextHighlighter text={text} mappedScores={mappedScores} className="w-full h-96 p-2 mb-4 border rounded" />
+          <ScoreMapper scores={scores} mappings={mappings}>
+            {(mappedScores) => (
+              <TextHighlighter text={text} mappedScores={mappedScores} className="w-full h-96 p-2 mb-4 border rounded" />
+            )}
+          </ScoreMapper>
+          
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button type="submit" className="p-4 rounded-full bg-blue-500 focus:outline-none" onclick="play();"><i class="fa fa-play fa-2x text-white" id="play-btn"></i></button>
         </form>
