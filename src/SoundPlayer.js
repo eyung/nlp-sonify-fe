@@ -89,6 +89,8 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1) + (chordIndex * duration), volume, detune);
         });
 
+        // Notify parent component that the sound has been played
+        onSoundPlayed(index);
       });
 
       // Clean up Tone.js context on unmount
@@ -106,7 +108,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
     playSound();
 
     // Notify parent component that the sound has been played
-    onSoundPlayed();
+    //onSoundPlayed();
 
   }, [mappedScores, onSoundPlayed]);
 

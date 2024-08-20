@@ -7,6 +7,7 @@ import Droppable from './Droppable';
 import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
+import TextHighlighter from './TextHighlighter';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => {
   //console.log('Rendering ScoreCard with scores:', scores);
@@ -89,6 +90,8 @@ const App = ({ setIsLoading }) => {
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [soundPlayed, setSoundPlayed] = useState(false);
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
+
+  const [text, setText] = useState("");
   
   // Default mappings
   const [mappings, setMappings] = useState({
@@ -169,7 +172,7 @@ const App = ({ setIsLoading }) => {
       <div className="w-full max-w-screen-lg p-4">
       
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-          <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
+          <TextHighlighter text={text} mappedScores={mappedScores} className="w-full h-96 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button type="submit" className="p-4 rounded-full bg-blue-500 focus:outline-none" onclick="play();"><i class="fa fa-play fa-2x text-white" id="play-btn"></i></button>
         </form>
