@@ -216,16 +216,19 @@ const App = ({ setIsLoading }) => {
             {(mappedScores) => {
               console.log('Mapped Scores:', mappedScores);
               return (
-                <SoundPlayer
-                  mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
-                  onSoundPlayed={() => {
-                    setSoundPlayed(false);
-                    setShouldPlaySound(false); // Reset shouldPlaySound after playing sound
-                  }}
-                />
+                <>
+                  <SoundPlayer
+                    mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
+                    onSoundPlayed={() => {
+                      setSoundPlayed(false);
+                      setShouldPlaySound(false); // Reset shouldPlaySound after playing sound
+                    }}
+                  />
+                  <AudioController mappedScores={mappedScores} />
+                </>
               );
             }}
-            <AudioController mappedScores={mappedScores} />
+            
           </ScoreMapper>
         )}
 
