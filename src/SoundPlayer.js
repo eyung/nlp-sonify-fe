@@ -82,6 +82,13 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Calculate chord frequencies based on the root frequency
         const chords = calculateChordFrequencies(frequency);
 
+        // Change oscillator type based on the score
+        synth.set({
+          oscillator: {
+            type: ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(scoreObj.frequency * 4)]
+          }
+        });
+
         // Play the chords in the progression
         //synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
         const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
