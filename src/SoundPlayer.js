@@ -46,13 +46,10 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
       const distortion = new Tone.Distortion(0.4).toDestination();
 
-      const ensemble = new Tone.Ensemble({
-        voiceCount: 3,
-        spread: 30,
-      }).toDestination();
+      const stereoWidener = new Tone.StereoWidener(0.5).toDestination();
 
       // Connect synth to effects
-      synth.chain(reverb, delay, chorus, phaser, distortion, ensemble);
+      synth.chain(reverb, delay, chorus, phaser, distortion, stereoWidener);
 
       // Function to calculate chord frequencies
       const calculateChordFrequencies = (rootFrequency) => {
@@ -115,7 +112,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         chorus.dispose();
         phaser.dispose();
         distortion.dispose();
-        ensemble.dispose();
+        stereoWidener.dispose();
       };
     };
 
