@@ -15,38 +15,38 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Create a PolySynth for polyphonic sound
       const synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
-          type: 'sawtooth', // change this to 'sine', 'triangle', 'square', etc.
+          type: 'sine', // change this to 'sine', 'triangle', 'square', etc.
         },
         envelope: {
-          attack: 0.2,
-          decay: 0.1,
-          sustain: 0.3,
-          release: 0.5,
+          attack: 0.1,
+          decay: 0.2,
+          sustain: 0.5,
+          release: 0.8,
         },
       }).toDestination();
 
       // Add effects
       const reverb = new Tone.Reverb({
-        decay: 1,
+        decay: 2,
         preDelay: 0.01,
       }).toDestination();
 
       const delay = new Tone.FeedbackDelay({
         delayTime: '8n',
-        feedback: 0.2,
+        feedback: 0.1,
       }).toDestination();
 
-      const chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination();
+      const chorus = new Tone.Chorus(4, 1.5, 0.3).toDestination();
 
       const phaser = new Tone.Phaser({
         frequency: 0.5,
-        octaves: 3,
-        baseFrequency: 350,
+        octaves: 2,
+        baseFrequency: 500,
       }).toDestination();
 
       const distortion = new Tone.Distortion(0.4).toDestination();
 
-      const stereoWidener = new Tone.StereoWidener(0.5).toDestination();
+      const stereoWidener = new Tone.StereoWidener(0.3).toDestination();
 
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion, stereoWidener);
@@ -58,7 +58,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Helper function to calculate frequency for a given number of semitones from the root
         const getFrequency = (semitones) => {
           const frequency = rootFrequency * Math.pow(semitoneRatio, semitones);
-          return Math.max(20, Math.min(frequency, 2000)); // Limit frequency range between 20Hz and 2000Hz
+          return Math.max(220, Math.min(frequency, 880)); // Limit frequency range between 20Hz and 2000Hz
         };
 
         // IVM7 (Major 7th chord)
