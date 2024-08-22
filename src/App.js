@@ -29,7 +29,7 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
 };
 
 const mappingFunctions = {
-  frequency: (score) => 440 + (score * 220), // (score) => 440 + (score * 220)
+  frequency: (score) => 220 + (score * 220), // (score) => 440 + (score * 220)
   duration: (score) => 0.1 + (score * 1.5),
   //waveform: (score) => ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(score * 4)],
   detune: (score) => -1200 + (score * 2200),
