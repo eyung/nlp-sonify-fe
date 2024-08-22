@@ -21,19 +21,19 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           attack: 0.2,
           decay: 0.1,
           sustain: 0.3,
-          release: 0.5,
+          release: 0.7,
         },
       }).toDestination();
 
       // Add effects
       const reverb = new Tone.Reverb({
-        decay: 1,
+        decay: 2,
         preDelay: 0.01,
       }).toDestination();
 
       const delay = new Tone.FeedbackDelay({
         delayTime: '8n',
-        feedback: 0.2,
+        feedback: 0.1,
       }).toDestination();
 
       const chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination();
@@ -41,12 +41,12 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       const phaser = new Tone.Phaser({
         frequency: 0.5,
         octaves: 3,
-        baseFrequency: 350,
+        baseFrequency: 500,
       }).toDestination();
 
-      const distortion = new Tone.Distortion(0.4).toDestination();
+      const distortion = new Tone.Distortion(0.2).toDestination();
 
-      const stereoWidener = new Tone.StereoWidener(0.5).toDestination();
+      const stereoWidener = new Tone.StereoWidener(0.3).toDestination();
 
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion, stereoWidener);
@@ -90,7 +90,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Play the chords in the progression
         //synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
         const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
-        
+
         const chordSpacing = 0; // Increase this value for wider spacing between chords
 
         progression.forEach((chord, chordIndex) => {
