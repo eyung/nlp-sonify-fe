@@ -49,7 +49,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       const stereoWidener = new Tone.StereoWidener(0.3).toDestination();
 
       // Connect synth to effects
-      synth.chain(reverb, delay, chorus, phaser, distortion, stereoWidener);
+      synth.chain(reverb, delay, chorus, phaser, distortion);
 
       // Function to calculate chord frequencies
       const calculateChordFrequencies = (rootFrequency) => {
