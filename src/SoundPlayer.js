@@ -18,22 +18,22 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           type: 'sine', // change this to 'sine', 'triangle', 'square', etc.
         },
         envelope: {
-          attack: 0.1,
+          attack: 0.5,
           decay: 0.1,
           sustain: 0.3,
-          release: 0.8,
+          release: 0.7,
         },
       }).toDestination();
 
       // Add effects
       const reverb = new Tone.Reverb({
-        decay: 2,
+        decay: 1,
         preDelay: 0.01,
       }).toDestination();
 
       const delay = new Tone.FeedbackDelay({
         delayTime: '8n',
-        feedback: 0.1,
+        feedback: 0.2,
       }).toDestination();
 
       const chorus = new Tone.Chorus(4, 1.5, 0.5).toDestination();
@@ -41,7 +41,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       const phaser = new Tone.Phaser({
         frequency: 0.5,
         octaves: 2,
-        baseFrequency: 500,
+        baseFrequency: 400,
       }).toDestination();
 
       const distortion = new Tone.Distortion(0.1).toDestination();
@@ -58,7 +58,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Helper function to calculate frequency for a given number of semitones from the root
         const getFrequency = (semitones) => {
           const frequency = rootFrequency * Math.pow(semitoneRatio, semitones);
-          return Math.max(20, Math.min(frequency, 1000)); // Limit frequency range between 20Hz and 2000Hz
+          return Math.max(20, Math.min(frequency, 1500)); // Limit frequency range between 20Hz and 2000Hz
         };
 
         // IVM7 (Major 7th chord)
