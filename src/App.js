@@ -29,10 +29,10 @@ const ScoreCard = ({ title, scores, tooltiptext }) => {
 };
 
 const mappingFunctions = {
-  frequency: (score) => 220 + (score * 880), // (score) => 440 + (score * 220)
+  frequency: (score) => 440 + (score * 220), // (score) => 440 + (score * 220)
   duration: (score) => 0.1 + (score * 1.5),
   //waveform: (score) => ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(score * 4)],
-  detune: (score) => -2200 + (score * 4200),
+  detune: (score) => -1200 + (score * 2200),
   volume: (score) => -30 + (score * 50)
 };
 
@@ -42,10 +42,10 @@ const mappingFunctions = {
 //  "sentences": [
 //   {
 //    "word": {
-//      "Complexity Score": [0.0 , 1.0],
-//      "Sentiment Analysis Score": [0.0 , 1.0],
-//      "Concreteness Score": [0.0 , 1.0],
-//      "Emotional-Intensity Score": [0.0 , 1.0],
+//      "Complexity Score": [-1.0 , 1.0],
+//      "Sentiment Analysis Score": [-1.0 , 1.0],
+//      "Concreteness Score": [-1.0 , 1.0],
+//      "Emotional-Intensity Score": [-1.0 , 1.0],
 //    }
 //   },
 //   ...
