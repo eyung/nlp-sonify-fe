@@ -15,7 +15,8 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Create a PolySynth for polyphonic sound
       const synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
-          type: 'sine', // change this to 'triangle', 'square', etc.
+          //type: 'sine', // change this to 'triangle', 'square', etc.
+          type: ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(scoreObj.frequency * 4)] // Change oscillator type based on the score
         },
         envelope: {
           attack: 0.5,
@@ -45,13 +46,6 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       }).toDestination();
 
       const distortion = new Tone.Distortion(0.4).toDestination();
-
-      // Change oscillator type based on the score
-      synth.set({
-        oscillator: {
-          type: ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(scoreObj.frequency * 4)]
-        }
-      });
 
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion);
