@@ -18,10 +18,10 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           type: 'sine', // change this to 'sine', 'triangle', 'square', etc.
         },
         envelope: {
-          attack: 0.2,
+          attack: 0.1,
           decay: 0.1,
           sustain: 0.3,
-          release: 0.7,
+          release: 0.8,
         },
       }).toDestination();
 
@@ -36,20 +36,20 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         feedback: 0.1,
       }).toDestination();
 
-      const chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination();
+      const chorus = new Tone.Chorus(4, 1.5, 0.5).toDestination();
 
       const phaser = new Tone.Phaser({
         frequency: 0.5,
-        octaves: 3,
+        octaves: 2,
         baseFrequency: 500,
       }).toDestination();
 
-      const distortion = new Tone.Distortion(0.2).toDestination();
+      const distortion = new Tone.Distortion(0.1).toDestination();
 
       const stereoWidener = new Tone.StereoWidener(0.3).toDestination();
 
       // Connect synth to effects
-      synth.chain(reverb, delay, chorus, phaser, distortion);
+      synth.chain(reverb, delay, chorus, phaser, distortion, stereoWidener);
 
       // Function to calculate chord frequencies
       const calculateChordFrequencies = (rootFrequency) => {
@@ -58,7 +58,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Helper function to calculate frequency for a given number of semitones from the root
         const getFrequency = (semitones) => {
           const frequency = rootFrequency * Math.pow(semitoneRatio, semitones);
-          return Math.max(20, Math.min(frequency, 2000)); // Limit frequency range between 20Hz and 2000Hz
+          return Math.max(20, Math.min(frequency, 1000)); // Limit frequency range between 20Hz and 2000Hz
         };
 
         // IVM7 (Major 7th chord)
