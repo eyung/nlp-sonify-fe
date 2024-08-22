@@ -15,8 +15,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Create a PolySynth for polyphonic sound
       const synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
-          type: 'sine', // change this to 'triangle', 'square', etc.
-          //type: ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(scoreObj.frequency * 4)] // Change oscillator type based on the score
+          type: 'sawtooth', // change this to 'sine', 'triangle', 'square', etc.
         },
         envelope: {
           attack: 0.5,
@@ -89,8 +88,16 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Play the chords in the progression
         //synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
         const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
+        const chordSpacing = 2; // Increase this value for wider spacing between chords
+
         progression.forEach((chord, chordIndex) => {
-          synth.triggerAttackRelease(chord, duration, Tone.now() + (index * 1.1) + (chordIndex * duration), volume, detune);
+          synth.triggerAttackRelease(
+            chord, 
+            duration, 
+            Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), 
+            volume, 
+            detune
+          );
         });
 
       });
