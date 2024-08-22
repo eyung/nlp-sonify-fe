@@ -43,7 +43,15 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         octaves: 3,
         baseFrequency: 350,
       }).toDestination();
+
       const distortion = new Tone.Distortion(0.4).toDestination();
+
+      // Change oscillator type based on the score
+      synth.set({
+        oscillator: {
+          type: ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(scoreObj.frequency * 4)]
+        }
+      });
 
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion);
@@ -82,12 +90,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Calculate chord frequencies based on the root frequency
         const chords = calculateChordFrequencies(frequency);
 
-        // Change oscillator type based on the score
-        synth.set({
-          oscillator: {
-            type: ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(scoreObj.frequency * 4)]
-          }
-        });
+        
 
         // Play the chords in the progression
         //synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
