@@ -42,10 +42,10 @@ const mappingFunctions = {
 //  "sentences": [
 //   {
 //    "word": {
-//      "Complexity Score": 0.5,
-//      "Sentiment Analysis Score": 0.5,
-//      "Concreteness Score": 0.5,
-//      "Emotional-Intensity Score": 0.5
+//      "Complexity Score": [0.0 , 1.0],
+//      "Sentiment Analysis Score": [0.0 , 1.0],
+//      "Concreteness Score": [0.0 , 1.0],
+//      "Emotional-Intensity Score": [0.0 , 1.0],
 //    }
 //   },
 //   ...
