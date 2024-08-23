@@ -207,8 +207,8 @@ const App = ({ setIsLoading, isLoading }) => {
               return (
                 <>
                   <ScoreGraph mappedScores={mappedScores} />
-                  
-                  <div className="text-center mt-4 test">
+
+                  <div className="text-center mt-4">
                     Hello this is a test
                   </div>
 
