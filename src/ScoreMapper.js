@@ -23,7 +23,7 @@ const ScoreMapper = ({ scores, mappings, children }) => {
   
     return (
       <>
-        {typeof children === 'function' ? children(mappedScores) : children}
+        {children(mappedScores)}
         <ScoreGraph mappedScores={mappedScores} />
       </>
     );
