@@ -82,7 +82,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       mappedScores.forEach((scoreObj, index) => {
         const { frequency, duration, detune, volume } = scoreObj;
 
-        console.log(`Playing sound for word: ${scoreObj.word}`);
+        console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
         // Calculate chord frequencies based on the root frequency

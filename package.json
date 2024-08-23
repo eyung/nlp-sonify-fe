@@ -16,6 +16,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
     "react-scripts": "5.0.1",
+    "recharts": "^2.12.7",
     "tailwindcss": "^3.4.3",
     "tone": "^15.0.4",
     "web-vitals": "^3.0.4"
