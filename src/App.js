@@ -202,7 +202,8 @@ const App = ({ setIsLoading, isLoading }) => {
             mappings={mappings}
           >
             {(mappedScores) => {
-              console.log('Mapped Scores:', mappedScores); // Add this line to debug
+              //console.log('Mapped Scores:', mappedScores); 
+
               return (
                 <>
                   <SoundPlayer
@@ -213,18 +214,19 @@ const App = ({ setIsLoading, isLoading }) => {
                     }}
                   />
                   <ScoreGraph mappedScores={mappedScores} />
+                  <div className="grid grid-cols-4 gap-4 m-10">
+                    <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
+                    <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
+                    <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
+                    <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
+                  </div>
                 </>
               );
             }}
           </ScoreMapper>
         )}
 
-      <div className="grid grid-cols-4 gap-4 m-10">
-        <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
-        <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
-        <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
-        <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
-      </div>
+      
 
       
 
