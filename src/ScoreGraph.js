@@ -2,6 +2,9 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const ScoreGraph = ({ mappedScores }) => {
+
+  console.log('ScoreGraph received mappedScores:', mappedScores);
+
   // Prepare data for the graph
   const data = mappedScores.map((score, index) => ({
     name: score.word,

@@ -201,18 +201,21 @@ const App = ({ setIsLoading, isLoading }) => {
             }))}
             mappings={mappings}
           >
-            {(mappedScores) => (
-              <>
-                <SoundPlayer
-                  mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
-                  onSoundPlayed={() => {
-                    setSoundPlayed(false);
-                    setShouldPlaySound(false);
-                  }}
-                />
-                <ScoreGraph mappedScores={mappedScores} />
-              </>
-            )}
+            {(mappedScores) => {
+              console.log('Mapped Scores:', mappedScores); // Add this line to debug
+              return (
+                <>
+                  <SoundPlayer
+                    mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
+                    onSoundPlayed={() => {
+                      setSoundPlayed(false);
+                      setShouldPlaySound(false);
+                    }}
+                  />
+                  <ScoreGraph mappedScores={mappedScores} />
+                </>
+              );
+            }}
           </ScoreMapper>
         )}
 
