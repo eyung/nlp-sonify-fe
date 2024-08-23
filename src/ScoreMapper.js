@@ -1,5 +1,4 @@
 import React from 'react';
-import ScoreGraph from './ScoreGraph';
 
 // ScoreMapper component
 const ScoreMapper = ({ scores, mappings, children }) => {
@@ -21,11 +20,6 @@ const ScoreMapper = ({ scores, mappings, children }) => {
       return mappedScore;
     });
   
-    return (
-      <>
-        {children(mappedScores)}
-        <ScoreGraph mappedScores={mappedScores} />
-      </>
-    );
+    return children(mappedScores);
   };
   export default ScoreMapper;
