@@ -52,6 +52,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
       // Function to calculate chord frequencies
       // This function calculates the frequencies for a IVM7, V7, iii7, and vi chord progression
+      // WIP
       const calculateChordFrequencies = (rootFrequency) => {
         const semitoneRatio = Math.pow(2, 1/12);
 
@@ -88,16 +89,15 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         const chords = calculateChordFrequencies(frequency);
 
         // Play the chords in the progression
-        //synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
-        const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
-        const chordSpacing = 0; // Increase this value for wider spacing between chords
+        //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
+        //const chordSpacing = 0; // Increase this value for wider spacing between chords
 
         //progression.forEach((chord, chordIndex) => {
           synth.triggerAttackRelease(
-            //chord, 
+            //chord, (not using chords for now)
             frequency,
             duration, 
-            //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), 
+            //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
             Tone.now() + (index * 1.1) + (duration), 
             volume, 
             detune
