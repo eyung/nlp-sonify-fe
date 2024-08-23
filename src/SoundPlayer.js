@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 
+// SoundPlayer component
 const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
   useEffect(() => {
     const playSound = async () => {
       await Tone.start(); // Start the audio context
-
-      //const waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
 
       // Clean up previous Tone.js context
       const context = new Tone.Context();
@@ -52,6 +51,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       synth.chain(reverb, delay, chorus, phaser, distortion, stereoWidener);
 
       // Function to calculate chord frequencies
+      // This function calculates the frequencies for a IVM7, V7, iii7, and vi chord progression
       const calculateChordFrequencies = (rootFrequency) => {
         const semitoneRatio = Math.pow(2, 1/12);
 
@@ -76,6 +76,8 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         return { IVM7, V7, iii7, vi };
       };
 
+      // Play the mapped scores
+      // Each score object contains the mapped frequency, duration, detune, and volume
       mappedScores.forEach((scoreObj, index) => {
         const { frequency, duration, detune, volume } = scoreObj;
 
@@ -85,12 +87,9 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Calculate chord frequencies based on the root frequency
         const chords = calculateChordFrequencies(frequency);
 
-        
-
         // Play the chords in the progression
         //synth.triggerAttackRelease(frequency, duration, Tone.now() + (index * 1.1), volume, detune);
         const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
-
         const chordSpacing = 0; // Increase this value for wider spacing between chords
 
         //progression.forEach((chord, chordIndex) => {
@@ -99,7 +98,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
             frequency,
             duration, 
             //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), 
-            Tone.now() + (index * 1.1) + (duration * chordSpacing), 
+            Tone.now() + (index * 1.1) + (duration), 
             volume, 
             detune
           );

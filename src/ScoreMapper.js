@@ -1,8 +1,13 @@
 import React from 'react';
 
+// ScoreMapper component
 const ScoreMapper = ({ scores, mappings, children }) => {
+
+    // Map scores to the desired parameters
     const mappedScores = scores.map(score => {
       const mappedScore = {};
+
+      // Map each score 
       for (const [key, value] of Object.entries(score)) {
         if (mappings[key]) {
             //console.log(`Mapping key: ${key}, value: ${value}`);
