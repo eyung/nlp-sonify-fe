@@ -8,7 +8,7 @@ import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreCard from './ScoreCard';
-import ScoreGraph from './ScoreGraph;
+import ScoreGraph from './ScoreGraph';
 
 const mappingFunctions = {
   frequency: (score) => 220 + (score * 420), // (score) => 440 + (score * 220)
