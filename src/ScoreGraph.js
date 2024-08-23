@@ -6,13 +6,15 @@ const ScoreGraph = ({ mappedScores }) => {
   console.log('ScoreGraph received mappedScores:', mappedScores);
 
   // Prepare data for the graph
-  const data = mappedScores.map((score, index) => ({
+  const data = mappedScores.map((score) => ({
     name: score.word,
     Frequency: score.frequency,
     Volume: score.volume,
     Duration: score.duration,
     Detune: score.detune,
   }));
+
+  console.log('ScoreGraph data:', data);
 
   return (
     <ResponsiveContainer width="100%" height={400}>
