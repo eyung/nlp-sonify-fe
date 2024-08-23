@@ -163,10 +163,6 @@ const App = ({ setIsLoading, isLoading }) => {
           </button>
         </form>
 
-        <div className="text-center mt-4">
-                    Hello this is a test
-                  </div>
-
         <DndContext onDragEnd={({ active, over }) => {
           if (over) {
             handleDrop(over.id, active.id);
@@ -207,13 +203,7 @@ const App = ({ setIsLoading, isLoading }) => {
           >
             {(mappedScores) => {
               //console.log('Mapped Scores:', mappedScores); 
-
               return (
-                <>
-                  <ScoreGraph mappedScores={mappedScores} />
-
-                  
-
                   <SoundPlayer
                     mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
                     onSoundPlayed={() => {
@@ -221,7 +211,6 @@ const App = ({ setIsLoading, isLoading }) => {
                       setShouldPlaySound(false);
                     }}
                   />
-                </>
               );
             }}
           </ScoreMapper>
@@ -234,7 +223,7 @@ const App = ({ setIsLoading, isLoading }) => {
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
 
-        
+        <ScoreGraph mappedScores={mappedScores} />
 
       </div>
     </div>
