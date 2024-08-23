@@ -72,6 +72,15 @@
   opacity: 1;
 }
 
+/* Button styles */
+.btn {
+
+}
+.btn-disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
 /* Define CSS variables for gradient stops */
 :root {
   --gradient-start: #9afff6;

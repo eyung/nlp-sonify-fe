@@ -18,7 +18,7 @@ const mappingFunctions = {
 };
 
 //
-// JSON schema for the combined scores
+// JSON schema for scores
 // {
 //  "sentences": [
 //   {
@@ -60,7 +60,7 @@ const processScores = (data) => {
   };  
 };
 
-const App = ({ setIsLoading }) => {
+const App = ({ setIsLoading, isLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -71,7 +71,7 @@ const App = ({ setIsLoading }) => {
   const [soundPlayed, setSoundPlayed] = useState(false);
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
   
-  // Default mappings
+  // Default mappings of text parameters to audio parameters
   const [mappings, setMappings] = useState({
     complexity: {
       parameter: 'frequency',
@@ -152,7 +152,14 @@ const App = ({ setIsLoading }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
-          <button type="submit" className="p-4 rounded-full bg-blue-500 focus:outline-none" onclick="play();"><i class="fa fa-play fa-2x text-white" id="play-btn"></i></button>
+          <button 
+            type="submit" 
+            className={`p-4 rounded-full bg-blue-500 focus:outline-none btn ${isLoading ? 'btn-disabled' : ''}`} 
+            onclick="play();"
+            disabled={isLoading}
+          >
+              <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
+          </button>
         </form>
 
         <DndContext onDragEnd={({ active, over }) => {
