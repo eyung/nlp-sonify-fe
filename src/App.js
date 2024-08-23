@@ -223,8 +223,6 @@ const App = ({ setIsLoading, isLoading }) => {
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
 
-        <ScoreGraph mappedScores={mappedScores} />
-
       </div>
     </div>
   );
