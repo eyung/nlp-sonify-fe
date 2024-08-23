@@ -16,6 +16,11 @@ const ScoreGraph = ({ mappedScores }) => {
 
   console.log('ScoreGraph data:', data);
 
+  // Check if data is empty
+  if (data.length === 0) {
+    return <div>No data available to display.</div>;
+  }
+
   return (
     <div className="mb-4">
       <ResponsiveContainer width="100%" height={400}>
