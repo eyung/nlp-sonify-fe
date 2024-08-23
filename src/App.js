@@ -206,6 +206,15 @@ const App = ({ setIsLoading, isLoading }) => {
 
               return (
                 <>
+                  <ScoreGraph mappedScores={mappedScores} />
+
+                  <div className="grid grid-cols-4 gap-4 m-10">
+                    <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
+                    <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
+                    <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
+                    <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
+                  </div>
+
                   <SoundPlayer
                     mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
                     onSoundPlayed={() => {
@@ -213,13 +222,7 @@ const App = ({ setIsLoading, isLoading }) => {
                       setShouldPlaySound(false);
                     }}
                   />
-                  <ScoreGraph mappedScores={mappedScores} />
-                  <div className="grid grid-cols-4 gap-4 m-10">
-                    <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
-                    <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
-                    <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
-                    <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
-                  </div>
+                  
                 </>
               );
             }}
