@@ -8,6 +8,7 @@ import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreCard from './ScoreCard';
+import ScoreGraph from './ScoreGraph;
 
 const mappingFunctions = {
   frequency: (score) => 220 + (score * 420), // (score) => 440 + (score * 220)
@@ -221,6 +222,9 @@ const App = ({ setIsLoading, isLoading }) => {
         <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
         <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
       </div>
+
+      {/* Render the ScoreGraph component */}
+      <ScoreGraph mappedScores={mappedScores} />
 
       </div>
     </div>
