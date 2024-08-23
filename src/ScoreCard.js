@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 
 const ScoreCard = ({ title, scores, tooltiptext }) => (
   <div className="relative card p-2 bg-white shadow-sm rounded-lg">
