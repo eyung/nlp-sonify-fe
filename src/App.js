@@ -158,7 +158,8 @@ const App = ({ setIsLoading, isLoading }) => {
             onclick="play();"
             disabled={isLoading}
           >
-              <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
+            {isLoading ? 'Loading...' : 'Submit'}
+            <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
           </button>
         </form>
 
