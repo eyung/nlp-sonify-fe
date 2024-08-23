@@ -201,18 +201,18 @@ const App = ({ setIsLoading, isLoading }) => {
             }))}
             mappings={mappings}
           >
-            {(mappedScores) => {
-              console.log('Mapped Scores:', mappedScores);
-              return (
+            {(mappedScores) => (
+              <>
                 <SoundPlayer
                   mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
                   onSoundPlayed={() => {
                     setSoundPlayed(false);
-                    setShouldPlaySound(false); // Reset shouldPlaySound after playing sound
+                    setShouldPlaySound(false);
                   }}
                 />
-              );
-            }}
+                <ScoreGraph mappedScores={mappedScores} />
+              </>
+            )}
           </ScoreMapper>
         )}
 
@@ -223,8 +223,7 @@ const App = ({ setIsLoading, isLoading }) => {
         <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
       </div>
 
-      {/* Render the ScoreGraph component */}
-      <ScoreGraph mappedScores={mappedScores} />
+      
 
       </div>
     </div>
