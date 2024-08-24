@@ -69,7 +69,6 @@ const App = ({ setIsLoading }) => {
   const [sentimentScores, setSentimentScores] = useState(null);
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
-  const [soundPlayed, setSoundPlayed] = useState(false);
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
   
   // Default mappings of text parameters to audio parameters
@@ -118,7 +117,7 @@ const App = ({ setIsLoading }) => {
       setConcretenessScores(scores.concretenessScores);
       setEmotionalIntensityScores(scores.emotionalIntensityScores);
 
-      setSoundPlayed(true);
+
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
       //reset();
 
@@ -212,7 +211,6 @@ const App = ({ setIsLoading }) => {
                   <SoundPlayer
                     mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
                     onSoundPlayed={() => {
-                      setSoundPlayed(false);
                       setShouldPlaySound(false);
                     }}
                   />
