@@ -65,11 +65,14 @@ const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const [complexityScores, setComplexityScores] = useState(null);
-  const [sentimentScores, setSentimentScores] = useState(null);
-  const [concretenessScores, setConcretenessScores] = useState(null);
-  const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
+  //const [complexityScores, setComplexityScores] = useState(null);
+  //const [sentimentScores, setSentimentScores] = useState(null);
+  //const [concretenessScores, setConcretenessScores] = useState(null);
+  //const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
+
+  const [inputText, setInputText] = useState('');
+  const [mappedScores, setMappedScores] = useState(null);
   
   // Default mappings of text parameters to audio parameters
   const [mappings, setMappings] = useState({
@@ -91,34 +94,29 @@ const App = ({ setIsLoading }) => {
     },
   });
 
-  const handlePlaySound = () => {
-    setShouldPlaySound(true);
-  };
-
-  const handleStopSound = () => {
-    setShouldPlaySound(false);
-  };
-
-  const onSubmit = async (data) => {
+  const handlePlaySound = async () => {
 
     setIsLoading(true); // Set loading to true when starting the request
 
     try {
-      const response = await axios.post(`${webURL}/api/v2/scores`, { text: data.inputText });
+      const response = await axios.post(`${webURL}/api/v2/scores`, { text: inputText });
       //const combinedScores = response.data;
       //const combinedScores = response.data.choices[0].message.content;
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
-      const combinedScores = JSON.parse(response.data.choices[0].message.content);
+      //const combinedScores = JSON.parse(response.data.choices[0].message.content);
 
-      const scores = processScores(combinedScores);
+      const scores = processScores(response.data);
+      const mappedScores = ScoreMapper(scores, mappings);
 
-      setComplexityScores(scores.complexityScores);
-      setSentimentScores(scores.sentimentScores);
-      setConcretenessScores(scores.concretenessScores);
-      setEmotionalIntensityScores(scores.emotionalIntensityScores);
+      setMappedScores(mappedScores);
+
+      //setComplexityScores(scores.complexityScores);
+      //setSentimentScores(scores.sentimentScores);
+      //setConcretenessScores(scores.concretenessScores);
+      //setEmotionalIntensityScores(scores.emotionalIntensityScores);
 
 
-      setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
+      //setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
       //reset();
 
     } catch (error) {
@@ -156,16 +154,14 @@ const App = ({ setIsLoading }) => {
     <div className="App flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
       
-        <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
-          <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
-          {errors.inputText && <p className="text-red-500">This field is required</p>}
-          <button 
-            type="submit" 
-            className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"} 
-          >
-            <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
-          </button>
-        </form>
+      <textarea
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+        placeholder="Enter your text here"
+        rows="10"
+        cols="50"
+      />
+      <button onClick={handlePlaySound}>Play Sound</button>
 
         <DndContext onDragEnd={({ active, over }) => {
           if (over) {
@@ -194,30 +190,8 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        {shouldPlaySound && (
-          <ScoreMapper
-            scores={Object.keys(complexityScores).map((word) => ({
-              word,
-              complexity: complexityScores[word],
-              sentiment: sentimentScores[word],
-              concreteness: concretenessScores[word],
-              emotionalIntensity: emotionalIntensityScores[word],
-            }))}
-            mappings={mappings}
-          >
-            {(mappedScores) => {
-              //console.log('Mapped Scores:', mappedScores); 
-              return (
-                  <SoundPlayer
-                    mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
-                    onSoundPlayed={() => {
-                      setShouldPlaySound(false);
-                    }}
-                  />
-              );
-            }}
-          </ScoreMapper>
-        )}
+        {mappedScores && <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setIsLoading(false)} />}
+      {mappedScores && <ScoreGraph mappedScores={mappedScores} />}
 
         <div className="grid grid-cols-4 gap-4 m-10">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
