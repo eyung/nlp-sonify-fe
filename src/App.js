@@ -91,7 +91,14 @@ const App = ({ setIsLoading }) => {
       mapFunction: mappingFunctions.volume
     },
   });
-  //const [isLoading, setIsLoading] = useState(false); // state for loading
+
+  const handlePlaySound = () => {
+    setShouldPlaySound(true);
+  };
+
+  const handleStopSound = () => {
+    setShouldPlaySound(false);
+  };
 
   const onSubmit = async (data) => {
 
@@ -147,7 +154,7 @@ const App = ({ setIsLoading }) => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="App flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
       
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
