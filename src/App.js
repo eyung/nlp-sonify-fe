@@ -103,9 +103,9 @@ const App = ({ setIsLoading }) => {
       //const combinedScores = response.data;
       //const combinedScores = response.data.choices[0].message.content;
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
-      //const combinedScores = JSON.parse(response.data.choices[0].message.content);
+      const combinedScores = JSON.parse(response.data.choices[0].message.content);
 
-      const scores = processScores(response.data);
+      const scores = processScores(response.data.choices[0].message.content);
       const mappedScores = ScoreMapper(scores, mappings);
 
       setMappedScores(mappedScores);
