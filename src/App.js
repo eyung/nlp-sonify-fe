@@ -61,7 +61,7 @@ const processScores = (data) => {
   };  
 };
 
-const App = ({ setIsLoading, isLoading }) => {
+const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -155,9 +155,7 @@ const App = ({ setIsLoading, isLoading }) => {
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button 
             type="submit" 
-            className={`p-4 rounded-full bg-blue-500 focus:outline-none btn ${isLoading ? 'btn-disabled' : ''}`} 
-            onclick="play();"
-            disabled={isLoading}
+            className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"} 
           >
             <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
           </button>
@@ -222,6 +220,8 @@ const App = ({ setIsLoading, isLoading }) => {
           <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
           <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
+
+        {/* <ScoreGraph mappedScores={mappedScores} /> */}
 
       </div>
     </div>
