@@ -33,33 +33,7 @@ const mappingFunctions = {
 //   ...
 //
 
-const processScores = (data) => {
-  // Ensure the data has the "sentences" root schema
-  const root = data.sentences ? data : { sentences: [data] };
 
-  const complexityScores = {};
-  const sentimentScores = {};
-  const concretenessScores = {};
-  const emotionalIntensityScores = {};
-
-  console.log('Root:', root);
-
-  root.sentences.forEach(sentence => {
-    for (const [word, scores] of Object.entries(sentence)) {
-      complexityScores[word] = scores["Complexity Score"];
-      sentimentScores[word] = scores["Sentiment Analysis Score"];
-      concretenessScores[word] = scores["Concreteness Score"];
-      emotionalIntensityScores[word] = scores["Emotional-Intensity Score"];
-    }
-  });
-
-  return {
-    complexityScores,
-    sentimentScores,
-    concretenessScores,
-    emotionalIntensityScores
-  };  
-};
 
 const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
