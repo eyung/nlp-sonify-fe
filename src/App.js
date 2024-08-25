@@ -47,6 +47,8 @@ const App = ({ setIsLoading }) => {
 
   // State to control sound playback
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
+
+  const [soundPlayed, setSoundPlayed] = useState(false);
   
   // Default mappings of text parameters to audio parameters
   const [mappings, setMappings] = useState({
@@ -96,6 +98,8 @@ const App = ({ setIsLoading }) => {
       setEmotionalIntensityScores(scores.emotionalIntensityScores);
 
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
+
+      setSoundPlayed(true);
 
     } catch (error) {
       console.error('Error:', error);
@@ -187,6 +191,7 @@ const App = ({ setIsLoading }) => {
                   <SoundPlayer
                     mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
                     onSoundPlayed={() => {
+                      setSoundPlayed(false);
                       setShouldPlaySound(false);
                     }}
                   />
