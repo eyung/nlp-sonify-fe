@@ -170,7 +170,7 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        {/* {shouldPlaySound && ( */}
+        {shouldPlaySound && (
           <ScoreMapper
             scores={Object.keys(complexityScores).map((word) => ({
               word,
@@ -193,7 +193,7 @@ const App = ({ setIsLoading }) => {
               );
             }}
           </ScoreMapper>
-        {/* )} */}
+        )}
 
         <div className="grid grid-cols-4 gap-4 m-10">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
