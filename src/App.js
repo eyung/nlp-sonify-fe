@@ -33,17 +33,19 @@ const mappingFunctions = {
 //   ...
 //
 
-
-
 const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
+  // Form state
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+  // State to store the scores for ScoreCard component
   const [complexityScores, setComplexityScores] = useState(null);
   const [sentimentScores, setSentimentScores] = useState(null);
   const [concretenessScores, setConcretenessScores] = useState(null);
   const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
 
+  // State to control sound playback
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
   
   // Default mappings of text parameters to audio parameters
@@ -74,6 +76,7 @@ const App = ({ setIsLoading }) => {
     setShouldPlaySound(false);
   };
 
+  // Function to process the form data and fetch the scores
   const onSubmit = async (data) => {
 
     setIsLoading(true); // Set loading to true when starting the request
@@ -92,9 +95,7 @@ const App = ({ setIsLoading }) => {
       setConcretenessScores(scores.concretenessScores);
       setEmotionalIntensityScores(scores.emotionalIntensityScores);
 
-
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
-      //reset();
 
     } catch (error) {
       console.error('Error:', error);
@@ -169,7 +170,7 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        {shouldPlaySound && (
+        {/* {shouldPlaySound && ( */}
           <ScoreMapper
             scores={Object.keys(complexityScores).map((word) => ({
               word,
@@ -192,7 +193,7 @@ const App = ({ setIsLoading }) => {
               );
             }}
           </ScoreMapper>
-        )}
+        {/* )} */}
 
         <div className="grid grid-cols-4 gap-4 m-10">
           <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
