@@ -7,7 +7,7 @@ import Droppable from './Droppable';
 import Draggable from './Draggable';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
-import ScoreCard from './ScoreCard';
+import ScoreCard, { processScores } from './ScoreCard';
 import ScoreGraph from './ScoreGraph';
 
 const mappingFunctions = {
