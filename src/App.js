@@ -33,7 +33,7 @@ const mappingFunctions = {
 //   ...
 //
 
-const App = ({ setIsLoading }) => {
+const App = ({ setIsLoading, isLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   // Form state
@@ -47,8 +47,6 @@ const App = ({ setIsLoading }) => {
 
   // State to control sound playback
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
-
-  const [soundPlayed, setSoundPlayed] = useState(false);
   
   // Default mappings of text parameters to audio parameters
   const [mappings, setMappings] = useState({
@@ -99,8 +97,6 @@ const App = ({ setIsLoading }) => {
 
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
 
-      setSoundPlayed(true);
-
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -141,7 +137,9 @@ const App = ({ setIsLoading }) => {
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button 
             type="submit" 
-            className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"} 
+            className={`p-4 rounded-full bg-blue-500 focus:outline-none btn ${isLoading ? 'btn-disabled' : ''}`} 
+            onclick="play();"
+            disabled={isLoading}
           >
             <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
           </button>
@@ -191,7 +189,6 @@ const App = ({ setIsLoading }) => {
                   <SoundPlayer
                     mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
                     onSoundPlayed={() => {
-                      setSoundPlayed(false);
                       setShouldPlaySound(false);
                     }}
                   />
