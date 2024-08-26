@@ -24,7 +24,7 @@ const Root = () => {
   }, [isLoading]);
 
   return (
-    <div className={`App ${isLoading ? 'gradient-animation' : ''}`}>
+    <div className={`App ${isLoading ? 'gradient-animation' : ''}`} style={backgroundStyle}>
       <App setIsLoading={setIsLoading} />
     </div>
   );
