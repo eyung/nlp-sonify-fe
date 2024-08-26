@@ -129,7 +129,7 @@ const App = ({ setIsLoading }) => {
   };
 
   return (
-    <div className="App flex justify-center">
+    <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
       
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
