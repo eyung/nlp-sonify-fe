@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { DndContext } from '@dnd-kit/core';
 import Droppable from './Droppable';
 import Draggable from './Draggable';
+import { ScoreProvider, useScores } from './ScoreContext';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreCard, { processScores } from './ScoreCard';
