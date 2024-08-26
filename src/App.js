@@ -193,10 +193,10 @@ const App = ({ setIsLoading }) => {
         )}
 
         <div className="grid grid-cols-4 gap-4 m-10">
-          <ScoreCard title="Complexity Scores" scores={complexityScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Sentiment Scores" scores={sentimentScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Concreteness Scores" scores={concretenessScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Emotional Intensity Scores" scores={emotionalIntensityScores} tooltiptext={"tooltip"} />
+          <ScoreCard title="Complexity Scores" scores={processedScores.complexityScores} tooltiptext={"tooltip"} />
+          <ScoreCard title="Sentiment Scores" scores={processedScores.sentimentScores} tooltiptext={"tooltip"} />
+          <ScoreCard title="Concreteness Scores" scores={processedScores.concretenessScores} tooltiptext={"tooltip"} />
+          <ScoreCard title="Emotional Intensity Scores" scores={processedScores.emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
 
         {/* <ScoreGraph mappedScores={mappedScores} /> */}
