@@ -40,11 +40,8 @@ const App = ({ setIsLoading }) => {
   // Form state
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-  // State to store the scores for ScoreCard component
-  const [complexityScores, setComplexityScores] = useState(null);
-  const [sentimentScores, setSentimentScores] = useState(null);
-  const [concretenessScores, setConcretenessScores] = useState(null);
-  const [emotionalIntensityScores, setEmotionalIntensityScores] = useState(null);
+  // Use context for scores data
+  const { scoresData, setScoresData } = useScores();
 
   // State to control sound playback
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
@@ -77,8 +74,8 @@ const App = ({ setIsLoading }) => {
     setShouldPlaySound(false);
   };
 
-  // Function to process the form data and fetch the scores
-  const onSubmit = async (data) => {
+  // Scores data
+  const handleFormSubmit = async (data) => {
 
     setIsLoading(true); // Set loading to true when starting the request
 
@@ -89,22 +86,18 @@ const App = ({ setIsLoading }) => {
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
       const combinedScores = JSON.parse(response.data.choices[0].message.content);
 
-      const scores = processScores(combinedScores);
-
-      setComplexityScores(scores.complexityScores);
-      setSentimentScores(scores.sentimentScores);
-      setConcretenessScores(scores.concretenessScores);
-      setEmotionalIntensityScores(scores.emotionalIntensityScores);
+      setScoresData(combinedScores);
 
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
 
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setIsLoading(false); // Set loading to false when the request is complete
+      setIsLoading(false);
     }
   };
 
+  // Function to handle DND drop events
   const handleDrop = (textParam, audioParam) => {
     setMappings(prevMappings => {
       const newMappings = { ...prevMappings };
@@ -129,11 +122,14 @@ const App = ({ setIsLoading }) => {
     });
   };
 
+  // 
+  const processedScores = scoresData ? processScores(scoresData) : {};
+
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
       
-        <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button 
@@ -171,27 +167,27 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        {shouldPlaySound && (
+        {scoresData && (
           <ScoreMapper
-            scores={Object.keys(complexityScores).map((word) => ({
+            scores={Object.entries(processedScores).map(([word, scores]) => ({
               word,
-              complexity: complexityScores[word],
-              sentiment: sentimentScores[word],
-              concreteness: concretenessScores[word],
-              emotionalIntensity: emotionalIntensityScores[word],
+              complexity: scores.complexityScores[word],
+              sentiment: scores.sentimentScores[word],
+              concreteness: scores.concretenessScores[word],
+              emotionalIntensity: scores.emotionalIntensityScores[word],
             }))}
             mappings={mappings}
           >
             {(mappedScores) => {
               //console.log('Mapped Scores:', mappedScores); 
-              return (
-                  <SoundPlayer
-                    mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
-                    onSoundPlayed={() => {
-                      setShouldPlaySound(false);
-                    }}
-                  />
-              );
+
+                <SoundPlayer
+                  mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
+                  onSoundPlayed={() => {
+                    setShouldPlaySound(false);
+                  }}
+                />
+
             }}
           </ScoreMapper>
         )}

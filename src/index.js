@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ScoreProvider } from './ScoreContext';
 import { sendToVercelAnalytics } from './vitals';
 
 const Root = () => {
@@ -32,7 +33,9 @@ const Root = () => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Root />
+    <ScoreProvider>
+      <App />
+    </ScoreProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
