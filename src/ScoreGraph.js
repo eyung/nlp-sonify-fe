@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 const ScoreGraph = ({ mappedScores }) => {
 
-  //console.log('ScoreGraph received mappedScores:', mappedScores);
+  console.log('ScoreGraph received mappedScores:', mappedScores);
 
   // Prepare data for the graph
   const data = mappedScores.map((score) => ({
