@@ -5,6 +5,12 @@ import { useScores } from './ScoreContext';
 const ScoreMapper = ({ mappings, children }) => {
   const { scoresData } = useScores();
 
+  // Check if scoresData is available
+  if (!scoresData || !Array.isArray(scoresData)) {
+    console.error('ScoreMapper: scoresData is not available or not an array');
+    return null;
+  }
+
   // Map scores to the desired parameters
   const mappedScores = scoresData.map(score => {
     const mappedScore = {};
