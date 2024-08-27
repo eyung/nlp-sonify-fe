@@ -8,7 +8,7 @@ const ScoreGraph = ({ mappedScores }) => {
   // Prepare data for the graph
   const data = mappedScores.map((score) => ({
     name: score.word,
-    Frequency: score.frequncy,
+    Frequency: score.frequency,
     Volume: score.volume,
     Duration: score.duration,
     Detune: score.detune,
