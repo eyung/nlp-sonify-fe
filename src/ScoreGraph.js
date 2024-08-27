@@ -14,7 +14,7 @@ const ScoreGraph = ({ mappedScores }) => {
     Detune: score.detune,
   }));
 
-  //console.log('ScoreGraph data:', data);
+  console.log('ScoreGraph data:', data);
 
   // Check if data is empty
   if (data.length === 0) {
