@@ -22,7 +22,7 @@ const ScoreGraph = ({ mappedScores }) => {
   }
 
   return (
-    <div className="mb-20">
+    <div className="mt-20">
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
