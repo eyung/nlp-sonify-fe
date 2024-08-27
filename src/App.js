@@ -85,7 +85,7 @@ const App = ({ setIsLoading }) => {
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
       const scores = JSON.parse(response.data.choices[0].message.content);
 
-      setScoresData(scores.sentences);
+      setScoresData(scores);
 
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
 
@@ -163,14 +163,16 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-         <ScoreMapper mappings={mappings}>
-          {(mappedScores) => (
-            <>
-              <ScoreGraph mappedScores={mappedScores} />
-              {shouldPlaySound && <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />}
-            </>
-          )}
-        </ScoreMapper>
+        {scoresData && (
+          <ScoreMapper mappings={mappings}>
+            {(mappedScores) => (
+              <>
+                <ScoreGraph mappedScores={mappedScores} />
+                {shouldPlaySound && <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />}
+              </>
+            )}
+          </ScoreMapper>
+        )}
 
         <div className="grid grid-cols-4 gap-4 m-10">
         </div>
