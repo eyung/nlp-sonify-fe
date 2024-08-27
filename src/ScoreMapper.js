@@ -16,6 +16,8 @@ const ScoreMapper = ({ mappings, children }) => {
   // Determine if scoresData contains sentences or is directly the array of sentences
   const sentences = scoresData.sentences || scoresData;
 
+  console.log('Sentences:', sentences);
+
   //if (!Array.isArray(sentences)) {
   //  console.error('ScoreMapper: scoresData malformed');
   //  return null;
