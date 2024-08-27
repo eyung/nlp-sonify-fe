@@ -6,8 +6,8 @@ const ScoreMapper = ({ mappings, children }) => {
   const { scoresData } = useScores();
 
   // Check if scoresData is available
-  if (!scoresData || !Array.isArray(scoresData)) {
-    console.error('ScoreMapper: scoresData is not available or not an array');
+  if (!scoresData) {
+    console.error('ScoreMapper: scoresData is not available');
     return null;
   }
 
