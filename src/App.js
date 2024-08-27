@@ -87,7 +87,7 @@ const App = ({ setIsLoading }) => {
 
       setScoresData(scores);
 
-      setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
+      setShouldPlaySound(true);
 
     } catch (error) {
       console.error('Error:', error);
@@ -162,21 +162,21 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        
-        {shouldPlaySound && (
-          <ScoreMapper mappings={mappings}>
-            {(mappedScores) => (
-              <>
-                <ScoreGraph mappedScores={mappedScores} />
-                {shouldPlaySound && <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />}
-                
-                
-  
-              </>
-            )}
-          </ScoreMapper>
-        )}
-       
+        <div className="flex justify-around mt-4">
+          {shouldPlaySound && (
+            <ScoreMapper mappings={mappings}>
+              {(mappedScores) => (
+                <>
+                  
+                  <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
+                  <ScoreGraph mappedScores={mappedScores} />
+                  
+    
+                </>
+              )}
+            </ScoreMapper>
+          )}
+        </div>
 
         <div className="grid grid-cols-4 gap-4 m-10">
         </div>
