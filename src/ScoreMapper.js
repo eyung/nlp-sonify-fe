@@ -14,7 +14,7 @@ const ScoreMapper = ({ mappings, children }) => {
   }
   
   // Determine if scoresData contains sentences or is directly the array of sentences
-  c//onst sentences = scoresData.sentences || scoresData;
+  //const sentences = scoresData.sentences || scoresData;
 
   //console.log('Sentences:', sentences);
 
