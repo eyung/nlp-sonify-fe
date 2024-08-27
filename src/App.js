@@ -45,7 +45,7 @@ const App = ({ setIsLoading }) => {
   // State to control sound playback
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
   
-  // Default mappings of text parameters to audio parameters
+  // Default mappings of text parameters to audio parameters when loading app for first time
   const [mappings, setMappings] = useState({
     'Complexity Score': {
       parameter: 'frequency',
@@ -142,21 +142,20 @@ const App = ({ setIsLoading }) => {
           }
         }}>
           <div className="grid grid-cols-2 gap-4 mt-4">
-            {['complexity', 'sentiment', 'concreteness', 'emotionalIntensity'].map(param => (
-              <Droppable key={param} id={param}>
+          {Object.keys(mappings).map((textParam) => (
+              <Droppable key={textParam} id={textParam}>
                 <div className="p-4 border rounded">
-                  <h3 className="text-lg font-semibold">{param}</h3>
-                  {mappings[param] && <p>Mapped to: {mappings[param].parameter}</p>}
+                  <p>{textParam}</p>
+                  <p>Mapped to: {mappings[textParam].parameter}</p>
                 </div>
               </Droppable>
             ))}
           </div>
-
-          <div className="flex justify-around mt-4">
-            {['frequency', 'duration', 'detune', 'volume'].map(param => (
-              <Draggable key={param} id={param}>
-                <div className="p-4 bg-gray-200 rounded">
-                  <p>{param}</p>
+          <div className="flex space-x-4 mt-4">
+            {Object.keys(mappingFunctions).map((audioParam) => (
+              <Draggable key={audioParam} id={audioParam}>
+                <div className="p-4 border rounded">
+                  <p>{audioParam}</p>
                 </div>
               </Draggable>
             ))}
