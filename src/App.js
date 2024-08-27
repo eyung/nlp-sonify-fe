@@ -162,7 +162,7 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        {shouldPlaySound && (
+
           <ScoreMapper mappings={mappings}>
             {(mappedScores) => (
               <>
@@ -171,7 +171,7 @@ const App = ({ setIsLoading }) => {
               </>
             )}
           </ScoreMapper>
-        )}
+
 
         <div className="grid grid-cols-4 gap-4 m-10">
         </div>
