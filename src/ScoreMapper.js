@@ -10,14 +10,17 @@ const ScoreMapper = ({ mappings, children }) => {
     console.error('ScoreMapper: scoresData is not available');
     return null;
   }
+  
+  // Determine if scoresData contains sentences or is directly the array of sentences
+  const sentences = scoresData.sentences || scoresData;
 
-  if (!scoresData.sentences) {
+  if (!Array.isArray(sentences)) {
     console.error('ScoreMapper: scoresData malformed');
     return null;
   }
 
   // Extract and map scores to the desired parameters
-  const mappedScores = scoresData.sentences.map(sentence => {
+  const mappedScores = sentences.map(sentence => {
     const wordScores = sentence.word;
     const mappedScore = {};
 
