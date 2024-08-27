@@ -11,7 +11,7 @@ const ScoreMapper = ({ mappings, children }) => {
     return null;
   }
 
-  if (!!scoresData.sentences) {
+  if (!scoresData.sentences) {
     console.error('ScoreMapper: scoresData malformed');
     return null;
   }
