@@ -24,11 +24,11 @@ const ScoreMapper = ({ mappings, children }) => {
   //}
 
   // Create an array from the JSON object
-  const words = Object.values(scoresData);
+  const sentences = Object.values(scoresData);
 
   // Extract and map scores to the desired parameters
-  const mappedScores = words.map(word => {
-    const wordScores = word.word;
+  const mappedScores = sentences.map(sentence => {
+    const wordScores = sentence.word;
     const mappedScore = {};
 
     // Map each score 
