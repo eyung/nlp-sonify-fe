@@ -142,23 +142,23 @@ const App = ({ setIsLoading }) => {
           }
         }}>
           <div className="grid grid-cols-2 gap-4 mt-4">
-          {Object.keys(mappings).map((textParam) => (
-              <Droppable key={textParam} id={textParam}>
-                <div className="p-4 border rounded">
-                  <p>{textParam}</p>
-                  <p>Mapped to: {mappings[textParam].parameter}</p>
-                </div>
-              </Droppable>
-            ))}
-          </div>
-          <div className="flex space-x-4 mt-4">
-            {Object.keys(mappingFunctions).map((audioParam) => (
-              <Draggable key={audioParam} id={audioParam}>
-                <div className="p-4 border rounded">
-                  <p>{audioParam}</p>
-                </div>
-              </Draggable>
-            ))}
+            {Object.keys(mappings).map((textParam) => (
+                <Droppable key={textParam} id={textParam}>
+                  <div className="p-4 border rounded">
+                    <h3 className="text-lg font-semibold">{textParam}</h3>
+                    <p>Mapped to: {mappings[textParam].parameter}</p>
+                  </div>
+                </Droppable>
+              ))}
+            </div>
+            <div className="flex justify-around mt-4">
+              {Object.keys(mappingFunctions).map((audioParam) => (
+                <Draggable key={audioParam} id={audioParam}>
+                  <div className="p-4 bg-gray-200 rounded">
+                    <p>{audioParam}</p>
+                  </div>
+                </Draggable>
+              ))}
           </div>
         </DndContext>
 
