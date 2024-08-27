@@ -86,6 +86,7 @@ const App = ({ setIsLoading }) => {
       const scores = JSON.parse(response.data.choices[0].message.content);
 
       setScoresData(scores);
+      console.log('Scores:', scoresData);
 
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
 
