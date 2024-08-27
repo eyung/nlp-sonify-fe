@@ -167,10 +167,10 @@ const App = ({ setIsLoading }) => {
             <ScoreMapper mappings={mappings}>
               {(mappedScores) => (
                 <>
-                  
+                  <ScoreGraph mappedScores={mappedScores} />
                   {shouldPlaySound && <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />}
                   
-                  <ScoreGraph mappedScores={mappedScores} />
+                  
     
                 </>
               )}
