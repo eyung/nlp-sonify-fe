@@ -11,13 +11,18 @@ const ScoreMapper = ({ mappings, children }) => {
     return null;
   }
 
+  if (!!scoresData.sentences) {
+    console.error('ScoreMapper: scoresData malformed');
+    return null;
+  }
+
   // Extract and map scores to the desired parameters
   const mappedScores = scoresData.sentences.map(sentence => {
     const wordScores = sentence.word;
     const mappedScore = {};
 
     // Map each score 
-    for (const [key, value] of Object.entries(score)) {
+    for (const [key, value] of Object.entries(wordScores)) {
       if (mappings[key]) {
           console.log(`Mapping key: ${key}, value: ${value}`);
           console.log(`Mapping function: ${mappings[key].mapFunction}`);
