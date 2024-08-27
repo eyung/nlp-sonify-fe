@@ -5,10 +5,9 @@ import { useForm } from 'react-hook-form';
 import { DndContext } from '@dnd-kit/core';
 import Droppable from './Droppable';
 import Draggable from './Draggable';
-import { ScoreProvider, useScores } from './ScoreContext';
+import { useScores } from './ScoreContext';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
-import ScoreCard, { processScores } from './ScoreCard';
 import ScoreGraph from './ScoreGraph';
 
 const mappingFunctions = {
@@ -84,9 +83,9 @@ const App = ({ setIsLoading }) => {
       //const combinedScores = response.data;
       //const combinedScores = response.data.choices[0].message.content;
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
-      const combinedScores = JSON.parse(response.data.choices[0].message.content);
+      const scores = JSON.parse(response.data.choices[0].message.content);
 
-      setScoresData(combinedScores);
+      setScoresData(scores);
 
       setShouldPlaySound(true); // Set shouldPlaySound to true when form is submitted
 
@@ -121,9 +120,6 @@ const App = ({ setIsLoading }) => {
       return newMappings;
     });
   };
-
-  // 
-  const processedScores = scoresData ? processScores(scoresData) : {};
 
   return (
     <div className="flex justify-center">
@@ -168,35 +164,19 @@ const App = ({ setIsLoading }) => {
         </DndContext>
 
         {scoresData && (
-          <ScoreMapper
-            scores={Object.entries(processedScores).map(([word, scores]) => ({
-              word,
-              complexity: scores.complexityScores[word],
-              sentiment: scores.sentimentScores[word],
-              concreteness: scores.concretenessScores[word],
-              emotionalIntensity: scores.emotionalIntensityScores[word],
-            }))}
-            mappings={mappings}
-          >
-            {(mappedScores) => {
-              //console.log('Mapped Scores:', mappedScores); 
-
-                <SoundPlayer
-                  mappedScores={Array.isArray(mappedScores) ? mappedScores : []}
-                  onSoundPlayed={() => {
-                    setShouldPlaySound(false);
-                  }}
-                />
-
-            }}
-          </ScoreMapper>
-        )}
+        <ScoreMapper scores={scoresData.sentences} mappings={mappings}>
+          {(mappedScores) => (
+            <>
+              <ScoreGraph mappedScores={mappedScores} />
+              {shouldPlaySound && (
+                <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
+              )}
+            </>
+          )}
+        </ScoreMapper>
+      )}
 
         <div className="grid grid-cols-4 gap-4 m-10">
-          <ScoreCard title="Complexity Scores" scores={processedScores.complexityScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Sentiment Scores" scores={processedScores.sentimentScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Concreteness Scores" scores={processedScores.concretenessScores} tooltiptext={"tooltip"} />
-          <ScoreCard title="Emotional Intensity Scores" scores={processedScores.emotionalIntensityScores} tooltiptext={"tooltip"} />
         </div>
 
         {/* <ScoreGraph mappedScores={mappedScores} /> */}
