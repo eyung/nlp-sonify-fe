@@ -5,7 +5,7 @@ import { useScores } from './ScoreContext';
 const ScoreMapper = ({ mappings, children }) => {
   const { scoresData } = useScores();
 
-  console.log('ScoreMapper: scoresData:', scoresData);
+  //console.log('ScoreMapper: scoresData:', scoresData);
 
   // Check if scoresData is available
   if (!scoresData) {
@@ -30,8 +30,8 @@ const ScoreMapper = ({ mappings, children }) => {
     const { word, ...wordScores } = sentence;
     const mappedScore = { word };
 
-    console.log('wordScores keys:', Object.keys(wordScores));
-    console.log('mappings keys:', Object.keys(mappings));
+    //console.log('wordScores keys:', Object.keys(wordScores));
+    //console.log('mappings keys:', Object.keys(mappings));
 
     // Map each score 
     for (const [key, value] of Object.entries(wordScores)) {
