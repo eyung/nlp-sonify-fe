@@ -162,21 +162,19 @@ const App = ({ setIsLoading }) => {
           </div>
         </DndContext>
 
-        <div className="flex justify-around mt-4">
-          {shouldPlaySound && (
-            <ScoreMapper mappings={mappings}>
-              {(mappedScores) => (
-                <>
-                  
-                  <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
-                  <ScoreGraph mappedScores={mappedScores} />
-                  
-    
-                </>
-              )}
-            </ScoreMapper>
-          )}
-        </div>
+        {shouldPlaySound && (
+          <ScoreMapper mappings={mappings}>
+            {(mappedScores) => (
+              <>
+                
+                <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
+                <ScoreGraph mappedScores={mappedScores} />
+                
+  
+              </>
+            )}
+          </ScoreMapper>
+        )}
 
         <div className="grid grid-cols-4 gap-4 m-10">
         </div>
