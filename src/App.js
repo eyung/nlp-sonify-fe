@@ -96,7 +96,7 @@ const App = ({ setIsLoading }) => {
     }
   };
 
-  // Function to handle DND drop events
+  // Function to handle DND events
   const handleDrop = (textParam, audioParam) => {
     setMappings(prevMappings => {
       const newMappings = { ...prevMappings };
