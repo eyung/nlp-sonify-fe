@@ -47,22 +47,22 @@ const App = ({ setIsLoading }) => {
   
   // Default mappings of text parameters to audio parameters
   const [mappings, setMappings] = useState({
-    complexity: {
+    'Complexity Score': {
       parameter: 'frequency',
       mapFunction: mappingFunctions.frequency
     },
-    sentiment: {
+    'Sentiment Analysis Score': {
       parameter: 'duration',
       mapFunction: mappingFunctions.duration
     },
-    concreteness: {
+    'Concreteness Score': {
       parameter: 'detune',
       mapFunction: mappingFunctions.detune
     },
-    emotionalIntensity: {
+    'Emotional-Intensity Score': {
       parameter: 'volume',
       mapFunction: mappingFunctions.volume
-    },
+    }
   });
 
   const handlePlaySound = () => {
