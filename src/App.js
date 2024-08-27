@@ -166,11 +166,8 @@ const App = ({ setIsLoading }) => {
           <ScoreMapper mappings={mappings}>
             {(mappedScores) => (
               <>
-                
-                <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
                 <ScoreGraph mappedScores={mappedScores} />
-                
-  
+                <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
               </>
             )}
           </ScoreMapper>
