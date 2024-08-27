@@ -5,7 +5,7 @@ import { useScores } from './ScoreContext';
 const ScoreMapper = ({ mappings, children }) => {
   const { scoresData } = useScores();
 
-  console.log('Scores:', scoresData);
+  //console.log('Scores:', scoresData);
 
   // Check if scoresData is available
   if (!scoresData) {
@@ -14,9 +14,9 @@ const ScoreMapper = ({ mappings, children }) => {
   }
   
   // Determine if scoresData contains sentences or is directly the array of sentences
-  const sentences = scoresData.sentences || scoresData;
+  c//onst sentences = scoresData.sentences || scoresData;
 
-  console.log('Sentences:', sentences);
+  //console.log('Sentences:', sentences);
 
   //if (!Array.isArray(sentences)) {
   //  console.error('ScoreMapper: scoresData malformed');
@@ -24,7 +24,7 @@ const ScoreMapper = ({ mappings, children }) => {
   //}
 
   // Extract and map scores to the desired parameters
-  const mappedScores = sentences.map(sentence => {
+  const mappedScores = scoresData.map(sentence => {
     const wordScores = sentence.word;
     const mappedScore = {};
 
