@@ -12,21 +12,11 @@ const ScoreMapper = ({ mappings, children }) => {
     console.error('ScoreMapper: scoresData is not available');
     return null;
   }
-  
-  // Determine if scoresData contains sentences or is directly the array of sentences
-  //const sentences = scoresData.sentences || scoresData;
-
-  //console.log('Sentences:', sentences);
-
-  //if (!Array.isArray(sentences)) {
-  //  console.error('ScoreMapper: scoresData malformed');
-  //  return null;
-  //}
 
   // Create an array from the JSON object
   let sentences;
   try {
-    sentences = Object.values(scoresData);
+    sentences = Object.entries(scoresData).map(([word, scores]) => ({ word, ...scores }));
   } catch (error) {
     console.error('ScoreMapper: Failed to convert scoresData to array', error);
     return null;
@@ -37,8 +27,8 @@ const ScoreMapper = ({ mappings, children }) => {
 
   // Extract and map scores to the desired parameters
   const mappedScores = sentences.map(sentence => {
-    const wordScores = sentence.word;
-    const mappedScore = {};
+    const { word, ...wordScores } = sentence;
+    const mappedScore = { word };
 
     // Map each score 
     for (const [key, value] of Object.entries(wordScores)) {
