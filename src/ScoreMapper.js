@@ -30,6 +30,9 @@ const ScoreMapper = ({ mappings, children }) => {
     const { word, ...wordScores } = sentence;
     const mappedScore = { word };
 
+    console.log('wordScores keys:', Object.keys(wordScores));
+    console.log('mappings keys:', Object.keys(mappings));
+
     // Map each score 
     for (const [key, value] of Object.entries(wordScores)) {
       if (mappings[key]) {
