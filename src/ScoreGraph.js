@@ -18,7 +18,7 @@ const ScoreGraph = ({ mappedScores }) => {
 
   // Check if data is empty
   if (data.length === 0) {
-    return <div>No data available to display.</div>;
+    return <div className="mt-20"><span>No data available to display.</span></div>;
   }
 
   return (
