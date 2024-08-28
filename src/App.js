@@ -79,7 +79,7 @@ const App = ({ setIsLoading }) => {
     setIsLoading(true); // Set loading to true when starting the request
 
     try {
-      const response = await axios.post(`${webURL}/api/v2/scores`, { text: data.inputText });
+      const response = await axios.post(`${webURL}/api/v3/scores`, { text: data.inputText });
       //const combinedScores = response.data;
       //const combinedScores = response.data.choices[0].message.content;
       //responses.map(response => JSON.parse(response.data.choices[0].message.content));
