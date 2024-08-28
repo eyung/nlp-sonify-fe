@@ -26,7 +26,7 @@ const ScoreMapper = ({ mappings, children }) => {
   console.log('ScoreMapper: sentences:', sentences);
 
   // Extract and map scores to the desired parameters
-  const mappedScores = scoresData.sentences.map(sentence => {
+  const mappedScores = sentences.map(sentence => {
     const { word, ...wordScores } = sentence;
     const mappedScore = { word };
 
