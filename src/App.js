@@ -145,7 +145,7 @@ const App = ({ setIsLoading }) => {
             {Object.keys(mappings).map((textParam) => (
                 <Droppable key={textParam} id={textParam}>
                   <div className="p-4 border rounded">
-                    <h3 className="text-lg font-semibold">{textParam}</h3>
+                    <h3 className="text-lg font-semibold">{textParam.replace(' Score', '')}</h3>
                     <p>Mapped to: {mappings[textParam].parameter}</p>
                   </div>
                 </Droppable>
