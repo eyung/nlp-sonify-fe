@@ -18,21 +18,6 @@ const mappingFunctions = {
   volume: (score) => -30 + (score * 50)
 };
 
-//
-// JSON schema for scores
-// {
-//  "sentences": [
-//   {
-//    "word": {
-//      "Complexity Score": [-1.0 , 1.0],
-//      "Sentiment Analysis Score": [-1.0 , 1.0],
-//      "Concreteness Score": [-1.0 , 1.0],
-//      "Emotional-Intensity Score": [-1.0 , 1.0],
-//    }
-//   },
-//   ...
-//
-
 const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 

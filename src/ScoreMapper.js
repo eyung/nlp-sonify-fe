@@ -14,19 +14,19 @@ const ScoreMapper = ({ mappings, children }) => {
   }
 
   // Create an array from the JSON object
-  let sentences;
-  try {
-    sentences = Object.entries(scoresData).map(([word, scores]) => ({ word, ...scores }));
-  } catch (error) {
-    console.error('ScoreMapper: Failed to convert scoresData to array', error);
-    return null;
-  }
+  //let sentences;
+  //try {
+  //  sentences = Object.entries(scoresData).map(([word, scores]) => ({ word, ...scores }));
+  //} catch (error) {
+  //  console.error('ScoreMapper: Failed to convert scoresData to array', error);
+  //  return null;
+  //}
 
   // Log the structure of sentences
-  console.log('ScoreMapper: sentences:', sentences);
+  //console.log('ScoreMapper: sentences:', sentences);
 
   // Extract and map scores to the desired parameters
-  const mappedScores = sentences.map(sentence => {
+  const mappedScores = scoresData.sentences.map(sentence => {
     const { word, ...wordScores } = sentence;
     const mappedScore = { word };
 
