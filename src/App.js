@@ -9,6 +9,7 @@ import { useScores } from './ScoreContext';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreGraph from './ScoreGraph';
+import SoundGraph from './SoundGraph';
 
 const mappingFunctions = {
   frequency: (score) => 220 + (score * 420), // (score) => 440 + (score * 220)
@@ -146,12 +147,13 @@ const App = ({ setIsLoading }) => {
               ))}
           </div>
         </DndContext>
-        
+
 
         <ScoreMapper mappings={mappings}>
           {(mappedScores) => (
             <>
               <ScoreGraph mappedScores={mappedScores} />
+              <SoundGraph mappings={mappedScores} />
               {shouldPlaySound && (
                 <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
               )}
