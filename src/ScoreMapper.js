@@ -27,8 +27,12 @@ const ScoreMapper = ({ mappings, children }) => {
       return mappedScore;
     });
   } catch (error) {
-    // set a fallback state or show an error message to the user
-    console.warn('Error mapping scores:', error);
+    if (error instanceof TypeError && error.message.includes('r.sentences is undefined')) {
+      // Ignore error with undefined sentences that are thrown 
+      // when the scoresData is empty because app is loading for the first time
+    } else {
+      throw error; // Re-throw other errors
+    }
   }
 
 return children(mappedScores);
