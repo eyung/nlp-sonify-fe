@@ -3,38 +3,39 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { useScores } from './ScoreContext';
 
 const SoundGraph = ({ mappings }) => {
-  try {
+  
     const { scoresData } = useScores();
   
-    // Prepare data for the graph
-    const data = scoresData.sentences.map(sentence => {
-      const { word, ...wordScores } = sentence;
-      const mappedScore = { name: word };
-  
-      // Map each score
-      for (const [key, value] of Object.entries(wordScores)) {
-        if (mappings[key]) {
-          mappedScore[mappings[key].parameter] = mappings[key].mapFunction(value);
-        } else {
-          mappedScore[key] = value;
+    try {
+        // Prepare data for the graph
+        const data = scoresData.sentences.map(sentence => {
+        const { word, ...wordScores } = sentence;
+        const mappedScore = { name: word };
+    
+        // Map each score
+        for (const [key, value] of Object.entries(wordScores)) {
+            if (mappings[key]) {
+            mappedScore[mappings[key].parameter] = mappings[key].mapFunction(value);
+            } else {
+            mappedScore[key] = value;
+            }
         }
-      }
-      return mappedScore;
-    });
-  
-    // Check if data is empty
-    if (data.length === 0) {
-      return <div className="mt-20"><span>No data available to display.</span></div>;
+        return mappedScore;
+        });
+    
+        // Check if data is empty
+        if (data.length === 0) {
+        return <div className="mt-20"><span>No data available to display.</span></div>;
+        }
+    
+    } catch (error) {
+        if (error instanceof TypeError && error.message.includes('.sentences is undefined')) {
+        // Ignore error with undefined sentences that are thrown 
+        // when the scoresData is empty because app is loading for the first time
+        } else {
+        throw error; // Re-throw other errors
+        }
     }
-  
-  } catch (error) {
-    if (error instanceof TypeError && error.message.includes('.sentences is undefined')) {
-      // Ignore error with undefined sentences that are thrown 
-      // when the scoresData is empty because app is loading for the first time
-    } else {
-      throw error; // Re-throw other errors
-    }
-  }
 
   return (
     <div className="mt-20">
