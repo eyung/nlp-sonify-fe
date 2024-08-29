@@ -9,25 +9,18 @@ const SoundGraph = ({ mappings }) => {
     try {
 
     // Prepare data for the graph
-    const data = scoresData.sentences.map(sentence => {
-    const { word, ...wordScores } = sentence;
-    const mappedScore = { name: word };
-
-    // Map each score
-    for (const [key, value] of Object.entries(wordScores)) {
-        if (mappings[key]) {
-            mappedScore[key] = value;
-        } else {
-            mappedScore[key] = value;
-        }
-    }
-    return mappedScore;
+    const data = scoresData.map(sentence => {
+        const { word, ...wordScores } = sentence;
+        return { name: word, ...wordScores };
     });
 
     // Check if data is empty
     if (data.length === 0) {
         return <div className="mt-20"><span>No data available to display.</span></div>;
     }
+
+    // Get all unique keys from wordScores to create lines dynamically
+    const keys = Object.keys(data[0]).filter(key => key !== 'name');
 
     return (
         <div className="mt-20">
@@ -38,8 +31,8 @@ const SoundGraph = ({ mappings }) => {
             <YAxis />
             <Tooltip />
             <Legend />
-            {Object.keys(mappings).map((key, index) => (
-                <Line key={index} type="monotone" dataKey={mappings[key].parameter} stroke="#8884d8" />
+            {keys.map((key, index) => (
+                <Line key={index} type="monotone" dataKey={key} stroke="#8884d8" />
             ))}
             </LineChart>
         </ResponsiveContainer>
