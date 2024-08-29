@@ -146,8 +146,8 @@ const App = ({ setIsLoading }) => {
               ))}
           </div>
         </DndContext>
+        
 
-      
         <ScoreMapper mappings={mappings}>
           {(mappedScores) => (
             <>
