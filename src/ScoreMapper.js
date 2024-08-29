@@ -27,8 +27,8 @@ const ScoreMapper = ({ mappings, children }) => {
       return mappedScore;
     });
   } catch (error) {
-    console.error('Error mapping scores:', error);
-    // Optionally, you can set a fallback state or show an error message to the user
+    // set a fallback state or show an error message to the user
+    console.warn('Error mapping scores:', error);
   }
 
 return children(mappedScores);
