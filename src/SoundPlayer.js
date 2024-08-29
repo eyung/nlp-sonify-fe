@@ -14,7 +14,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       // Create a PolySynth for polyphonic sound
       const synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
-          type: 'square', // change this to 'sine', 'triangle', 'square', etc.
+          type: 'triangle', // change this to 'sine', 'triangle', 'square', etc.
         },
         envelope: {
           attack: 0.5,
