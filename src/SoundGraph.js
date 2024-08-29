@@ -7,27 +7,45 @@ const SoundGraph = ({ mappings }) => {
     const { scoresData } = useScores();
   
     try {
-        // Prepare data for the graph
-        const data = scoresData.sentences.map(sentence => {
-        const { word, ...wordScores } = sentence;
-        const mappedScore = { name: word };
-    
-        // Map each score
-        for (const [key, value] of Object.entries(wordScores)) {
-            if (mappings[key]) {
-            mappedScore[mappings[key].parameter] = mappings[key].mapFunction(value);
-            } else {
-            mappedScore[key] = value;
-            }
+
+    // Prepare data for the graph
+    const data = scoresData.sentences.map(sentence => {
+    const { word, ...wordScores } = sentence;
+    const mappedScore = { name: word };
+
+    // Map each score
+    for (const [key, value] of Object.entries(wordScores)) {
+        if (mappings[key]) {
+        mappedScore[mappings[key].parameter] = mappings[key].mapFunction(value);
+        } else {
+        mappedScore[key] = value;
         }
-        return mappedScore;
-        });
-    
-        // Check if data is empty
-        if (data.length === 0) {
-        return <div className="mt-20"><span>No data available to display.</span></div>;
-        }
-    
+    }
+    return mappedScore;
+    });
+
+    // Check if data is empty
+    if (data.length === 0) {
+    return <div className="mt-20"><span>No data available to display.</span></div>;
+    }
+
+    return (
+        <div className="mt-20">
+        <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {Object.keys(mappings).map((key, index) => (
+                <Line key={index} type="monotone" dataKey={mappings[key].parameter} stroke="#8884d8" />
+            ))}
+            </LineChart>
+        </ResponsiveContainer>
+        </div>
+    );
+
     } catch (error) {
         if (error instanceof TypeError && error.message.includes('.sentences is undefined')) {
         // Ignore error with undefined sentences that are thrown 
@@ -36,23 +54,6 @@ const SoundGraph = ({ mappings }) => {
         throw error; // Re-throw other errors
         }
     }
-
-  return (
-    <div className="mt-20">
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {Object.keys(mappings).map((key, index) => (
-            <Line key={index} type="monotone" dataKey={mappings[key].parameter} stroke="#8884d8" />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
-  );
 };
 
 export default SoundGraph;
