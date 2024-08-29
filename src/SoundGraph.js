@@ -16,9 +16,9 @@ const SoundGraph = ({ mappings }) => {
     // Map each score
     for (const [key, value] of Object.entries(wordScores)) {
         if (mappings[key]) {
-        mappedScore[mappings[key].parameter] = mappings[key].mapFunction(value);
+            mappedScore[key] = value;
         } else {
-        mappedScore[key] = value;
+            mappedScore[key] = value;
         }
     }
     return mappedScore;
@@ -26,7 +26,7 @@ const SoundGraph = ({ mappings }) => {
 
     // Check if data is empty
     if (data.length === 0) {
-    return <div className="mt-20"><span>No data available to display.</span></div>;
+        return <div className="mt-20"><span>No data available to display.</span></div>;
     }
 
     return (
