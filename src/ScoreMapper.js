@@ -30,6 +30,8 @@ const ScoreMapper = ({ mappings, children }) => {
     if (error instanceof TypeError && error.message.includes('r.sentences is undefined')) {
       // Ignore error with undefined sentences that are thrown 
       // when the scoresData is empty because app is loading for the first time
+    } else if (error instanceof TypeError && error.message.includes('Cannot read properties of undefined')) {
+      // Ignore error with undefined sentences that are thrown 
     } else {
       throw error; // Re-throw other errors
     }
