@@ -26,12 +26,13 @@ const ScoreMapper = ({ mappings, children }) => {
       }
       return mappedScore;
     });
+
+  // scoresData is empty because app is loading for the first time
   } catch (error) {
     if (error instanceof TypeError && error.message.includes('r.sentences is undefined')) {
-      // Ignore error with undefined sentences that are thrown 
-      // when the scoresData is empty because app is loading for the first time
+      // Ignore error with undefined sentences that are thrown in Firefox
     } else if (error instanceof TypeError && error.message.includes('Cannot read properties of undefined')) {
-      // Ignore error with undefined sentences that are thrown 
+      // Ignore error with undefined sentences that are thrown in Chrome
     } else {
       throw error; // Re-throw other errors
     }
