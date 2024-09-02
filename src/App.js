@@ -65,11 +65,35 @@ const App = ({ setIsLoading }) => {
     setIsLoading(true); // Set loading to true when starting the request
 
     try {
-      const response = await axios.post(`${webURL}/api/v3/scores`, { text: data.inputText });
-      //const combinedScores = response.data;
-      //const combinedScores = response.data.choices[0].message.content;
-      //responses.map(response => JSON.parse(response.data.choices[0].message.content));
-      const scores = JSON.parse(response.data.choices[0].message.content);
+      // Fetch scores data from the API
+      const response = await fetch(`${webURL}/api/v4/scores`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: data.inputText }),
+      });
+  
+      // Check if the response is ok
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      // Parse the response body as JSON and set the scores data
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let result = '';
+  
+      // Read the response stream to completion and concatenate the chunks
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        result += decoder.decode(value, { stream: true });
+      }
+  
+      // Decode any remaining bytes and parse the JSON
+      result += decoder.decode(); // Decode any remaining bytes
+      const scores = JSON.parse(result);
 
       setScoresData(scores);
 
