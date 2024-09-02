@@ -100,7 +100,7 @@ const App = ({ setIsLoading }) => {
 
       console.log('Scores:', scores);
 
-      setScoresData(scores);
+      setScoresData(scores[0]);
 
       setShouldPlaySound(true);
 
