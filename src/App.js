@@ -95,6 +95,8 @@ const App = ({ setIsLoading }) => {
       result += decoder.decode(); // Decode any remaining bytes
       const scores = JSON.parse(result);
 
+      console.log('Scores:', scores);
+
       setScoresData(scores);
 
       setShouldPlaySound(true);
