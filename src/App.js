@@ -93,7 +93,8 @@ const App = ({ setIsLoading }) => {
   
       // Decode any remaining bytes and parse the JSON
       result += decoder.decode(); // Decode any remaining bytes
-      const scores = JSON.parse(result);
+      //const scores = JSON.parse(result);
+      const scores = await response.json();
 
       console.log('Scores:', scores);
 
