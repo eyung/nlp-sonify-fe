@@ -93,8 +93,10 @@ const App = ({ setIsLoading }) => {
   
       // Decode any remaining bytes and parse the JSON
       result += decoder.decode(); // Decode any remaining bytes
-      //const scores = JSON.parse(result);
-      const scores = await response.json();
+      const jsonResponse = JSON.parse(result);
+
+      // Extract choices.message.content from the response
+      const scores = jsonResponse.choices.map(choice => choice.message.content);
 
       console.log('Scores:', scores);
 
