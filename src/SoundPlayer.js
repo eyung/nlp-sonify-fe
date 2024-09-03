@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
-import { useCurrentSentence } from './CurrentSentenceContext';
+import { setCurrentSentence } from './CurrentSentenceContext';
 
 // SoundPlayer component
-const SoundPlayer = ({ mappedScores, onSoundPlayed, setCurrentSentence }) => {
+const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
   //const { setCurrentSentence } = useCurrentSentence();
 
@@ -140,7 +140,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed, setCurrentSentence }) => {
 
     initializeAudioContext();
 
-  }, [mappedScores, onSoundPlayed, setCurrentSentence]);
+  }, [mappedScores, onSoundPlayed]);
 
   return <div>Playing...</div>;
 };
