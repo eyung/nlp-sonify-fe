@@ -19,14 +19,14 @@ const mappingFunctions = {
   volume: (score) => -30 + (score * 50)
 };
 
-const App = ({ setIsLoading }) => {
+const App = ({ setIsLoading, setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   // Form state
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   // Use context for scores data
-  const { scoresData, setScoresData } = useScores();
+  const { setScoresData } = useScores();
 
   // State to control sound playback
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
@@ -163,10 +163,11 @@ const App = ({ setIsLoading }) => {
           <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button 
-            type="submit" 
+            type="submit" disabled={isLoading}
             className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"} 
           >
             <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
+            {isLoading ? 'Loading...' : 'Submit'}
           </button>
         </form>
 
