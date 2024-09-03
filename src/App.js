@@ -165,7 +165,7 @@ const App = ({ isLoading, setIsLoading }) => {
     <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
       
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="mb-4">
+        <form onSubmit={handleFormSubmit} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button 
