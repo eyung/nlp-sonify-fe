@@ -19,14 +19,11 @@ const mappingFunctions = {
   volume: (score) => -30 + (score * 50)
 };
 
-const App = ({ isLoading, setIsLoading }) => {
+const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   // Form state
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-
-  // State to store input text
-  const [inputText, setInputText] = useState('');
 
   // Use context for scores data
   const { setScoresData } = useScores();
@@ -63,10 +60,9 @@ const App = ({ isLoading, setIsLoading }) => {
   };
 
   // Scores data
-  const fetchScores = async (data) => {
+  const handleFormSubmit = async (data) => {
 
     setIsLoading(true); // Set loading to true when starting the request
-    setInputText(data.inputText); // Update state with input text
 
     try {
       // Fetch scores data from the API
@@ -135,10 +131,10 @@ const App = ({ isLoading, setIsLoading }) => {
   };
 
   // Function to handle form submission event
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    fetchScores();
-  };
+  //const handleFormSubmit = (event) => {
+  //  event.preventDefault();
+  //  fetchScores();
+  //};
 
   // Function to handle DND events
   const handleDrop = (textParam, audioParam) => {
@@ -169,7 +165,7 @@ const App = ({ isLoading, setIsLoading }) => {
     <div className="flex justify-center">
       <div className="w-full max-w-screen-lg p-4">
       
-        <form onSubmit={handleFormSubmit} className="mb-4">
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="mb-4">
           <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
           {errors.inputText && <p className="text-red-500">This field is required</p>}
           <button 
@@ -177,7 +173,6 @@ const App = ({ isLoading, setIsLoading }) => {
             className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"} 
           >
             <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
-            {isLoading ? 'Loading...' : 'Submit'}
           </button>
         </form>
 
