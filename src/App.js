@@ -25,6 +25,9 @@ const App = ({ isLoading, setIsLoading }) => {
   // Form state
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
+  // State to store input text
+  const [inputText, setInputText] = useState('');
+
   // Use context for scores data
   const { setScoresData } = useScores();
 
@@ -63,6 +66,7 @@ const App = ({ isLoading, setIsLoading }) => {
   const fetchScores = async (data) => {
 
     setIsLoading(true); // Set loading to true when starting the request
+    setInputText(data.inputText); // Update state with input text
 
     try {
       // Fetch scores data from the API
