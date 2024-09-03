@@ -101,8 +101,8 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
           synth.volume.value = volume;
           //console.log('synth.volume.value:', volume);
-          //synth.detune.value = detune; 
-          console.log('synth.detune.value:', detune);
+          synth.detune.value = detune; 
+          //console.log('synth.detune.value:', detune);
 
           //progression.forEach((chord, chordIndex) => {
           await synth.triggerAttackRelease(
