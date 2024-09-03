@@ -10,6 +10,7 @@ import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreGraph from './ScoreGraph';
 import SoundGraph from './SoundGraph';
+import StatusBar from './StatusBar';
 
 const mappingFunctions = {
   frequency: (score) => 220 + (score * 420), // (score) => 440 + (score * 220)
@@ -218,6 +219,7 @@ const App = ({ setIsLoading }) => {
         <div className="grid grid-cols-4 gap-4 m-10">
         </div>
 
+        <StatusBar />
       </div>
     </div>
   );
