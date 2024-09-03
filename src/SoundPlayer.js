@@ -82,44 +82,38 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       };
 
       //  Play sound logic
-      const playSound = () => {
+      const playSound = async () => {
       
         // Play the mapped scores
-        mappedScores.forEach((scoreObj, index) => {
-          const { frequency, duration, detune, volume } = scoreObj;
+        //mappedScores.forEach((scoreObj, index) => {
+        for (const scoreObj of mappedScores) {
+        const { frequency, duration, detune, volume } = scoreObj;
   
-          console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
-          console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
+        console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
+        console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
   
-          // Calculate chord frequencies based on the root frequency
-          //const chords = calculateChordFrequencies(frequency);
+        // Calculate chord frequencies based on the root frequency
+        //const chords = calculateChordFrequencies(frequency);
+
+        // Play the chords in the progression
+        //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
+        //const chordSpacing = 0; // Increase this value for wider spacing between chords
+
+        //progression.forEach((chord, chordIndex) => {
+         await synth.triggerAttackRelease(
+            //chord, (not using chords for now)
+            frequency,
+            duration, 
+            //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
+            Tone.now() + (index * 1.1) + (duration), 
+            volume, 
+            detune
+          );
+        //});
+
+        };
   
-          // Play the chords in the progression
-          //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
-          //const chordSpacing = 0; // Increase this value for wider spacing between chords
-  
-          //progression.forEach((chord, chordIndex) => {
-            synth.triggerAttackRelease(
-              //chord, (not using chords for now)
-              frequency,
-              duration, 
-              //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
-              Tone.now() + (index * 1.1) + (duration), 
-              volume, 
-              detune
-            );
-          //});
-  
-          // Update the current sentence being played
-          //if (mappedScores.length > 0) {
-            setCurrentSentence(scoreObj.word);
-          //}
-  
-          // Notify parent component that the sound has been played
-          
-  
-        });
-  
+        // Notify parent component that the sound has been played
         onSoundPlayed();
       };
 
