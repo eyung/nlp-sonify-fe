@@ -99,6 +99,7 @@ const App = ({ setIsLoading }) => {
       //const scores = jsonResponse[0].choices.map(choice => JSON.parse(choice.message.content))[0];
 
       // Extract and combine choices.message.content from all objects in the response
+      // Assuming the schema requires combining objects
       const scores = jsonResponse
       .flatMap(responseObj => responseObj.choices)
       .map(choice => JSON.parse(choice.message.content))
