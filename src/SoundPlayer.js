@@ -134,7 +134,6 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       phaser.dispose();
       distortion.dispose();
       stereoWidener.dispose();
-      Tone.dispose();
     };
 
   }, [mappedScores, onSoundPlayed, setCurrentSentence]);
