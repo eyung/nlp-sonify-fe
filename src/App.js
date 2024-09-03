@@ -98,15 +98,10 @@ const App = ({ setIsLoading }) => {
       // Extract choices.message.content from the response
       const scores = jsonResponse[0].choices.map(choice => choice.message.content);
 
-      // Transform the scores array into an object
-      const scoresObject = scores.reduce((acc, score, index) => {
-        acc[`score${index}`] = score;
-        return acc;
-      }, {});
+      console.log('Response:', jsonResponse);
+      console.log('Scores:', scores);
 
-      console.log('Scores:', scoresObject);
-
-      setScoresData(scoresObject);
+      setScoresData(scores);
 
       setShouldPlaySound(true);
 
