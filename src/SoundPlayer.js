@@ -82,7 +82,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       };
 
       // Play the mapped scores
-      // Each score object contains the mapped frequency, duration, detune, and volume
+      // Each score object contains the mapped audio properties
       mappedScores.forEach((scoreObj, index) => {
         const { frequency, duration, detune, volume } = scoreObj;
 
@@ -90,7 +90,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
         // Calculate chord frequencies based on the root frequency
-        const chords = calculateChordFrequencies(frequency);
+        //const chords = calculateChordFrequencies(frequency);
 
         // Play the chords in the progression
         //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
@@ -110,31 +110,32 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
         // Update the current sentence being played
         //if (mappedScores.length > 0) {
-          setCurrentSentence(mappedScores[0].word);
+          setCurrentSentence(scoreObj.word);
         //}
 
         // Notify parent component that the sound has been played
-        onSoundPlayed();
+        
 
       });
 
-      // Call playSound when component mounts
-      playSound();
+      onSoundPlayed();
 
-      // Clean up Tone.js context on unmount
-      return () => {
-        synth.dispose();
-        reverb.dispose();
-        delay.dispose();
-        chorus.dispose();
-        phaser.dispose();
-        distortion.dispose();
-        stereoWidener.dispose();
-      };
     };
 
-    // Notify parent component that the sound has been played
-    //onSoundPlayed();
+    // Call playSound when component mounts
+    playSound();
+
+    // Clean up Tone.js context on unmount
+    return () => {
+      synth.dispose();
+      reverb.dispose();
+      delay.dispose();
+      chorus.dispose();
+      phaser.dispose();
+      distortion.dispose();
+      stereoWidener.dispose();
+      Tone.dispose();
+    };
 
   }, [mappedScores, onSoundPlayed, setCurrentSentence]);
 
