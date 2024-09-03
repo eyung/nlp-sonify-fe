@@ -99,15 +99,18 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
         //const chordSpacing = 0; // Increase this value for wider spacing between chords
 
+        synth.volume.value = volume;
+        synth.detune.value = detune; 
+
         //progression.forEach((chord, chordIndex) => {
          await synth.triggerAttackRelease(
             //chord, (not using chords for now)
             frequency,
-            duration, 
+            duration
             //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
             //Tone.now() + (index * 1.1) + (duration), 
-            volume, 
-            detune
+            //volume, 
+            //detune
           );
         //});
 
