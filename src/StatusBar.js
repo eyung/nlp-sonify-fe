@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useScores } from './ScoreContext';
+import React from 'react';
+import { useCurrentSentence } from './CurrentSentenceContext';
 
 const StatusBar = () => {
-  const { scoresData } = useScores();
-  const [currentSentence, setCurrentSentence] = useState('');
-
-  useEffect(() => {
-    if (scoresData.sentences && scoresData.sentences.length > 0) {
-      // Assuming the first sentence is the one being played
-      setCurrentSentence(scoresData.sentences[0].word);
-    }
-  }, [scoresData]);
+  const { currentSentence } = useCurrentSentence();
 
   return (
     <div className="fixed bottom-0 w-full bg-gray-800 text-white text-center p-2">

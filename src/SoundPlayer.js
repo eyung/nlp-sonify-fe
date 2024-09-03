@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
+import { useCurrentSentence } from './CurrentSentenceContext';
 
 // SoundPlayer component
 const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
+
+  const { setCurrentSentence } = useCurrentSentence();
+
   useEffect(() => {
     const playSound = async () => {
       await Tone.start(); // Start the audio context
@@ -104,27 +108,37 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           );
         //});
 
+        // Update the current sentence being played
+        if (mappedScores.length > 0) {
+          setCurrentSentence(mappedScores[0].word);
+        }
+
+        // Notify parent component that the sound has been played
+        onSoundPlayed();
+
       });
 
-      // Clean up Tone.js context on unmount
-      return () => {
-        synth.dispose();
-        reverb.dispose();
-        delay.dispose();
-        chorus.dispose();
-        phaser.dispose();
-        distortion.dispose();
-        stereoWidener.dispose();
-      };
+      
     };
 
     // Call playSound when component mounts
     playSound();
 
-    // Notify parent component that the sound has been played
-    onSoundPlayed();
+    // Clean up Tone.js context on unmount
+    return () => {
+      synth.dispose();
+      reverb.dispose();
+      delay.dispose();
+      chorus.dispose();
+      phaser.dispose();
+      distortion.dispose();
+      stereoWidener.dispose();
+    };
 
-  }, [mappedScores, onSoundPlayed]);
+    // Notify parent component that the sound has been played
+    //onSoundPlayed();
+
+  }, [mappedScores, onSoundPlayed, setCurrentSentence]);
 
   return <div>Playing...</div>;
 };

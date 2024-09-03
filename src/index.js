@@ -34,7 +34,9 @@ const Root = () => {
 ReactDOM.render(
   <React.StrictMode>
     <ScoreProvider>
-      <Root />
+      <CurrentSentenceProvider>
+        <Root />
+      </CurrentSentenceProvider>
     </ScoreProvider>
   </React.StrictMode>,
   document.getElementById('root')
