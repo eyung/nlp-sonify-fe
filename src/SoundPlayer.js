@@ -87,23 +87,25 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         // Play the mapped scores
         //mappedScores.forEach((scoreObj, index) => {
         for (const scoreObj of mappedScores) {
-        const { frequency, duration, detune, volume } = scoreObj;
-  
-        console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
-        console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
-  
-        // Calculate chord frequencies based on the root frequency
-        //const chords = calculateChordFrequencies(frequency);
+          const { frequency, duration, detune, volume } = scoreObj;
+    
+          console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
+          console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
+    
+          // Calculate chord frequencies based on the root frequency
+          //const chords = calculateChordFrequencies(frequency);
 
-        // Play the chords in the progression
-        //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
-        //const chordSpacing = 0; // Increase this value for wider spacing between chords
+          // Play the chords in the progression
+          //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
+          //const chordSpacing = 0; // Increase this value for wider spacing between chords
 
-        synth.volume.value = volume;
-        synth.detune.value = detune; 
+          synth.volume.value = volume;
+          console.log('synth.volume.value:', volume);
+          synth.detune.value = scoreObj.detune; 
+          console.log('synth.detune.value:', scoreObj.detune);
 
-        //progression.forEach((chord, chordIndex) => {
-         await synth.triggerAttackRelease(
+          //progression.forEach((chord, chordIndex) => {
+          await synth.triggerAttackRelease(
             //chord, (not using chords for now)
             frequency,
             duration
@@ -112,7 +114,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
             //volume, 
             //detune
           );
-        //});
+          //});
 
         };
   
