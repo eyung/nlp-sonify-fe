@@ -9,8 +9,8 @@ const ScoreGraph = ({ mappedScores }) => {
   const data = mappedScores.map((score) => ({
     name: score.word,
     Frequency: score.frequency,
-    Volume: score.volume,
-    Duration: score.duration,
+    Volume: score.volume * 10, // Multiply by 10 to make it more visible
+    Duration: score.duration * 100, // Multiply by 100 to make it more visible
     Detune: score.detune,
   }));
 
