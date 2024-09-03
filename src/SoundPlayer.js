@@ -3,12 +3,12 @@ import * as Tone from 'tone';
 import { useCurrentSentence } from './CurrentSentenceContext';
 
 // SoundPlayer component
-const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
+const SoundPlayer = ({ mappedScores, onSoundPlayed, setCurrentSentence }) => {
 
-  const { setCurrentSentence } = useCurrentSentence();
+  //const { setCurrentSentence } = useCurrentSentence();
 
   useEffect(() => {
-    const playSound = async () => {
+    const initializeAudioContext = async () => {
       await Tone.start(); // Start the audio context
 
       // Clean up previous Tone.js context
@@ -81,60 +81,64 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         return { IVM7, V7, iii7, vi };
       };
 
-      // Play the mapped scores
-      // Each score object contains the mapped audio properties
-      mappedScores.forEach((scoreObj, index) => {
-        const { frequency, duration, detune, volume } = scoreObj;
+      //  Play sound logic
+      const playSound = () => {
+      
+        // Play the mapped scores
+        mappedScores.forEach((scoreObj, index) => {
+          const { frequency, duration, detune, volume } = scoreObj;
+  
+          console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
+          console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
+  
+          // Calculate chord frequencies based on the root frequency
+          //const chords = calculateChordFrequencies(frequency);
+  
+          // Play the chords in the progression
+          //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
+          //const chordSpacing = 0; // Increase this value for wider spacing between chords
+  
+          //progression.forEach((chord, chordIndex) => {
+            synth.triggerAttackRelease(
+              //chord, (not using chords for now)
+              frequency,
+              duration, 
+              //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
+              Tone.now() + (index * 1.1) + (duration), 
+              volume, 
+              detune
+            );
+          //});
+  
+          // Update the current sentence being played
+          //if (mappedScores.length > 0) {
+            setCurrentSentence(scoreObj.word);
+          //}
+  
+          // Notify parent component that the sound has been played
+          
+  
+        });
+  
+        onSoundPlayed();
+      };
 
-        console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
-        console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
+      // Call playSound when component mounts
+      playSound();
 
-        // Calculate chord frequencies based on the root frequency
-        //const chords = calculateChordFrequencies(frequency);
-
-        // Play the chords in the progression
-        //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
-        //const chordSpacing = 0; // Increase this value for wider spacing between chords
-
-        //progression.forEach((chord, chordIndex) => {
-          synth.triggerAttackRelease(
-            //chord, (not using chords for now)
-            frequency,
-            duration, 
-            //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
-            Tone.now() + (index * 1.1) + (duration), 
-            volume, 
-            detune
-          );
-        //});
-
-        // Update the current sentence being played
-        //if (mappedScores.length > 0) {
-          setCurrentSentence(scoreObj.word);
-        //}
-
-        // Notify parent component that the sound has been played
-        
-
-      });
-
-      onSoundPlayed();
-
+      // Clean up Tone.js context on unmount
+      return () => {
+        synth.dispose();
+        reverb.dispose();
+        delay.dispose();
+        chorus.dispose();
+        phaser.dispose();
+        distortion.dispose();
+        stereoWidener.dispose();
+      };
     };
 
-    // Call playSound when component mounts
-    playSound();
-
-    // Clean up Tone.js context on unmount
-    return () => {
-      synth.dispose();
-      reverb.dispose();
-      delay.dispose();
-      chorus.dispose();
-      phaser.dispose();
-      distortion.dispose();
-      stereoWidener.dispose();
-    };
+    initializeAudioContext();
 
   }, [mappedScores, onSoundPlayed, setCurrentSentence]);
 
