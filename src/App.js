@@ -97,18 +97,24 @@ const App = ({ setIsLoading }) => {
 
       // Extract choices.message.content from the response
       //const scores = jsonResponse[0].choices.map(choice => JSON.parse(choice.message.content))[0];
-      // Extract and combine choices.message.content from the response
-      const scores = jsonResponse[0].choices
-        .map(choice => JSON.parse(choice.message.content))
-        .reduce((acc, curr) => {
-          // Assuming the schema requires combining objects
-          for (const key in curr) {
-            if (curr.hasOwnProperty(key)) {
+
+      // Extract and combine choices.message.content from all objects in the response
+      const scores = jsonResponse
+      .flatMap(responseObj => responseObj.choices)
+      .map(choice => JSON.parse(choice.message.content))
+      .reduce((acc, curr) => {
+        // Assuming the schema requires combining objects
+        for (const key in curr) {
+          if (curr.hasOwnProperty(key)) {
+            if (Array.isArray(curr[key])) {
+              acc[key] = (acc[key] || []).concat(curr[key]);
+            } else {
               acc[key] = curr[key];
             }
           }
-          return acc;
-        }, {});
+        }
+        return acc;
+      }, {});
 
       console.log('Scores:', scores);
 
