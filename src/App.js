@@ -60,7 +60,7 @@ const App = ({ isLoading, setIsLoading }) => {
   };
 
   // Scores data
-  const handleFormSubmit = async (data) => {
+  const fetchScores = async (data) => {
 
     setIsLoading(true); // Set loading to true when starting the request
 
@@ -128,6 +128,12 @@ const App = ({ isLoading, setIsLoading }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Function to handle form submission event
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    fetchScores();
   };
 
   // Function to handle DND events
