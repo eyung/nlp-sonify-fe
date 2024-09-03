@@ -19,7 +19,7 @@ const mappingFunctions = {
   volume: (score) => -30 + (score * 50)
 };
 
-const App = ({ setIsLoading, setIsLoading }) => {
+const App = ({ isLoading, setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
   // Form state
