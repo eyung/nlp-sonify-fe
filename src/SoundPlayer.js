@@ -105,7 +105,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
             frequency,
             duration, 
             //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
-            Tone.now() + (index * 1.1) + (duration), 
+            //Tone.now() + (index * 1.1) + (duration), 
             volume, 
             detune
           );
