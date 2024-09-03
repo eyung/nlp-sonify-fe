@@ -96,7 +96,7 @@ const App = ({ setIsLoading }) => {
       const jsonResponse = JSON.parse(result);
 
       // Extract choices.message.content from the response
-      const scores = jsonResponse[0].choices.map(choice => JSON.parse(choice.message.content));
+      const scores = jsonResponse[0].choices.map(choice => JSON.parse(choice.message.content))[0];
 
       console.log('Scores:', scores);
 
