@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ScoreProvider } from './ScoreContext';
+import { MappedScoresProvider } from './MappedScoresContext';
 import { CurrentSentenceProvider } from './CurrentSentenceContext';
 import { sendToVercelAnalytics } from './vitals';
 
