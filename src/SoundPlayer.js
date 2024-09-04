@@ -89,7 +89,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         for (const scoreObj of mappedScores) {
           const { frequency, duration, detune, volume } = scoreObj;
 
-          const index = mappedScores.indexOf(scoreObj);
+          let index = mappedScores.indexOf(scoreObj);
     
           console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
           console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
@@ -119,7 +119,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
             detune
           );
           //});
-          
+
           index++;
 
         };
