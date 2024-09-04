@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useScores } from './ScoreContext';
 import { useMappedScores } from './MappedScoresContext';
 
-const ScoreMapper = ({ mappings }) => {
+const ScoreMapper = React.memo(({ mappings }) => {
   const { scoresData } = useScores();
   const { setMappedScores } = useMappedScores();
 
@@ -36,6 +36,6 @@ const ScoreMapper = ({ mappings }) => {
   }, [scoresData, mappings, setMappedScores]);
 
   return null;
-};
+});
 
 export default ScoreMapper;

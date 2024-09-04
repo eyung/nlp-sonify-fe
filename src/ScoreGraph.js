@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useMappedScores } from './MappedScoresContext';
 
-const ScoreGraph = () => {
+const ScoreGraph = React.memo(() => {
   const { mappedScores } = useMappedScores();
 
   console.log('ScoreGraph received mappedScores:', mappedScores);
@@ -40,6 +40,6 @@ const ScoreGraph = () => {
       </ResponsiveContainer>
     </div>
   );
-};
+});
 
 export default ScoreGraph;

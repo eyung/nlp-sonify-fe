@@ -4,7 +4,7 @@ import { useCurrentSentence } from './CurrentSentenceContext';
 import { useMappedScores } from './MappedScoresContext';
 
 // SoundPlayer component
-const SoundPlayer = ({ onSoundPlayed }) => {
+const SoundPlayer = React.memo(({ onSoundPlayed }) => {
   const { mappedScores } = useMappedScores();
   const { setCurrentSentence } = useCurrentSentence();
 
@@ -154,6 +154,6 @@ const SoundPlayer = ({ onSoundPlayed }) => {
   }, [mappedScores, onSoundPlayed, setCurrentSentence]);
 
   return <div>Playing...</div>;
-};
+});
 
 export default SoundPlayer;
