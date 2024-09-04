@@ -5,6 +5,8 @@ import { useCurrentSentence } from './CurrentSentenceContext';
 // SoundPlayer component
 const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
+  console.log('SoundPlayer: mappedScores:', mappedScores);
+
   const { setCurrentSentence } = useCurrentSentence();
 
   useEffect(() => {
