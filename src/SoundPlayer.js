@@ -88,6 +88,8 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
         //mappedScores.forEach((scoreObj, index) => {
         for (const scoreObj of mappedScores) {
           const { frequency, duration, detune, volume } = scoreObj;
+
+          const index = mappedScores.indexOf(scoreObj);
     
           console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
           console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
@@ -99,22 +101,26 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           //const progression = [chords.IVM7, chords.V7, chords.iii7, chords.vi];
           //const chordSpacing = 0; // Increase this value for wider spacing between chords
 
-          synth.volume.value = volume;
+          //synth.volume.value = volume;
           //console.log('synth.volume.value:', volume);
-          synth.detune.value = detune; 
+          
+          // NEED TO FIX DETUNE
+          //synth.detune.value = detune; 
           //console.log('synth.detune.value:', detune);
 
           //progression.forEach((chord, chordIndex) => {
           await synth.triggerAttackRelease(
             //chord, (not using chords for now)
             frequency,
-            duration
+            duration,
             //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
-            //Tone.now() + (index * 1.1) + (duration), 
-            //volume, 
-            //detune
+            Tone.now() + (index * 1.1) + (duration), 
+            volume, 
+            detune
           );
           //});
+          
+          index++;
 
         };
   
