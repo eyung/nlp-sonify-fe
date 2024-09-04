@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 import { useCurrentSentence } from './CurrentSentenceContext';
+import { useMappedScores } from './MappedScoresContext';
 
 // SoundPlayer component
-const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
-
-  console.log('SoundPlayer: mappedScores:', mappedScores);
-
+const SoundPlayer = ({ onSoundPlayed }) => {
+  const { mappedScores } = useMappedScores();
   const { setCurrentSentence } = useCurrentSentence();
+
+  console.log('SoundPlayer received mappedScores:', mappedScores);
 
   useEffect(() => {
     const initializeAudioContext = async () => {
