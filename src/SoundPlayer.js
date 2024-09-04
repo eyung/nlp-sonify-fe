@@ -110,7 +110,8 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
           //console.log('synth.detune.value:', detune);
 
           //progression.forEach((chord, chordIndex) => {
-          await synth.triggerAttackRelease(
+          //await synth.triggerAttackRelease(
+          synth.triggerAttackRelease(
             //chord, (not using chords for now)
             frequency,
             duration,
@@ -130,6 +131,7 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
       };
 
       // Call playSound when component mounts
+      console.log('Calling playSound');
       playSound();
 
       // Clean up Tone.js context on unmount
