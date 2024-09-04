@@ -208,13 +208,18 @@ const App = ({ setIsLoading }) => {
           {(mappedScores) => (
             <>
               <ScoreGraph mappedScores={mappedScores} />
-              {shouldPlaySound && (
-                <SoundPlayer mappedScores={mappedScores} onSoundPlayed={() => setShouldPlaySound(false)} />
-              )}
+              
             </>
           )}
         </ScoreMapper>
       
+        {shouldPlaySound && (
+          <SoundPlayer 
+            mappedScores={mappedScores} 
+            onSoundPlayed={() => setShouldPlaySound(false)} 
+            setCurrentSentence={setCurrentSentence}
+          />
+        )}
 
         <div className="grid grid-cols-4 gap-4 m-10">
         </div>
