@@ -83,13 +83,14 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
 
       //  Play sound logic
       const playSound = async () => {
-      
+
+        // Keep track of time
+        let timeIndex = 0;
+
         // Play the mapped scores
         //mappedScores.forEach((scoreObj, index) => {
         for (const scoreObj of mappedScores) {
           const { frequency, duration, detune, volume } = scoreObj;
-
-          let index = mappedScores.indexOf(scoreObj);
     
           console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
           console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
@@ -114,13 +115,13 @@ const SoundPlayer = ({ mappedScores, onSoundPlayed }) => {
             frequency,
             duration,
             //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
-            Tone.now() + (index * 1.1) + (duration), 
+            Tone.now() + (timeIndex * 1.1) + (duration), 
             volume, 
             detune
           );
           //});
 
-          index++;
+          timeIndex++;
 
         };
   
