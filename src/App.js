@@ -6,6 +6,7 @@ import { DndContext } from '@dnd-kit/core';
 import Droppable from './Droppable';
 import Draggable from './Draggable';
 import { useScores } from './ScoreContext';
+import { MappedScoresProvider, useMappedScores } from './MappedScoresContext';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreGraph from './ScoreGraph';
@@ -25,7 +26,11 @@ const App = ({ setIsLoading }) => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const { setScoresData } = useScores();
+  const { setMappedScores } = useMappedScores();
+
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
+  const [showScoreMapper, setShowScoreMapper] = useState(false);
+  const [showScoreGraph, setShowScoreGraph] = useState(false);
   
   // Default mappings of text parameters to audio parameters when loading app for first time
   const [mappings, setMappings] = useState({
@@ -91,16 +96,13 @@ const App = ({ setIsLoading }) => {
       result += decoder.decode(); // Decode any remaining bytes
       const jsonResponse = JSON.parse(result);
 
-      // Extract choices.message.content from the response
-      //const scores = jsonResponse[0].choices.map(choice => JSON.parse(choice.message.content))[0];
-
       // Extract and combine choices.message.content from all objects in the response
       // Assuming the schema requires combining objects
       const scores = jsonResponse
       .flatMap(responseObj => responseObj.choices)
       .map(choice => JSON.parse(choice.message.content))
       .reduce((acc, curr) => {
-        // Assuming the schema requires combining objects
+        // Schema requires combining objects
         for (const key in curr) {
           if (curr.hasOwnProperty(key)) {
             if (Array.isArray(curr[key])) {
@@ -113,10 +115,11 @@ const App = ({ setIsLoading }) => {
         return acc;
       }, {});
 
-      console.log('Scores:', scores);
+      //console.log('Scores:', scores);
 
       setScoresData(scores);
-
+      setShowScoreMapper(true);
+      setShowScoreGraph(true);
       setShouldPlaySound(true);
 
     } catch (error) {
@@ -125,12 +128,6 @@ const App = ({ setIsLoading }) => {
       setIsLoading(false);
     }
   };
-
-  // Function to handle form submission event
-  //const handleFormSubmit = (event) => {
-  //  event.preventDefault();
-  //  fetchScores();
-  //};
 
   // Function to handle DND events
   const handleDrop = (textParam, audioParam) => {
@@ -152,33 +149,33 @@ const App = ({ setIsLoading }) => {
           mapFunction: mappingFunctions[audioParam] || ((value) => value) // Default to identity function if no mapping function is found
         };
       }
+
+      setShowScoreMapper(true);
+      setShowScoreGraph(true);
   
       return newMappings;
     });
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="w-full max-w-screen-lg p-4">
-      
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="mb-4">
-          <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
-          {errors.inputText && <p className="text-red-500">This field is required</p>}
-          <button 
-            type="submit"
-            className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"} 
-          >
-            <i class="fa fa-play fa-2x text-white" id="play-btn"></i>
-          </button>
-        </form>
+    <MappedScoresProvider>
+      <div className="flex justify-center">
+        <div className="w-full max-w-screen-lg p-4">
+          <form onSubmit={handleSubmit(handleFormSubmit)} className="mb-4">
+            <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
+            {errors.inputText && <p className="text-red-500">This field is required</p>}
+            <button type="submit" className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"}>
+              <i className="fa fa-play fa-2x text-white" id="play-btn"></i>
+            </button>
+          </form>
 
-        <DndContext onDragEnd={({ active, over }) => {
-          if (over) {
-            handleDrop(over.id, active.id);
-          }
-        }}>
-          <div className="grid grid-cols-2 gap-4 mt-4">
-            {Object.keys(mappings).map((textParam) => (
+          <DndContext onDragEnd={({ active, over }) => {
+            if (over) {
+              handleDrop(over.id, active.id);
+            }
+          }}>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              {Object.keys(mappings).map((textParam) => (
                 <Droppable key={textParam} id={textParam}>
                   <div className="p-4 border rounded">
                     <h3 className="text-lg font-semibold">{textParam.replace(' Score', '')}</h3>
@@ -195,32 +192,27 @@ const App = ({ setIsLoading }) => {
                   </div>
                 </Draggable>
               ))}
-          </div>
-        </DndContext>
+            </div>
+          </DndContext>
 
-
-        <ScoreMapper mappings={mappings}>
-          {(mappedScores) => (
-            <>
-              <ScoreGraph mappedScores={mappedScores} />
-              {shouldPlaySound && (
-                <SoundPlayer 
-                  mappedScores={mappedScores} 
-                  onSoundPlayed={() => setShouldPlaySound(false)} 
-                />
-              )}
-            </>
+          {showScoreMapper && (
+            <ScoreMapper mappings={mappings} setMappedScores={setMappedScores} />
           )}
-        </ScoreMapper>
-      
-        
 
-        <div className="grid grid-cols-4 gap-4 m-10">
+          {showScoreGraph && (
+            <ScoreGraph />
+          )}
+
+          {shouldPlaySound && (
+            <SoundPlayer onSoundPlayed={() => setShouldPlaySound(false)} />
+          )}
+
+          <div className="grid grid-cols-4 gap-4 m-10"></div>
+
+          <StatusBar />
         </div>
-
-        <StatusBar />
       </div>
-    </div>
+    </MappedScoresProvider>
   );
 };
 

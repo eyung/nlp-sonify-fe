@@ -1,7 +1,9 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useMappedScores } from './MappedScoresContext';
 
-const ScoreGraph = ({ mappedScores }) => {
+const ScoreGraph = () => {
+  const { mappedScores } = useMappedScores();
 
   console.log('ScoreGraph received mappedScores:', mappedScores);
 
