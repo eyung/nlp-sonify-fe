@@ -115,7 +115,7 @@ const App = ({ setIsLoading }) => {
         return acc;
       }, {});
 
-      //console.log('Scores:', scores);
+      console.log('Scores:', scores);
 
       setScoresData(scores);
       setShowScoreMapper(true);
