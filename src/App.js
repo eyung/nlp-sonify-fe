@@ -23,13 +23,8 @@ const mappingFunctions = {
 const App = ({ setIsLoading }) => {
   const webURL = 'https://nlp-sonify-be.vercel.app';
 
-  // Form state
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-
-  // Use context for scores data
   const { setScoresData } = useScores();
-
-  // State to control sound playback
   const [shouldPlaySound, setShouldPlaySound] = useState(false);
   
   // Default mappings of text parameters to audio parameters when loading app for first time
@@ -208,18 +203,17 @@ const App = ({ setIsLoading }) => {
           {(mappedScores) => (
             <>
               <ScoreGraph mappedScores={mappedScores} />
-              
+              {shouldPlaySound && (
+                <SoundPlayer 
+                  mappedScores={mappedScores} 
+                  onSoundPlayed={() => setShouldPlaySound(false)} 
+                />
+              )}
             </>
           )}
         </ScoreMapper>
       
-        {shouldPlaySound && (
-          <SoundPlayer 
-            mappedScores={mappedScores} 
-            onSoundPlayed={() => setShouldPlaySound(false)} 
-            setCurrentSentence={setCurrentSentence}
-          />
-        )}
+        
 
         <div className="grid grid-cols-4 gap-4 m-10">
         </div>
