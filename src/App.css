@@ -2,8 +2,18 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Apply CSS reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -41,6 +51,10 @@
   }
 }
 
+.main-content {
+  flex: 1;
+}
+
 .tooltip {
   position: relative;
   display: inline-block;
@@ -73,9 +87,6 @@
 }
 
 /* Button styles */
-.btn {
-
-}
 .btn-disabled {
   background-color: grey;
   cursor: not-allowed;
@@ -110,4 +121,11 @@
   100% {
     background-position: 0% 50%;
   }
+}
+
+/* Ensure StatusBar is fixed at the bottom */
+.StatusBar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
