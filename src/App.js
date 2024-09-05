@@ -21,10 +21,13 @@ const App = ({ setIsLoading }) => {
     shouldPlaySound,
     setShouldPlaySound,
     showScoreMapper,
+    setShowScoreMapper,
     showScoreGraph,
+    setShowScoreGraph,
     mappings,
+    setMappings,
+    mappingFunctions,
     handleFormSubmit,
-    //setIsLoading,
   } = useAppState();
 
   const { register, errors } = useForm();
