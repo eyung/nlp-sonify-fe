@@ -30,7 +30,7 @@ const App = ({ setIsLoading }) => {
     handleFormSubmit,
   } = useAppState();
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const fetchScores = useFetchScores();
 
