@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
-import { useCurrentSentence } from './CurrentSentenceContext';
-import { useMappedScores } from './MappedScoresContext';
+import { useAppStateContext } from './AppStateContext';
+
 
 // SoundPlayer component
 const SoundPlayer = React.memo(({ onSoundPlayed }) => {
   const { mappedScores } = useMappedScores();
   const { setCurrentSentence } = useCurrentSentence();
+  const { shouldPlaySound, setShouldPlaySound } = useAppStateContext();
 
   console.log('SoundPlayer received mappedScores:', mappedScores);
 

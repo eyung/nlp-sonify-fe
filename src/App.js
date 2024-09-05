@@ -12,121 +12,28 @@ import ScoreMapper from './ScoreMapper';
 import ScoreGraph from './ScoreGraph';
 import SoundGraph from './SoundGraph';
 import StatusBar from './StatusBar';
+import { useAppState } from './hooks/useAppState';
+import { useAppStateContext } from './AppStateContext';
+import { useFetchScores } from './useFetchScores';
 
-const mappingFunctions = {
-  frequency: (score) => 220 + (score * 420), // (score) => 440 + (score * 220)
-  duration: (score) => 0.5 + (score * 0.5),
-  //waveform: (score) => ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(score * 4)],
-  detune: (score) => -1200 + (score * 1200),
-  volume: (score) => -30 + (score * 50)
-};
 
-const App = ({ setIsLoading }) => {
-  const webURL = 'https://nlp-sonify-be.vercel.app';
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const { setScoresData } = useScores();
-  const { setMappedScores } = useMappedScores();
+const App = () => {
+  const {
+    shouldPlaySound,
+    setShouldPlaySound,
+    showScoreMapper,
+    showScoreGraph,
+    mappings,
+    handleFormSubmit,
+    setIsLoading,
+  } = useAppStateContext();
 
-  const [shouldPlaySound, setShouldPlaySound] = useState(false);
-  const [showScoreMapper, setShowScoreMapper] = useState(false);
-  const [showScoreGraph, setShowScoreGraph] = useState(false);
-  
-  // Default mappings of text parameters to audio parameters when loading app for first time
-  const [mappings, setMappings] = useState({
-    'Complexity Score': {
-      parameter: 'frequency',
-      mapFunction: mappingFunctions.frequency
-    },
-    'Sentiment Analysis Score': {
-      parameter: 'duration',
-      mapFunction: mappingFunctions.duration
-    },
-    'Concreteness Score': {
-      parameter: 'detune',
-      mapFunction: mappingFunctions.detune
-    },
-    'Emotional-Intensity Score': {
-      parameter: 'volume',
-      mapFunction: mappingFunctions.volume
-    }
-  });
+  const fetchScores = useFetchScores();
 
-  const handlePlaySound = () => {
-    setShouldPlaySound(true);
-  };
-
-  const handleStopSound = () => {
-    setShouldPlaySound(false);
-  };
-
-  // Scores data
-  const handleFormSubmit = async (data) => {
-
-    setIsLoading(true); // Set loading to true when starting the request
-
-    try {
-      // Fetch scores data from the API
-      const response = await fetch(`${webURL}/api/v4/scores`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: data.inputText }),
-      });
-  
-      // Check if the response is ok
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      // Parse the response body as JSON and set the scores data
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
-      let result = '';
-  
-      // Read the response stream to completion and concatenate the chunks
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        result += decoder.decode(value, { stream: true });
-      }
-  
-      // Decode any remaining bytes and parse the JSON
-      result += decoder.decode(); // Decode any remaining bytes
-      const jsonResponse = JSON.parse(result);
-
-      // Extract and combine choices.message.content from all objects in the response
-      // Assuming the schema requires combining objects
-      const scores = jsonResponse
-      .flatMap(responseObj => responseObj.choices)
-      .map(choice => JSON.parse(choice.message.content))
-      .reduce((acc, curr) => {
-        // Schema requires combining objects
-        for (const key in curr) {
-          if (curr.hasOwnProperty(key)) {
-            if (Array.isArray(curr[key])) {
-              acc[key] = (acc[key] || []).concat(curr[key]);
-            } else {
-              acc[key] = curr[key];
-            }
-          }
-        }
-        return acc;
-      }, {});
-
-      console.log('Scores:', scores);
-
-      setScoresData(scores);
-      setShowScoreMapper(true);
-      setShowScoreGraph(true);
-      setShouldPlaySound(true);
-
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleFormSubmitWrapper = async (data) => {
+    await fetchScores(data);
+    handleFormSubmit();
   };
 
   // Function to handle DND events
@@ -161,7 +68,7 @@ const App = ({ setIsLoading }) => {
     <MappedScoresProvider>
       <div className="flex justify-center">
         <div className="w-full max-w-screen-lg p-4">
-          <form onSubmit={handleSubmit(handleFormSubmit)} className="mb-4">
+          <form onSubmit={handleFormSubmitWrapper} className="mb-4">
             <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
             {errors.inputText && <p className="text-red-500">This field is required</p>}
             <button type="submit" className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"}>
@@ -196,7 +103,7 @@ const App = ({ setIsLoading }) => {
           </DndContext>
 
           {showScoreMapper && (
-            <ScoreMapper mappings={mappings} setMappedScores={setMappedScores} />
+            <ScoreMapper mappings={mappings} />
           )}
 
           {showScoreGraph && (

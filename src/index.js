@@ -6,9 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import { ScoreProvider } from './ScoreContext';
 import { MappedScoresProvider } from './MappedScoresContext';
 import { CurrentSentenceProvider } from './CurrentSentenceContext';
+import { AppStateProvider } from './AppStateContext';
+import { useAppState } from './hooks/useAppState';
 import { sendToVercelAnalytics } from './vitals';
 
 const Root = () => {
+  const appState = useAppState();
   const [isLoading, setIsLoading] = useState(false);
   const [backgroundStyle, setBackgroundStyle] = useState({});
 
@@ -35,13 +38,15 @@ const Root = () => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <ScoreProvider>
-      <MappedScoresProvider>
-        <CurrentSentenceProvider>
-          <Root />
-        </CurrentSentenceProvider>
-      </MappedScoresProvider>
-    </ScoreProvider>
+    <AppStateProvider value={appState}>
+      <ScoreProvider>
+        <MappedScoresProvider>
+          <CurrentSentenceProvider>
+            <App />
+          </CurrentSentenceProvider>
+        </MappedScoresProvider>
+      </ScoreProvider>
+    </AppStateProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
