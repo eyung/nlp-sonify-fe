@@ -97,11 +97,12 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         for (const scoreObj of mappedScores) {
           const { word, frequency, duration, detune, volume } = scoreObj;
     
-          console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
-          console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
+          //console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
+          //console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
           // Update the current sentence
           setCurrentSentence(word);
+          console.log('Current sentence set to:', word);
     
           // Calculate chord frequencies based on the root frequency
           //const chords = calculateChordFrequencies(frequency);
@@ -135,7 +136,7 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         };
 
         // Reset the current sentence after playing all sounds
-        setCurrentSentence('');
+        //setCurrentSentence('');
   
         // Notify parent component that the sound has been played
         onSoundPlayed();
