@@ -30,23 +30,23 @@ const Root = () => {
   }, [isLoading]);
 
   return (
-    <div className={`App ${isLoading ? 'gradient-animation' : ''}`}>
-      <App setIsLoading={setIsLoading} />
-    </div>
+    <AppStateProvider value={appState}>
+      <ScoreProvider>
+        <MappedScoresProvider>
+          <CurrentSentenceProvider>
+            <div className={`App ${isLoading ? 'gradient-animation' : ''}`} style={backgroundStyle}>
+              <App setIsLoading={setIsLoading} />
+            </div>
+          </CurrentSentenceProvider>
+        </MappedScoresProvider>
+      </ScoreProvider>
+    </AppStateProvider>
   );
 };
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppStateProvider value={appState}>
-      <ScoreProvider>
-        <MappedScoresProvider>
-          <CurrentSentenceProvider>
-            <App />
-          </CurrentSentenceProvider>
-        </MappedScoresProvider>
-      </ScoreProvider>
-    </AppStateProvider>
+    <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );
