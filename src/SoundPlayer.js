@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
-import { useAppState } from './hooks/useAppState';
+//import { useAppState } from './hooks/useAppState';
 import { useMappedScores } from './MappedScoresContext';
 import { useCurrentSentence } from './CurrentSentenceContext';
 
@@ -8,9 +8,9 @@ import { useCurrentSentence } from './CurrentSentenceContext';
 const SoundPlayer = React.memo(({ onSoundPlayed }) => {
   const { mappedScores } = useMappedScores();
   const { setCurrentSentence } = useCurrentSentence();
-  const { shouldPlaySound, setShouldPlaySound } = useAppState();
+  //const { shouldPlaySound, setShouldPlaySound } = useAppState();
 
-  console.log('SoundPlayer received mappedScores:', mappedScores);
+  //console.log('SoundPlayer received mappedScores:', mappedScores);
 
   useEffect(() => {
     const initializeAudioContext = async () => {
@@ -95,10 +95,13 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         // Play the mapped scores
         //mappedScores.forEach((scoreObj, index) => {
         for (const scoreObj of mappedScores) {
-          const { frequency, duration, detune, volume } = scoreObj;
+          const { word, frequency, duration, detune, volume } = scoreObj;
     
           console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
           console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
+
+          // Update the current sentence
+          setCurrentSentence(word);
     
           // Calculate chord frequencies based on the root frequency
           //const chords = calculateChordFrequencies(frequency);
@@ -130,6 +133,9 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
           timeIndex++;
 
         };
+
+        // Reset the current sentence after playing all sounds
+        setCurrentSentence('');
   
         // Notify parent component that the sound has been played
         onSoundPlayed();
@@ -155,7 +161,7 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
 
   }, [mappedScores, onSoundPlayed, setCurrentSentence]);
 
-  return <div>Playing...</div>;
+  return null;
 });
 
 export default SoundPlayer;
