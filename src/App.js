@@ -68,7 +68,7 @@ const App = ({ setIsLoading, backgroundStyle }) => {
   };
 
   return (
-      <div className="flex justify-center">
+      <div className="App flex justify-center" style={backgroundStyle}>
         <div className="main-content w-full max-w-screen-lg p-4">
           <form onSubmit={handleSubmit(handleFormSubmitWrapper)} className="mb-4">
             <textarea {...register('inputText', { required: true })} placeholder="" className="w-full h-96 p-2 mb-4 border rounded" />
