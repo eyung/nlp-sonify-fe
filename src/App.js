@@ -16,7 +16,7 @@ import { useAppState } from './hooks/useAppState';
 import { useAppStateContext } from './AppStateContext';
 import { useFetchScores } from './useFetchScores';
 
-const App = ({ setIsLoading, backgroundStyle }) => {
+const App = ({ setIsLoading }) => {
   const {
     shouldPlaySound,
     setShouldPlaySound,
