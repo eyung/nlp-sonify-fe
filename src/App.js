@@ -119,8 +119,9 @@ const App = ({ setIsLoading }) => {
 
           <div className="grid grid-cols-4 gap-4 m-10"></div>
 
-          <StatusBar />
+          
         </div>
+        <StatusBar />
       </div>
     </MappedScoresProvider>
   );
