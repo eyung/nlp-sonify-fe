@@ -16,7 +16,7 @@ import { useAppState } from './hooks/useAppState';
 import { useAppStateContext } from './AppStateContext';
 import { useFetchScores } from './useFetchScores';
 
-const App = ({ setIsLoading }) => {
+const App = ({ setIsLoading, backgroundStyle }) => {
   const {
     shouldPlaySound,
     setShouldPlaySound,
@@ -68,7 +68,6 @@ const App = ({ setIsLoading }) => {
   };
 
   return (
-    <MappedScoresProvider>
       <div className="flex justify-center">
         <div className="main-content w-full max-w-screen-lg p-4">
           <form onSubmit={handleSubmit(handleFormSubmitWrapper)} className="mb-4">
@@ -123,7 +122,6 @@ const App = ({ setIsLoading }) => {
         </div>
         <StatusBar />
       </div>
-    </MappedScoresProvider>
   );
 };
 

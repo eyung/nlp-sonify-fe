@@ -35,7 +35,7 @@ const Root = () => {
         <MappedScoresProvider>
           <CurrentSentenceProvider>
             <div className={`App ${isLoading ? 'gradient-animation' : ''}`}>
-              <App setIsLoading={setIsLoading} />
+              <App setIsLoading={setIsLoading} backgroundStyle={backgroundStyle} />
             </div>
           </CurrentSentenceProvider>
         </MappedScoresProvider>
