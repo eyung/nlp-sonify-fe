@@ -71,8 +71,8 @@ const App = ({ setIsLoading }) => {
     <MappedScoresProvider>
       <div className="flex justify-center">
         <div className="w-full max-w-screen-lg p-4">
-          <form onSubmit={handleFormSubmitWrapper} className="mb-4">
-            <textarea {...register('inputText', { required: true })} className="w-full h-96 p-2 mb-4 border rounded" />
+          <form onSubmit={handleSubmit(handleFormSubmitWrapper)} className="mb-4">
+            <textarea {...register('inputText', { required: true })} placeholder="..." className="w-full h-96 p-2 mb-4 border rounded" />
             {errors.inputText && <p className="text-red-500">This field is required</p>}
             <button type="submit" className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"}>
               <i className="fa fa-play fa-2x text-white" id="play-btn"></i>
