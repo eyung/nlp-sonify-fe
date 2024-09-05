@@ -59,6 +59,8 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
       // Connect synth to effects
       synth.chain(reverb, delay, chorus, phaser, distortion, stereoWidener);
 
+      const transport = Tone.getTransport();
+
       // Function to calculate chord frequencies
       // This function calculates the frequencies for a IVM7, V7, iii7, and vi chord progression
       // WIP
@@ -96,13 +98,18 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         //mappedScores.forEach((scoreObj, index) => {
         for (const scoreObj of mappedScores) {
           const { word, frequency, duration, detune, volume } = scoreObj;
+          const time = Tone.now() + (timeIndex * 1.1) + 0.5;
     
           //console.log(`Playing note of sentence beginning with: ${scoreObj.word}`);
           //console.log(`Mapped values -> Frequency: ${frequency}, Volume: ${volume}, Duration: ${duration}, Detune: ${detune}`);
 
-          // Update the current sentence
-          setCurrentSentence(word);
-          console.log('Current sentence set to:', word);
+          // Schedule the sentence update
+          transport.schedule((time) => {
+            setCurrentSentence(word);
+            console.log('Current sentence set to:', word);
+          }, time);
+
+          
     
           // Calculate chord frequencies based on the root frequency
           //const chords = calculateChordFrequencies(frequency);
@@ -125,21 +132,30 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
             frequency,
             duration,
             //Tone.now() + (index * 1.1) + (chordIndex * duration * chordSpacing), (not using chords for now)
-            Tone.now() + (timeIndex * 1.1) + (duration), 
+            time, 
             volume, 
             detune
           );
           //});
 
           timeIndex++;
-
         };
+
+        // Start the transport
+        transport.start();
+
+        // Stop the transport after the last note
+        const lastNoteTime = Tone.now() + (timeIndex * 1.1) + 0.5 + duration;
+        transport.scheduleOnce(() => {
+          transport.stop();
+          onSoundPlayed();
+        }, lastNoteTime);
 
         // Reset the current sentence after playing all sounds
         //setCurrentSentence('');
   
         // Notify parent component that the sound has been played
-        onSoundPlayed();
+        //onSoundPlayed();
       };
 
       // Call playSound when component mounts
@@ -155,6 +171,8 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         phaser.dispose();
         distortion.dispose();
         stereoWidener.dispose();
+        transport.stop();
+        transport.cancel();
       };
     };
 
