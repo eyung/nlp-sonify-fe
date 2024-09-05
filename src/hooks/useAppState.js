@@ -14,6 +14,15 @@ export const useAppState = () => {
         setShouldPlaySound(true);
     }, []);
 
+    // Mapping functions for audio parameters
+    const [mappingFunctions, setMappingFunctions] = useState({
+        frequency: (score) => 220 + (score * 420), // (score) => 440 + (score * 220)
+        duration: (score) => 0.5 + (score * 0.5),
+        //waveform: (score) => ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(score * 4)],
+        detune: (score) => -1200 + (score * 1200),
+        volume: (score) => -30 + (score * 50)
+    });
+
     // Default mappings of text parameters to audio parameters when loading app for first time
     const [mappings, setMappings] = useState({
         'Complexity Score': {
@@ -32,15 +41,6 @@ export const useAppState = () => {
             parameter: 'volume',
             mapFunction: mappingFunctions.volume
         }
-    });
-
-    // Mapping functions for audio parameters
-    const [mappingFunctions, setMappingFunctions] = useState({
-        frequency: (score) => 220 + (score * 420), // (score) => 440 + (score * 220)
-        duration: (score) => 0.5 + (score * 0.5),
-        //waveform: (score) => ['sine', 'square', 'triangle', 'sawtooth'][Math.floor(score * 4)],
-        detune: (score) => -1200 + (score * 1200),
-        volume: (score) => -30 + (score * 50)
     });
 
     const memoizedMappings = useMemo(() => mappings, [mappings]);
