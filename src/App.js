@@ -16,9 +16,7 @@ import { useAppState } from './hooks/useAppState';
 import { useAppStateContext } from './AppStateContext';
 import { useFetchScores } from './useFetchScores';
 
-
-
-const App = () => {
+const App = ({ setIsLoading }) => {
   const {
     shouldPlaySound,
     setShouldPlaySound,
@@ -27,7 +25,9 @@ const App = () => {
     mappings,
     handleFormSubmit,
     setIsLoading,
-  } = useAppStateContext();
+  } = useAppState();
+
+  const { register, errors } = useForm();
 
   const fetchScores = useFetchScores();
 
