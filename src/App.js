@@ -24,7 +24,7 @@ const App = ({ setIsLoading }) => {
     showScoreGraph,
     mappings,
     handleFormSubmit,
-    setIsLoading,
+    //setIsLoading,
   } = useAppState();
 
   const { register, errors } = useForm();
