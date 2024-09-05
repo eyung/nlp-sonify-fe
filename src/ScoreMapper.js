@@ -7,7 +7,7 @@ const ScoreMapper = React.memo(({ mappings }) => {
   const { setMappedScores } = useMappedScores();
 
   console.log('ScoreMapper received scoresData:', scoresData);
-  console.log('ScoreMapper received mappedScores:', mappedScore);
+  //console.log('ScoreMapper received mappedScores:', mappedScore);
 
   useEffect(() => {
     let mappedScores = [];
