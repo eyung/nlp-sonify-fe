@@ -145,7 +145,7 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         transport.start();
 
         // Stop the transport after the last note
-        const lastNoteTime = Tone.now() + (timeIndex * 1.1) + 0.5 + duration;
+        const lastNoteTime = Tone.now() + (timeIndex * 1.1) + 0.5;
         transport.scheduleOnce(() => {
           transport.stop();
           onSoundPlayed();
