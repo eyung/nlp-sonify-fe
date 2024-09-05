@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import { useAppStateContext } from './AppStateContext';
 import { useAppState } from './hooks/useAppState';
+import { useScores } from './ScoreContext';
 
 export const useFetchScores = () => {
     const webURL = 'https://nlp-sonify-be.vercel.app'; 
-    const { setScoresData, setIsLoading } = useAppStateContext();
+    const { setIsLoading } = useAppStateContext();
+    const { setScoresData } = useScores();
     const { setShowScoreMapper, setShowScoreGraph, setShouldPlaySound } = useAppState();
 
     const fetchScores = useCallback(async (data) => {
