@@ -152,7 +152,7 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         }, lastNoteTime);
 
         // Reset the current sentence after playing all sounds
-        //setCurrentSentence('');
+        setCurrentSentence('');
   
         // Notify parent component that the sound has been played
         //onSoundPlayed();
