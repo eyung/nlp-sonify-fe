@@ -12,8 +12,8 @@ import { sendToVercelAnalytics } from './vitals';
 
 const Root = () => {
   const appState = useAppState();
-  //const [isLoading, setIsLoading] = useState(false);
-  const { isLoading, setIsLoading } = useAppStateContext();
+  const [isLoading, setIsLoading] = useState(false);
+  //const { isLoading, setIsLoading } = useAppStateContext();
   const [backgroundStyle, setBackgroundStyle] = useState({});
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Root = () => {
   }, [isLoading]);
 
   return (
-    <AppStateProvider value={appState}>
+    <AppStateProvider value={{ appState, isLoading, setIsLoading }}>
       <ScoreProvider>
         <MappedScoresProvider>
           <CurrentSentenceProvider>
