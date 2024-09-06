@@ -15,7 +15,7 @@ export const useFetchScores = () => {
 
         try {
             // Fetch scores data from the API
-            const response = await fetch(`${webURL}/api/v4/scores`, {
+            const response = await fetch(`${webURL}/api/v5/scores`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
