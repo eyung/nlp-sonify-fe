@@ -60,7 +60,7 @@ const App = () => {
         };
       }
 
-      setShowScoreMapper(true);
+      //setShowScoreMapper(true);
       setShowScoreGraph(true);
   
       return newMappings;
