@@ -66,7 +66,7 @@ export const useFetchScores = () => {
             console.log('Scores:', scores);
     
             setScoresData(scores);
-            setShowScoreMapper(true);
+            //setShowScoreMapper(true);
             setShowScoreGraph(true);
             setShouldPlaySound(true);
     
