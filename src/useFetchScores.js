@@ -67,8 +67,8 @@ export const useFetchScores = () => {
     
             setScoresData(scores);
             //setShowScoreMapper(true);
-            setShowScoreGraph(true);
-            setShouldPlaySound(true);
+            //setShowScoreGraph(true);
+            //setShouldPlaySound(true);
     
             } catch (error) {
                 console.error('Error:', error);
