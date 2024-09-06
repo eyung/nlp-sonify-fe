@@ -148,11 +148,12 @@ const SoundPlayer = React.memo(({ onSoundPlayed }) => {
         const lastNoteTime = Tone.now() + (timeIndex * 1.1) + 0.5;
         transport.scheduleOnce(() => {
           transport.stop();
+          setCurrentSentence('');
           onSoundPlayed();
         }, lastNoteTime);
 
         // Reset the current sentence after playing all sounds
-        setCurrentSentence('');
+        //setCurrentSentence('');
   
         // Notify parent component that the sound has been played
         //onSoundPlayed();
