@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { ScoreProvider } from './ScoreContext';
 import { MappedScoresProvider } from './MappedScoresContext';
 import { CurrentSentenceProvider } from './CurrentSentenceContext';
-import { AppStateProvider } from './AppStateContext';
+import { AppStateProvider, useAppStateContext } from './AppStateContext';
 import { useAppState } from './hooks/useAppState';
 import { sendToVercelAnalytics } from './vitals';
 
