@@ -6,14 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { ScoreProvider } from './ScoreContext';
 import { MappedScoresProvider } from './MappedScoresContext';
 import { CurrentSentenceProvider } from './CurrentSentenceContext';
-import { AppStateProvider, useAppStateContext } from './AppStateContext';
+import { AppStateProvider } from './AppStateContext';
 import { useAppState } from './hooks/useAppState';
 import { sendToVercelAnalytics } from './vitals';
 
 const Root = () => {
   const appState = useAppState();
-  //const [isLoading, setIsLoading] = useState(false);
-  const { isLoading, setIsLoading } = useAppStateContext();
+  const [isLoading, setIsLoading] = useState(false);
   const [backgroundStyle, setBackgroundStyle] = useState({});
 
   useEffect(() => {
