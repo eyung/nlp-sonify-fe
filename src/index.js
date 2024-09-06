@@ -12,7 +12,8 @@ import { sendToVercelAnalytics } from './vitals';
 
 const Root = () => {
   const appState = useAppState();
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useAppStateContext();
   const [backgroundStyle, setBackgroundStyle] = useState({});
 
   useEffect(() => {
