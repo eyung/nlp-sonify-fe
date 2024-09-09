@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import '../../assets/styles/App.css';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { DndContext } from '@dnd-kit/core';
@@ -10,7 +10,6 @@ import { MappedScoresProvider, useMappedScores } from '../contexts/MappedScoresC
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreGraph from '../graphs/ScoreGraph';
-import SoundGraph from '../../SoundGraph';
 import StatusBar from './StatusBar';
 import { useAppState } from '../hooks/useAppState';
 import { useAppStateContext } from './AppStateContext';
