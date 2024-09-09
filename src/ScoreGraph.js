@@ -5,16 +5,19 @@ import { useMappedScores } from './MappedScoresContext';
 const ScoreGraph = React.memo(() => {
   const { mappedScores } = useMappedScores();
 
-  console.log('ScoreGraph received mappedScores:', mappedScores);
+  //console.log('ScoreGraph received mappedScores:', mappedScores);
 
   // Prepare data for the graph
-  const data = mappedScores.map((score) => ({
-    name: score.word,
-    Frequency: score.frequency,
-    Volume: score.volume * 10, // Multiply by 10 to make it more visible
-    Duration: score.duration * 100, // Multiply by 100 to make it more visible
-    Detune: score.detune,
-  }));
+  const data = mappedScores.map((score) => {
+    const trimmedName = score.word.split(' ').slice(0, 3).join(' ') + '...';
+    return {
+      name: trimmedName,
+      Frequency: score.frequency,
+      Volume: score.volume * 10, // Multiply by 10 to make it more visible
+      Duration: score.duration * 100, // Multiply by 100 to make it more visible
+      Detune: score.detune,
+    };
+  });
 
   console.log('ScoreGraph data:', data);
 

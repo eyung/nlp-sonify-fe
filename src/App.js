@@ -10,7 +10,6 @@ import { MappedScoresProvider, useMappedScores } from './MappedScoresContext';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreGraph from './ScoreGraph';
-import SoundGraph from './SoundGraph';
 import StatusBar from './StatusBar';
 import { useAppState } from './hooks/useAppState';
 import { useAppStateContext } from './AppStateContext';
