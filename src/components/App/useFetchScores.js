@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAppStateContext } from './AppStateContext';
 //import { useAppState } from './hooks/useAppState';
-import { useScores } from './ScoreContext';
+import { useScores } from '../contexts/ScoreContext';
 
 export const useFetchScores = () => {
     const webURL = 'https://nlp-sonify-be.vercel.app'; 

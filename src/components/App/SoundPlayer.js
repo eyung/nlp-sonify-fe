@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 //import { useAppState } from './hooks/useAppState';
-import { useMappedScores } from './MappedScoresContext';
-import { useCurrentSentence } from './CurrentSentenceContext';
+import { useMappedScores } from '../contexts/MappedScoresContext';
+import { useCurrentSentence } from '../contexts/CurrentSentenceContext';
 
 // SoundPlayer component
 const SoundPlayer = React.memo(({ onSoundPlayed }) => {
