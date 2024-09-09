@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App/App';
-import reportWebVitals from './utils/reportWebVitals';
-import { ScoreProvider } from './contexts/ScoreContext';
-import { MappedScoresProvider } from './contexts/MappedScoresContext';
-import { CurrentSentenceProvider } from './contexts/CurrentSentenceContext';
-import { AppStateProvider, useAppStateContext } from './App/AppStateContext';
-import { useAppState } from './hooks/useAppState';
+import App from './components/App/App';
+import reportWebVitals from './components/utils/reportWebVitals';
+import { ScoreProvider } from './components/contexts/ScoreContext';
+import { MappedScoresProvider } from './components/contexts/MappedScoresContext';
+import { CurrentSentenceProvider } from './components/contexts/CurrentSentenceContext';
+import { AppStateProvider, useAppStateContext } from './components/App/AppStateContext';
+import { useAppState } from './components/hooks/useAppState';
 import { sendToVercelAnalytics } from './vitals';
 
 const Root = () => {
