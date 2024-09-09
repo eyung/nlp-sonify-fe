@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import './assets/styles/App.css';
+import './assets/styles/index.css';
 import App from './components/App/App';
 import reportWebVitals from './components/utils/reportWebVitals';
 import { ScoreProvider } from './components/contexts/ScoreContext';
