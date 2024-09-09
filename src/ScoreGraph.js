@@ -31,7 +31,7 @@ const ScoreGraph = React.memo(() => {
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="" />
+          <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
