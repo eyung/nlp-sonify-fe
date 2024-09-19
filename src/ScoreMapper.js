@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useScores } from './ScoreContext';
+import { useScores } from './contexts/ScoreContext';
 import { useMappedScores } from './contexts/MappedScoresContext';
 
 const ScoreMapper = React.memo(({ mappings }) => {
