@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCurrentSentence } from './CurrentSentenceContext';
+import { useCurrentSentence } from './contexts/CurrentSentenceContext';
 
 const StatusBar = () => {
   const { currentSentence } = useCurrentSentence();

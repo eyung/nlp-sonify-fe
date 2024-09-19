@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { useMappedScores } from './MappedScoresContext';
+import { useMappedScores } from './contexts/MappedScoresContext';
 
 const ScoreGraph = React.memo(() => {
   const { mappedScores } = useMappedScores();

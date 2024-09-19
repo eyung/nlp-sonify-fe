@@ -5,14 +5,11 @@ import { useForm } from 'react-hook-form';
 import { DndContext } from '@dnd-kit/core';
 import Droppable from './Droppable';
 import Draggable from './Draggable';
-import { useScores } from './ScoreContext';
-import { MappedScoresProvider, useMappedScores } from './MappedScoresContext';
 import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreGraph from './ScoreGraph';
 import StatusBar from './StatusBar';
 import { useAppState } from './hooks/useAppState';
-import { useAppStateContext } from './AppStateContext';
 import { useFetchScores } from './useFetchScores';
 
 const App = () => {
