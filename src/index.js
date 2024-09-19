@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { ScoreProvider } from './contexts/ScoreContext';
 import { MappedScoresProvider } from './contexts/MappedScoresContext';

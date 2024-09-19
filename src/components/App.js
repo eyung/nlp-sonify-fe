@@ -9,7 +9,7 @@ import SoundPlayer from './SoundPlayer';
 import ScoreMapper from './ScoreMapper';
 import ScoreGraph from './ScoreGraph';
 import StatusBar from './StatusBar';
-import { useAppState } from './hooks/useAppState';
+import { useAppState } from '../hooks/useAppState';
 import { useFetchScores } from './useFetchScores';
 
 const App = () => {
