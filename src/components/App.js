@@ -26,7 +26,7 @@ const App = () => {
     handleFormSubmit,
   } = useAppState();
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  //const { register, handleSubmit, formState: { errors } } = useForm();
 
   const fetchScores = useFetchScores();
 
