@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './App.css';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { DndContext } from '@dnd-kit/core';
 import Droppable from './Droppable';
@@ -11,6 +10,7 @@ import ScoreGraph from './ScoreGraph';
 import StatusBar from './StatusBar';
 import { useAppState } from '../hooks/useAppState';
 import { useFetchScores } from './useFetchScores';
+import TextForm from './TextForm';
 
 const App = () => {
   const {
@@ -66,13 +66,8 @@ const App = () => {
   return (
       <div className="flex justify-center">
         <div className="main-content w-full max-w-screen-lg p-4">
-          <form onSubmit={handleSubmit(handleFormSubmitWrapper)} className="mb-4">
-            <textarea {...register('inputText', { required: true })} placeholder="" className="w-full h-96 p-2 mb-4 border rounded" />
-            {errors.inputText && <p className="text-red-500">This field is required</p>}
-            <button type="submit" className={"p-4 rounded-full bg-blue-500 focus:outline-none btn"}>
-              <i className="fa fa-play fa-2x text-white" id="play-btn"></i>
-            </button>
-          </form>
+          
+          <TextForm handleFormSubmitWrapper={handleFormSubmitWrapper} /> 
 
           <DndContext onDragEnd={({ active, over }) => {
             if (over) {
