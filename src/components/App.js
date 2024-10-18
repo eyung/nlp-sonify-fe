@@ -11,6 +11,7 @@ import StatusBar from './StatusBar';
 import { useAppState } from '../hooks/useAppState';
 import { useFetchScores } from './useFetchScores';
 import TextForm from './TextForm';
+import Container from './Container';
 
 const App = () => {
   const {
@@ -66,50 +67,53 @@ const App = () => {
   return (
       <div className="flex justify-center">
         <div className="main-content w-full max-w-screen-lg p-4">
-          
-          <TextForm handleFormSubmitWrapper={handleFormSubmitWrapper} /> 
 
-          <DndContext onDragEnd={({ active, over }) => {
-            if (over) {
-              handleDrop(over.id, active.id);
-            }
-          }}>
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              {Object.keys(mappings).map((textParam) => (
-                <Droppable key={textParam} id={textParam}>
-                  <div className="p-4 border rounded">
-                    <h3 className="text-lg font-semibold">{textParam.replace(' Score', '')}</h3>
-                    <p>Mapped to: {mappings[textParam].parameter}</p>
-                  </div>
-                </Droppable>
-              ))}
-            </div>
-            <div className="flex justify-around mt-4">
-              {Object.keys(mappingFunctions).map((audioParam) => (
-                <Draggable key={audioParam} id={audioParam}>
-                  <div className="p-4 bg-gray-200 rounded">
-                    <p>{audioParam}</p>
-                  </div>
-                </Draggable>
-              ))}
-            </div>
-          </DndContext>
+          <Container>
 
-          {showScoreMapper && (
-            <ScoreMapper mappings={mappings} />
-          )}
+            <TextForm handleFormSubmitWrapper={handleFormSubmitWrapper} /> 
 
-          {showScoreGraph && (
-            <ScoreGraph />
-          )}
+            <DndContext onDragEnd={({ active, over }) => {
+              if (over) {
+                handleDrop(over.id, active.id);
+              }
+            }}>
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                {Object.keys(mappings).map((textParam) => (
+                  <Droppable key={textParam} id={textParam}>
+                    <div className="p-4 border rounded">
+                      <h3 className="text-lg font-semibold">{textParam.replace(' Score', '')}</h3>
+                      <p>Mapped to: {mappings[textParam].parameter}</p>
+                    </div>
+                  </Droppable>
+                ))}
+              </div>
+              <div className="flex justify-around mt-4">
+                {Object.keys(mappingFunctions).map((audioParam) => (
+                  <Draggable key={audioParam} id={audioParam}>
+                    <div className="p-4 bg-gray-200 rounded">
+                      <p>{audioParam}</p>
+                    </div>
+                  </Draggable>
+                ))}
+              </div>
+            </DndContext>
 
-          {shouldPlaySound && (
-            <SoundPlayer onSoundPlayed={() => setShouldPlaySound(false)} />
-          )}
+            {showScoreMapper && (
+              <ScoreMapper mappings={mappings} />
+            )}
+
+            {showScoreGraph && (
+              <ScoreGraph />
+            )}
+
+            {shouldPlaySound && (
+              <SoundPlayer onSoundPlayed={() => setShouldPlaySound(false)} />
+            )}
+
+          </Container>
 
           <div className="grid grid-cols-4 gap-4 m-10"></div>
 
-          
         </div>
         <StatusBar />
       </div>
