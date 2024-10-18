@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       height: {
         '110': '28rem', // Custom height value
+        '144': '36rem', // Custom height value
       },
     },
   },
