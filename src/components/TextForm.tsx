@@ -1,7 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-interface TextFormProps {
+//interface TextFormProps {
+//  handleFormSubmitWrapper: (data: any) => void;
+//}
+
+type TextFormProps = {
   handleFormSubmitWrapper: (data: any) => void;
 }
 
