@@ -10,7 +10,7 @@ import ScoreGraph from './ScoreGraph';
 import StatusBar from './StatusBar';
 import { useAppState } from '../hooks/useAppState';
 import { useFetchScores } from './useFetchScores';
-import TextForm from './TextForm';
+import TextForm from './TextForm.tsx';
 
 const App = () => {
   const {
