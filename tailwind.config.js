@@ -7,6 +7,7 @@ module.exports = {
       height: {
         '110': '28rem', // Custom height value
         '144': '36rem', // Custom height value
+        '192': '48rem', // Custom height value
       },
     },
   },
