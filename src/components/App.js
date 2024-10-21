@@ -65,7 +65,7 @@ const App = () => {
   };
 
   return (
-      <div className="flex justify-center">
+      <div className="flex justify-center min-h-screen overflow-y-auto">
         <div className="main-content w-full max-w-screen-lg p-4">
 
           <Container>
